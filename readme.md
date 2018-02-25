@@ -8,7 +8,7 @@ When testing out the API's endpoint URLs, you will want to install [JSON Formatt
 
  1. The `"#show-select"` should be hidden by default.
 
- 2. When the user may submits a search for a TV show...
+ 2. When the user submits a search for a TV show...
   - the `"#show-select"` field should be un-hidden.
   - it should be populated with all search results.
   - the first select option should read "Shows matching `keyword`…".
