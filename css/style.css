@@ -13,6 +13,23 @@ main {
   justify-content: center;
 }
 
+#search{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#show-select{
+  margin-top: 2%;
+  display: none;
+  width: 100%;
+}
+
+#submit_bt{
+  height: 50px;
+  margin-top: 30px;
+}
+
 a {
   color: #c00;
 }
