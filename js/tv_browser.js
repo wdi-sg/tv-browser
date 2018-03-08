@@ -9,9 +9,16 @@ function populateDetails(){
 	var selected = document.getElementById("show-select").selectedIndex -1;
 	var details = document.getElementById("show-detail");
 	var name = document.createElement("h1");
-	var image = document.createElement("img");
+	details.innerHTML="";
 	name.textContent = obj[selected].show.name;
-	image.setAttribute("src",obj[selected].show.image.medium);
+	console.log(obj[selected].show.image);
+	if(obj[selected].show.image !== null && obj[selected].show.image.medium !== null){
+		var image = document.createElement("img");
+		image.setAttribute("src",obj[selected].show.image.medium);
+	}else{
+		var image = document.createElement("div");
+		image.textContent = "No Image Avaliable";
+	}
 	details.appendChild(name);
 	details.appendChild(image);
 }
