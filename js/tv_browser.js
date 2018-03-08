@@ -25,17 +25,17 @@ var displayResults = function(){
 }
 
 var addMoviesToList = function(movieListResponse){
-	while(showList.firstChild){
-		showList.removeChild(showList.firstChild);
-	}
-	//showList.firstElementChild.textContent = "Search results matching "+document.getElementById("show-search").value
-	showList.style.display = "block";
+	showList.innerHTML="";
+	var firstOption = document.createElement('option');
+	firstOption.textContent="Search results matching "+document.getElementById("show-search").value;
+	showList.appendChild(firstOption);
 	for(i=0;i<movieListResponse.length;i++){
 		let item = document.createElement('option');
 		item.textContent = movieListResponse[i].show.name;
 		item.setAttribute('id',movieListResponse[i].show.id);
 		showList.appendChild(item);
 	};
+	showList.style.display = "block";
 	getDetails(movieListResponse);
 };
 
