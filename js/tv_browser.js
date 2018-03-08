@@ -125,7 +125,7 @@ function displaySearchTerms(data) {
         let option = document.createElement('option');
         let name = result[key]['show']['name'];
         option.innerText = name;
-        option.setAttribute('value', key);
+        option.setAttribute('value', key); //I use the value attribute to store the index here because the value is automatically given to the showSelect dropdown list when the option is selected, i.e. if you call showSelect.value, it will return the value of the current option, whereas if you do showSelect.textContent, it will not give you the option's text because the dropdown list element is not the same as the option itself.
         showSelect.appendChild(option);
 
         // For image preloading
