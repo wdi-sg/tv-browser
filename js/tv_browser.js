@@ -8,6 +8,7 @@ const showSearch = document.getElementById('show-search');
 const showSearchError = document.querySelector('.fail');
 const searchAPIPrefix = 'http://api.tvmaze.com/search/shows?q=';
 const modal = document.querySelector('.modal');
+const modalImage = document.querySelector('.modal-content');
 
 let xhr = new XMLHttpRequest();
 let result = null;
@@ -69,13 +70,15 @@ Can we detect the user's network connection type and NOT preload on mobile data 
 // that to check for the connection type, otherwise we could turn off preloading when a mobile data connection is detected.
 function preloadImage(imgSrc) {
     return new Promise(resolve => {
-        new Image().src = imgSrc;
-        resolve(`${imgSrc} preloaded\n`);
+        let img = new Image();
+        img.src = imgSrc;
+        img.onload = () => {resolve(`${imgSrc} preloaded\n`)};
     })
 }
 
 async function preloadImages() {
     let result = '';
+    let imgHeightArray = [];
     for (let i = 0; i < imgArray.length; i++) {
         result += await preloadImage(imgArray[i]); //Somehow, the await keyword couldn't be used in the forEach iterator D:
     }
@@ -135,7 +138,8 @@ function displaySummary() {
 
         // When clicking on the medium image, display the large original image using the full screen
         image.addEventListener('click', () => {
-            document.querySelector('.modal-content').setAttribute('src', result[index]['show']['image']['original']) ;
+            modalImage.setAttribute('src', result[index]['show']['image']['original']) ;
+            modalImage.height = (modalImage.height > window.innerHeight) ? window.innerHeight : modalImage.height; // Because some posters are YUUUGGGEEEE.... check out the Stranger Things one D:
             modal.style.display = 'block';
         })
     
@@ -174,3 +178,12 @@ showSelect.addEventListener('change', displaySummary, false);
 
 // This will hide the modal screen (that shows the large, original poster)
 modal.addEventListener('click', () => {modal.style.display = 'none'});
+
+function constrainLargePosters () {
+    if (modal.style.display == 'block') {
+        modalImage.height = window.innerHeight;
+    }
+};
+
+// Because some posters are YUUUGGGEEEE.... check out the Stranger Things one D:
+window.addEventListener('resize', constrainLargePosters, true);
