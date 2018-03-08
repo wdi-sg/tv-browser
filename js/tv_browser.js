@@ -82,31 +82,6 @@ async function preloadImages() {
     return result;
 }
 
-function displayShowSelect(toDisplay = true) {
-    showSelect.style.display = (toDisplay ? 'block' : 'none'); //Just to add some utility to this function, in case we ever want to re-hide the show select dropdown list.
-};
-
-function searchForShow(searchTerm) {
-    document.querySelector('#show-select > option').textContent = `Shows matching ${searchTerm}`;
-    return new Promise((resolve, reject) => {
-        xhr.open("GET", encodeURI(searchAPIPrefix + searchTerm), true); // The encodeURI function ensures that the search term gets parsed into a valid URI format, e.g. spaces in "Game of Thrones" will be converted to %20 so that the URI can be sent properly.
-        xhr.onload = () => {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                resolve(xhr.response);
-            } else {
-                reject(new Error(xhr.statusText));
-            }
-        };
-        xhr.onerror = () => {reject(new Error(xhr.statusText));}
-        xhr.send();
-    })
-};
-
-function scoldUser(error) {
-    console.log(`Error: status = ${error.status}, statusText = ${error.statusText}`);
-    showSearchError.textContent = "No results found!";
-};
-
 // If another search is done, all options from the 2nd one onwards should be first removed in preparation for
 // refilling of the list with new results.
 function resetSearch() {
@@ -119,8 +94,12 @@ function resetSearch() {
 function displaySearchTerms(data) {
     resetSearch();
     showDetails.innerHTML = '';
-    result = JSON.parse(data); //Question: Can the data ever be null?
+    result = data; //response.json() has been passed into this function, already in json format.
     imgArray = [];
+    if (result.length === 0) {
+        showSearchError.textContent = "No results found!";
+        return;
+    }
     for (let key in result) {
         let option = document.createElement('option');
         let name = result[key]['show']['name'];
@@ -176,16 +155,18 @@ function submitSearch(event) {
     let inputValue = showSearch.value;
     if (inputValue != '') {
         showSearch.value = '';
-        searchForShow(inputValue).then((success) => displaySearchTerms(success)).catch((error) => scoldUser(error));
+        document.querySelector('#show-select > option').textContent = `Shows matching ${inputValue}`;
+        fetch(encodeURI(searchAPIPrefix + inputValue)).then(response => {return response.json()}).then((data) => {displaySearchTerms(data)});
     };
 };
 
 // Search when either the enter key is pressed and the searchbox is focused, or when the submit button is pressed
-document.addEventListener('keydown', () => {
+document.addEventListener('keydown', (event) => {
     if (document.activeElement == showSearch && event.keyCode == 13) {
         submitSearch();
     };
 });
+
 showSearchSubmit.addEventListener('click', submitSearch);
 
 // Display the summary of the show selected from the dropdown list when the selection is changed
