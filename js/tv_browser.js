@@ -41,95 +41,95 @@ var result = null;
 var imgArray = [];
 
 function preloadImages() {
-    for (var i = 0; i < imgArray.length; i++) {
-        var img = new Image();
-        img.src = imgArray[i];
-    }
+	for (var i = 0; i < imgArray.length; i++) {
+		var img = new Image();
+		img.src = imgArray[i];
+	}
 }
 
 function displaySummary() {
-    showDetails.innerHTML = ""; // clear any summary being displayed
-    var index = showSelect.value; // retrieve the location of the show's information in the large array of info from the server
+	showDetails.innerHTML = ''; // clear any summary being displayed
+	var index = showSelect.value; // retrieve the location of the show's information in the large array of info from the server
     
-    if (index >= 0) {
-        var title, image, summary; // Yes, you can declare multiple variables in a line
-        title = document.createElement('h1');
-        title.textContent = result[index]['show']['name'];
+	if (index >= 0) {
+		var title, image, summary; // Yes, you can declare multiple variables in a line
+		title = document.createElement('h1');
+		title.textContent = result[index]['show']['name'];
 
-        image = document.createElement('img');
-        image.setAttribute('src', result[index]['show']['image']['medium']); // Show only the small poster at first. The original posters can be huge!
-        image.style.cursor = 'pointer'; // Let's make sure that if the mouse hovers over the poster, the user will know it's clickable
+		image = document.createElement('img');
+		image.setAttribute('src', result[index]['show']['image']['medium']); // Show only the small poster at first. The original posters can be huge!
+		image.style.cursor = 'pointer'; // Let's make sure that if the mouse hovers over the poster, the user will know it's clickable
 
-        // When clicking on the medium image, display the large original image using the full screen
-        image.addEventListener('click', () => {
-            modalImage.setAttribute('src', result[index]['show']['image']['original']);
-            if (modalImage.height > window.innerHeight) { // Because some posters are YUUUGGGEEEE.... check out the Stranger Things one D:
-                modalImage.height = window.innerHeight
-            }
-            modal.style.display = 'block';
-        })
+		// When clicking on the medium image, display the large original image using the full screen
+		image.addEventListener('click', () => {
+			modalImage.setAttribute('src', result[index]['show']['image']['original']);
+			if (modalImage.height > window.innerHeight) { // Because some posters are YUUUGGGEEEE.... check out the Stranger Things one D:
+				modalImage.height = window.innerHeight;
+			}
+			modal.style.display = 'block';
+		});
     
-        summary = document.createElement('p');
-        summary.innerHTML = result[index]['show']['summary']; // Using innerHTML here because the summary text includes the <p> tags already
+		summary = document.createElement('p');
+		summary.innerHTML = result[index]['show']['summary']; // Using innerHTML here because the summary text includes the <p> tags already
     
-        showDetails.appendChild(title);
-        showDetails.appendChild(image);
-        showDetails.appendChild(summary);
-    }
+		showDetails.appendChild(title);
+		showDetails.appendChild(image);
+		showDetails.appendChild(summary);
+	}
 }
 
 function resetSearch() {
-    showSearchError.textContent = '';
-    Array.from(document.querySelectorAll('#show-select option:nth-child(n+2)')).forEach(elem => {
-        elem.parentNode.removeChild(elem);
-    });
+	showSearchError.textContent = '';
+	Array.from(document.querySelectorAll('#show-select option:nth-child(n+2)')).forEach(elem => {
+		elem.parentNode.removeChild(elem);
+	});
 }
 
 function displaySearchTerms (data) {
-    resetSearch(); //remove all the show options except for the first
-    showDetails.innerHTML = ''; //clear any summary that might be currently being displayed
-    result = data; // store the data in a global variable since we will need it later
-    imgArray = []; // meant for storing the links of images for preloading later (after the results are displayed)
-    if (result.length === 0) { // display an error if no results were found
-        showSearchError.textContent = "No results found!";
-        return;
-    };
-    result.forEach(function(showObject, index) {
-        var option = document.createElement('option');
-        option.textContent = showObject['show']['name']; // The option should display the name of the show
-        option.setAttribute('value', index); // I use the value attribute to store the index here because the value is automatically given to the showSelect dropdown list when the option is selected, i.e. if you call showSelect.value, it will return the value of the current option, whereas if you do showSelect.textContent, it will not give you the option's text because the dropdown list element is not the same as the option itself.
-        showSelect.appendChild(option);
+	resetSearch(); //remove all the show options except for the first
+	showDetails.innerHTML = ''; //clear any summary that might be currently being displayed
+	result = data; // store the data in a global variable since we will need it later
+	imgArray = []; // meant for storing the links of images for preloading later (after the results are displayed)
+	if (result.length === 0) { // display an error if no results were found
+		showSearchError.textContent = 'No results found!';
+		return;
+	}
+	result.forEach(function(showObject, index) {
+		var option = document.createElement('option');
+		option.textContent = showObject['show']['name']; // The option should display the name of the show
+		option.setAttribute('value', index); // I use the value attribute to store the index here because the value is automatically given to the showSelect dropdown list when the option is selected, i.e. if you call showSelect.value, it will return the value of the current option, whereas if you do showSelect.textContent, it will not give you the option's text because the dropdown list element is not the same as the option itself.
+		showSelect.appendChild(option);
 
-        // This next part is for preloading the poster images in the background once the search results have arrived
-        if (showObject['show']['image'] !== null) { //Not all shows might have an image. If there's nothing there, don't process.
-            imgArray.push(showObject['show']['image']['medium']);
-            imgArray.push(showObject['show']['image']['original']);
-        }
-    })
-    showSelect.style.display = 'block';
-    preloadImages();
-};
+		// This next part is for preloading the poster images in the background once the search results have arrived
+		if (showObject['show']['image'] !== null) { //Not all shows might have an image. If there's nothing there, don't process.
+			imgArray.push(showObject['show']['image']['medium']);
+			imgArray.push(showObject['show']['image']['original']);
+		}
+	});
+	showSelect.style.display = 'block';
+	preloadImages();
+}
 
 function submitSearch (event) {
-    event.preventDefault();
-    var searchTerm = showSearch.value;
-    if (searchTerm !== '') { // Only do stuff when the user has typed in something
-        document.querySelector('#show-select > option').textContent = 'Shows matching ' + searchTerm;
-        xhr.onreadystatechange = function () { // the onreadystatechange function is called whenever the server sends a signal back that the readystate has changed
-            if (this.readyState === 4 && this.status === 200) { // Signifies that the loading is complete
-                displaySearchTerms(JSON.parse(xhr.responseText)); // Parse the server response as JSON first. displaySearchTerms is only meant to display the data given to it, not process it.
-            }
-        };
-        xhr.open('GET', encodeURI(searchAPIPrefix + searchTerm)); //encodeURI is needed here to ensure that even if the user inputs rubbish, we can still send it over the internet
-        xhr.send();
-    };
-};
+	event.preventDefault();
+	var searchTerm = showSearch.value;
+	if (searchTerm !== '') { // Only do stuff when the user has typed in something
+		document.querySelector('#show-select > option').textContent = 'Shows matching ' + searchTerm;
+		xhr.onreadystatechange = function () { // the onreadystatechange function is called whenever the server sends a signal back that the readystate has changed
+			if (this.readyState === 4 && this.status === 200) { // Signifies that the loading is complete
+				displaySearchTerms(JSON.parse(xhr.responseText)); // Parse the server response as JSON first. displaySearchTerms is only meant to display the data given to it, not process it.
+			}
+		};
+		xhr.open('GET', encodeURI(searchAPIPrefix + searchTerm)); //encodeURI is needed here to ensure that even if the user inputs rubbish, we can still send it over the internet
+		xhr.send();
+	}
+}
 
 // Search when either the enter key is pressed and the searchbox is focused, or when the submit button is pressed
 document.addEventListener('keydown', function (event) {
-    if (document.activeElement == showSearch && event.keyCode == 13) {
-        submitSearch(event);
-    };
+	if (document.activeElement == showSearch && event.keyCode == 13) {
+		submitSearch(event);
+	}
 });
 
 showSearchSubmit.addEventListener('click', submitSearch);
@@ -139,14 +139,14 @@ showSelect.addEventListener('change', displaySummary, false);
 
 // This will hide the modal screen (that shows the large, original poster)
 modal.addEventListener('click', function () {
-    modal.style.display = 'none'
+	modal.style.display = 'none';
 });
 
 function constrainLargePosters () {
-    if (modal.style.display === 'block' && modalImage.height > window.innerHeight) {
-        modalImage.height = window.innerHeight;
-    }
-};
+	if (modal.style.display === 'block' && modalImage.height > window.innerHeight) {
+		modalImage.height = window.innerHeight;
+	}
+}
 
 // Because some posters are YUUUGGGEEEE.... check out the Stranger Things one D:
 window.addEventListener('resize', constrainLargePosters, true);
