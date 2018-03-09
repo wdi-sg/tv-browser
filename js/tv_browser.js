@@ -3,52 +3,26 @@
 
 
 /*
-Note: This script uses ES6 syntax, async functions and promises. They're absolutely not needed, and I'm only doing this for practice. So if you're
-reading this for reference, maybe only the below comments will be useful, though I generally find ES6 syntax a bit more readable...
+Note: This script uses ES6 syntax, async functions and promises. They're absolutely not needed, and I'm only doing this for practice. So if you're reading this for reference, maybe only the below comments will be useful, though I generally find ES6 syntax a bit more readable...
 
-The desired effect is to 1. obtain search results from the tvmaze server using their API and 2. display them in a dropdown list.
-When 3. an option in the dropdown list is selected, 4. that show's summary should be displayed, i.e. its title, small poster, and show summary (obtained from the server data).
+The desired effect is to 1. obtain search results from the tvmaze server using their API and 2. display them in a dropdown list. When 3. an option in the dropdown list is selected, 4. that show's summary should be displayed, i.e. its title, small poster, and show summary (obtained from the server data).
 
-1. will require XMLHttpRequest since we are requesting for data from a server. Since the search term is to be obtained from the user,
-   we will have to use the encodeURI() function to ensure that whatever rubbish the user has typed in is actually sendable over the internet.
-   For example, if the user types "game of thrones", the actual search term to be appended to the search URL is "game%20of%20thrones". The
-   encodeURI() function does this for us. This server returns data in JSON format, which will have to be passed through the JSON.parse() function
-   for it to be recognizable as JSON for further use. For convenience, I'm going to store the results in a global variable (result) so that it can
-   be accessed by other functions (useful for future development). Look at task 4. Before proceeding, I will need to inspect some sample results
-   from the server to find the keys in the data object that correspond to the shows' titles, posters, and summaries.
+1. will require XMLHttpRequest since we are requesting for data from a server. Since the search term is to be obtained from the user, we will have to use the encodeURI() function to ensure that whatever rubbish the user has typed in is actually sendable over the internet. For example, if the user types "game of thrones", the actual search term to be appended to the search URL is "game%20of%20thrones". The encodeURI() function does this for us. This server returns data in JSON format, which will have to be passed through the JSON.parse() function for it to be recognizable as JSON for further use. For convenience, I'm going to store the results in a global variable (result) so that it can be accessed by other functions (useful for future development). Look at task 4. Before proceeding, I will need to inspect some sample results from the server to find the keys in the data object that correspond to the shows' titles, posters, and summaries.
 
-2. The dropdown list is initially hidden, so we will have to use <element>.style.display = 'block' to display it. But before that, we need
-   to create the options for the list. The names on these options will have to be pulled from the result variable, and the key should have
-   been obtained from the data inspection prior to this. The VALUE attribute on these options should correspond to their index in that
-   result array. This will enable us to do something like result[index]['show']['name'] to quickly pull out the info we need where index
-   is actually the option's value. Since I've stored the show-select element in the global constant showSelect, this is simply showSelect.value.
-   This task can then be accomplished by looping over the result data, and for each item in that result array, create an option, set the 
-   value of the option to be the current loop index (i.e. i = 0, 1, ...) and set the textContent to be the name in that result item. To
-   meet the homework requirements, we will also have to change the textContent of the first option to display "shows matching " + the search term.
+2. The dropdown list is initially hidden, so we will have to use <element>.style.display = 'block' to display it. But before that, we need to create the options for the list. The names on these options will have to be pulled from the result variable, and the key should have been obtained from the data inspection prior to this. The VALUE attribute on these options should correspond to their index in that result array. This will enable us to do something like result[index]['show']['name'] to quickly pull out the info we need where index is actually the option's value. Since I've stored the show-select element in the global constant showSelect, this is simply showSelect.value. This task can then be accomplished by looping over the result data, and for each item in that result array, create an option, set the value of the option to be the current loop index (i.e. i = 0, 1, ...) and set the textContent to be the name in that result item. To meet the homework requirements, we will also have to change the textContent of the first option to display "shows matching " + the search term.
 
 3. This can be detected by the event listener 'change', i.e. when the value of the dropdown list changes. addEventListener will be needed here.
 
-4. We are going to be doing this many times when the user browses through the selections, so the div that contains the selected show's details
-   will be stored in a global constant (showDetails) for convenience. We will need a function that pulls the show's title, poster image URL,
-   and summary from the result, create the html elements (h1, img, and p respectively) to contain that info, and then append these elements
-   to the showDetails div. What if the user has already selected a show previously though? There would be stuff there to begin with, so we have
-   to clear the showDetails div's contents before all this is done.
+4. We are going to be doing this many times when the user browses through the selections, so the div that contains the selected show's details will be stored in a global constant (showDetails) for convenience. We will need a function that pulls the show's title, poster image URL, and summary from the result, create the html elements (h1, img, and p respectively) to contain that info, and then append these elements to the showDetails div. What if the user has already selected a show previously though? There would be stuff there to begin with, so we have to clear the showDetails div's contents before all this is done.
 
-Post-completion enhancements: What if the user wants to run another search? The options in the showSelect dropdown list will have to be removed
-before filling them in again with the new results. The XMLHttpRequest can be re-used.
+Post-completion enhancements: What if the user wants to run another search? The options in the showSelect dropdown list will have to be removed before filling them in again with the new results. The XMLHttpRequest can be re-used.
 
 Can we initiate the search by optionally pressing enter as well instead of just the submit button? We can use another event listener (keydown) for this.
 
-Can we display the large poster when the user clicks on the small one, in case the words on the small posters are unreadable? We will need an
-event listener 'click' for the small poster image. This can display a modal (full screen layer) that displays the large image, i.e. have a div element
-that is initially hidden and contains only the image, then use JS to toggle its display style from none to block. Clicking on the screen
+Can we display the large poster when the user clicks on the small one, in case the words on the small posters are unreadable? We will need an event listener 'click' for the small poster image. This can display a modal (full screen layer) that displays the large image, i.e. have a div element that is initially hidden and contains only the image, then use JS to toggle its display style from none to block. Clicking on the screen
 should dismiss the large poster then (we will need another event listener 'click' on the full screen layer to do this).
 
-Can we preload the images to show the summaries quicker, and do the preloading in the background? Yes, we just need to create a new Image() object in
-the background and set its src attribute to an image URL to preload it. We can obtain the URLs of all the images needed when we are constructing the
-dropdown list of search results. Since we are going through the results to pull out the names then, we might as well pull out all the image URLs and
-store them into an array (remember to clear the array before this so the previous search doesn't affect it). Then loop over that array and create
-those images in the background.
+Can we preload the images to show the summaries quicker, and do the preloading in the background? Yes, we just need to create a new Image() object in the background and set its src attribute to an image URL to preload it. We can obtain the URLs of all the images needed when we are constructing the dropdown list of search results. Since we are going through the results to pull out the names then, we might as well pull out all the image URLs and store them into an array (remember to clear the array before this so the previous search doesn't affect it). Then loop over that array and create those images in the background.
 
 Can we detect the user's network connection type and NOT preload on mobile data (data limits yo)? This one's tricky. Not implemented here.
 */
@@ -169,7 +143,7 @@ modal.addEventListener('click', function () {
 });
 
 function constrainLargePosters () {
-    if (modal.style.display === 'block') {
+    if (modal.style.display === 'block' && modalImage.height > window.innerHeight) {
         modalImage.height = window.innerHeight;
     }
 };
