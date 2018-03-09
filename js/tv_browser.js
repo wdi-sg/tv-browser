@@ -63,9 +63,6 @@ function displaySummary() {
 		// When clicking on the medium image, display the large original image using the full screen
 		image.addEventListener('click', () => {
 			modalImage.setAttribute('src', result[index]['show']['image']['original']);
-			if (modalImage.height > window.innerHeight) { // Because some posters are YUUUGGGEEEE.... check out the Stranger Things one D:
-				modalImage.height = window.innerHeight;
-			}
 			modal.style.display = 'block';
 		});
     
@@ -141,15 +138,6 @@ showSelect.addEventListener('change', displaySummary, false);
 modal.addEventListener('click', function () {
 	modal.style.display = 'none';
 });
-
-function constrainLargePosters () {
-	if (modal.style.display === 'block' && modalImage.height > window.innerHeight) {
-		modalImage.height = window.innerHeight;
-	}
-}
-
-// Because some posters are YUUUGGGEEEE.... check out the Stranger Things one D:
-window.addEventListener('resize', constrainLargePosters, true);
 
 /* ======================================
 ES6 Implementation
@@ -241,7 +229,6 @@ function displaySummary() {
         // When clicking on the medium image, display the large original image using the full screen
         image.addEventListener('click', () => {
             modalImage.setAttribute('src', result[index]['show']['image']['original']) ;
-            modalImage.height = (modalImage.height > window.innerHeight) ? window.innerHeight : modalImage.height; // Because some posters are YUUUGGGEEEE.... check out the Stranger Things one D:
             modal.style.display = 'block';
         })
     
@@ -280,13 +267,4 @@ showSelect.addEventListener('change', displaySummary, false);
 
 // This will hide the modal screen (that shows the large, original poster)
 modal.addEventListener('click', () => {modal.style.display = 'none'});
-
-function constrainLargePosters () {
-    if (modal.style.display == 'block') {
-        modalImage.height = window.innerHeight;
-    }
-};
-
-// Because some posters are YUUUGGGEEEE.... check out the Stranger Things one D:
-window.addEventListener('resize', constrainLargePosters, true);
 */
