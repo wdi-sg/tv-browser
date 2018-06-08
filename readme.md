@@ -4,13 +4,16 @@ Use the [TV Maze API docs](http://www.tvmaze.com/api) to build a single-page app
 
 When testing out the API's endpoint URLs, you will want to install [JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en) to make the JSON responses more readable.
 
-## Requirements
+## MVP
+Use the input to get the search term from the user. Display the results in the dom.
+
+## Full App
 
  1. Make the selector field (CSS selector `"#show-select"`) hidden by default.
 
  2. After the user submits a search for a TV show...
   - un-hide the `"#show-select"` field.
-  - populate the `"#show-select"` field with the list of search results.
+  - populate the `"#show-select"` field with the list of search results. (create option tags in the select for each result you get)
   - make the first / default select option read "Shows matching `keyword`…".
 
  3. Whenever the user selects a title from the `#show-select` field (HINT: listen for a `"change"` event), display that show's name and image in the `"#show-detail"` div.
