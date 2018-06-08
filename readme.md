@@ -6,14 +6,14 @@ When testing out the API's endpoint URLs, you will want to install [JSON Formatt
 
 ## Requirements
 
- 1. The `"#show-select"` should be hidden by default.
+ 1. Make the selector field (CSS selector `"#show-select"`) hidden by default.
 
- 2. When the user submits a search for a TV show...
-  - the `"#show-select"` field should be un-hidden.
-  - it should be populated with all search results.
-  - the first select option should read "Shows matching `keyword`…".
+ 2. After the user submits a search for a TV show...
+  - un-hide the `"#show-select"` field.
+  - populate the `"#show-select"` field with the list of search results.
+  - make the first / default select option read "Shows matching `keyword`…".
 
- 3. Whenever the user selects a title from the `#show-select` field (HINT: listen for a `"change"` event), the app should populate the `"#show-detail"` div with that show's name and image.
+ 3. Whenever the user selects a title from the `#show-select` field (HINT: listen for a `"change"` event), display that show's name and image in the `"#show-detail"` div.
 
 ## Take a look:
 
