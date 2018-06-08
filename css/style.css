@@ -30,6 +30,10 @@ select {
   font-size: 150%;
 }
 
+#show-select {
+  display: none;
+}
+
 .browse {
   padding: 10px 25px;
 }
