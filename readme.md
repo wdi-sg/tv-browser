@@ -28,3 +28,13 @@ Attach an event listener to the select. When the user selects an option make ano
 ## Take a look:
 
 http://ga-wdi-exercises.github.io/tv-browser/
+
+### Further
+Display in the DOM all of the data given to you for a particular show.
+
+### Further
+Add a link to the `cast` of the show.
+If the user clicks on the cast link, make an AJAX call to get that info and display it to the user.
+
+### Further
+Make each cast person clickable. When the user clicks on that person make an AJAX request for the person.
