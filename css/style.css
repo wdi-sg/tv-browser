@@ -37,3 +37,9 @@ select {
 .fail {
   color: red;
 }
+
+/* 1. The `"#show-select"` should be hidden by default. */
+#show-select {
+  display: none;
+  width: 100%; 
+}
