@@ -13,17 +13,31 @@ main {
   justify-content: center;
 }
 
+.show-detail {
+  width: 100px;
+  margin: 0 auto;
+}
+
+.browse {
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
 a {
   color: #c00;
 }
 
 input {
-  width: 20em;
+  width: 30em;
 }
 
 input[type="search"] {
-  font-size: 200%;
+  font-size: 100%;
   margin: 1em;
+  border: 1px solid black;
+  padding: 10px;
 }
 
 select {
@@ -36,4 +50,30 @@ select {
 
 .fail {
   color: red;
+}
+
+select {
+  display: none;
+  margin: 0 auto;
+  border: 1px solid black;
+  font-size: 1em;
+  width: 40%;
+  min-width: 200px;
+  margin-top: 20px;
+}
+
+button {
+  border: 1px solid black;
+  display: block-inline;
+  padding: 5px 20px;
+  border-radius: 5px;
+}
+
+p {
+  text-align: left;
+}
+
+#show-detail {
+  width: 700px;
+  margin: 0 auto;
 }
