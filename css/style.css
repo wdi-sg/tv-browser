@@ -64,11 +64,12 @@ select {
 }
 
 #displayContainer {
-  width: 80%;
+  width: 60%;
   margin: 0 auto;
 }
 
 #title {
   font-size: 200%;
   font-weight: bold;
+  margin-bottom: 20px;
 }
