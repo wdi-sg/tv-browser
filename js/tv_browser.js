@@ -1,23 +1,43 @@
 var body = document.querySelector("body");
+var notFoundDiv = document.createElement("div");
+notFoundDiv.id = "notFoundContainer";
+body.appendChild(notFoundDiv);
+
+var container = document.createElement("div");
+container.id = "displayContainer";
+
+var titleDiv = document.createElement("div");
+titleDiv.id = "title";
+var imageDiv = document.createElement("div");
+imageDiv.id = "imageDiv"
+var image = document.createElement("img");
+var summary = document.createElement("div");
+
+container.appendChild(titleDiv);
+imageDiv.appendChild(image);
+container.appendChild(imageDiv);
+container.appendChild(summary);
+body.appendChild(container);
+
 var input = document.getElementById("show-search");
 var button = document.getElementById("submitButton");
 var select = document.getElementById("show-select");
 var tvMazeSearchEndpoint = "http://api.tvmaze.com/search/shows?q=";
 var movies; // to store the queried movies, and access later
 
-var clearContainer = function() {
-    var displayContainer = document.getElementById("displayContainer");
-    if (displayContainer) {
-        displayContainer.parentNode.removeChild(displayContainer);
-    }
+// Function to clear existing dropdown and previously-selected movie info
+var clearAll = function() {
+    select.innerHTML = "";
+    titleDiv.textContent = "";
+    imageDiv.style.display = "none";
+    summary.innerHTML = "";
 }
 
+// Event Listener to search movies with keyword
 var searchMatches = function() {
     var inputValue = input.value;
 
-    clearContainer();
-
-    select.innerHTML = "";
+    clearAll();
 
     var requestFailed = function() {
         console.log("Failed");
@@ -37,11 +57,9 @@ var searchMatches = function() {
             option.textContent = movie.show.name
             select.appendChild(option);
         })
-
     }
 
     var request = new XMLHttpRequest();
-
     request.open("GET", tvMazeSearchEndpoint + inputValue);
     request.addEventListener("error", requestFailed);
     request.addEventListener("load", getMovies);
@@ -50,11 +68,9 @@ var searchMatches = function() {
 
 button.addEventListener("click", searchMatches);
 
-
+// Event Listener to select a movie
 var showDetails = function() {
     var selectedMovieName = this.value;
-
-    clearContainer();
 
     var movieToDisplay;
     movies.forEach(function(movie) {
@@ -63,37 +79,16 @@ var showDetails = function() {
         }
     })
 
-    // Display selected movie details or "movie not found" message
-    if (movieToDisplay) {
-        var container = document.createElement("div");
-        container.id = "displayContainer";
-        var titleDiv = document.createElement("div");
-        titleDiv.id = "title";
-        var imageDiv = document.createElement("div");
-        var image = document.createElement("img");
-        var plotDiv = document.createElement("div");
-
-        titleDiv.textContent = movieToDisplay.show.name;
-        container.appendChild(titleDiv);
-
-        if (movieToDisplay.show.image) {
-            console.log(movieToDisplay);
-            image.src = movieToDisplay.show.image.medium;
-            imageDiv.appendChild(image);
-            container.appendChild(imageDiv);
-        }
-
-        plotDiv.innerHTML = movieToDisplay.show.summary;
-        container.appendChild(plotDiv);
-
-        body.appendChild(container);
-
+    titleDiv.textContent = movieToDisplay.show.name;
+    // in case some movie has no images
+    if (movieToDisplay.show.image) {
+        imageDiv.style.display = "flex";
+        image.src = movieToDisplay.show.image.medium;
     } else {
-        var notFoundDiv = document.createElement("div");
-        notFoundDiv.id = "displayContainer";
-        notFoundDiv.textContent = "No Details Found.";
-        body.appendChild(notFoundDiv);
+        imageDiv.style.display = "none";
     }
+    summary.innerHTML = movieToDisplay.show.summary;
+
 }
 
 // use change instead of click, to avoid unnecessary calls to the API

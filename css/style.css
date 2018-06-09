@@ -73,3 +73,7 @@ select {
   font-weight: bold;
   margin-bottom: 20px;
 }
+
+#imageDiv {
+  justify-content: center;
+}
