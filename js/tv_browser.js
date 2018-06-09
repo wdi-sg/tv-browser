@@ -1,9 +1,6 @@
 // API Docs at:
 // http://www.tvmaze.com/api
 
-// API Docs at:
-// http://www.tvmaze.com/api
-
  var doSubmit = function(event){
 
   var input = document.querySelector('#show-search');
@@ -16,8 +13,10 @@
     console.log( response );
     for (var i = 0; i < response.length; i++) {
     	console.log(response[i].show.name)
-      // optionList.createEleme = <option>response[i].show.name</option>.
-      console.log('hi')
+      var option = document.createElement('OPTION')
+      var optionName = document.createTextNode(response[i].show.name);
+      option.appendChild(optionName);
+      optionList.appendChild(option);
     }
   };
  
