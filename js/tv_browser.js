@@ -45,14 +45,24 @@ var searchMatches = function() {
 
     var getMovies = function()  {
 
-        movies = JSON.parse(this.responseText);
+        var moviesArray = JSON.parse(this.responseText);
+
+        // clear the previous movie object
+        movies = {};
+
+        // transform the moviesArray into an oject for easy access
+        // each movie name becomes a key, and the entire info like {name: girl movie, summary: some plot, etc} becomes the object (value)
+        // movie[key] = value
+        moviesArray.forEach(function(movie) {
+            movies[movie.show.name] = movie;
+        })
 
         var defaultOption = document.createElement("option");
         defaultOption.textContent = "Shows matching " + inputValue + "...";
         select.appendChild(defaultOption);
         select.style.display = "flex";
 
-        movies.forEach(function(movie) {
+        moviesArray.forEach(function(movie) {
             var option = document.createElement("option");
             option.textContent = movie.show.name
             select.appendChild(option);
@@ -72,14 +82,10 @@ button.addEventListener("click", searchMatches);
 var showDetails = function() {
     var selectedMovieName = this.value;
 
-    var movieToDisplay;
-    movies.forEach(function(movie) {
-        if (movie.show.name == selectedMovieName) {
-            movieToDisplay = movie;
-        }
-    })
+    var movieToDisplay = movies[selectedMovieName];
 
     titleDiv.textContent = movieToDisplay.show.name;
+
     // in case some movie has no images
     if (movieToDisplay.show.image) {
         imageDiv.style.display = "flex";
