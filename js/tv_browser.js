@@ -17,7 +17,7 @@
   	//response text returns a string
     console.log("response text", this.responseText);
     
-    // converts string and returns us an array.
+    // converts string and returns us an javascript object.
     var response = JSON.parse( this.responseText );
     console.log( response );
     
@@ -66,14 +66,32 @@ var clickOption = function(event){
 	//variable to create an array of the options listed
 	var optionNames = document.querySelectorAll('.clickable');
 
-	// for loop to add a click event listener to each option name
-	for (var i = 0; i < optionNames.length; i++) {
-		optionNames[i].addEventListener('click', function(){
-			var url = optionNames[i].id
-			console.log(url.responseText);
-			
-		})
-	}
+	var responseHandler = function() {
+
+		// for loop to add a click event listener to each option name
+		for (var i = 0; i < optionNames.length; i++) {
+		optionNames[i].id
+		
+		}
+	}	
+	
+	// make a new request
+  	var request = new XMLHttpRequest();
+  	// listen for the request response
+  	request.addEventListener("load", responseHandler);
+  	// ready the system by calling open, and specifying the url
+  	request.open("GET", url);
+  	// send the request
+  	request.send();
+
+  	var requestFailed = function(){
+    	console.log("response text", this.responseText);
+    	console.log("status text", this.statusText);
+    	console.log("status code", this.status);
+  	};
+  
+  	request.addEventListener("error", requestFailed);
+
 }
 
 
