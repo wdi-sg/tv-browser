@@ -16,7 +16,9 @@ var doSubmit = function(event){
     // console.log("response text", this.responseText);
     JSONcall = JSON.parse( this.responseText );
     console.log(JSONcall);
+    $('#show-select').removeAttr("style");
     $('#show-select').empty();
+    $('#show-select').append("<option>Shows matching " + input.value + "</option>")
     showData();
   };
 
@@ -34,12 +36,12 @@ var doSubmit = function(event){
 
 function selectShow(x){
   console.log(JSONcall[x].show);
+  $('#show-detail').html("<h3>" + JSONcall[x].show.name + "</h3>" + "<br>" + "<img src =\'" + JSONcall[x].show.image.medium + "\'>" + "<br>" + JSONcall[x].show.summary)
 }
 
 function showData(){
   Object.keys(JSONcall).forEach(function(key){
     var tvShow = JSONcall[key].show;
-    // $('#show-select').append("<option class=\"selectS\"" + "id=\"" + key + "\"" + "value=\"JSONcall[" + key + "].show\" onchange=\"selectShow(this.id)\">" + tvShow.name + "</option>");
     $('<option>').val(key).text(tvShow.name).appendTo('#show-select');
   });
 }

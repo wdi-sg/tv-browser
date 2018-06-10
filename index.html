@@ -15,14 +15,13 @@
         <button onclick="doSubmit()">submit</button>
       </div>
 
-      <select id="show-select" onchange="selectShow(this.value)">
-        <option value="">Select a show...</option>
+      <select id="show-select" onchange="selectShow(this.value)" style="display:none;">
+        <option>Select a show...</option>
       </select>
 
       <div id="show-detail"></div>
 
     </div>
-    <option value="2" onclick="selectShow(this.value)">Happy Together</option>
   </main>
 
   <script src="js/tv_browser.js"></script>
