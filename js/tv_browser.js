@@ -1,9 +1,6 @@
 // API Docs at:
 // http://www.tvmaze.com/api
 
-//global var
-//input's value
-
 var input = document.querySelector('#show-search');
 var apiCall = "http://api.tvmaze.com/search/shows?q=";
 
@@ -13,12 +10,17 @@ var JSONcall;
 
 var doSubmit = function(event){
   var responseHandler = function() {
-    // console.log("response text", this.responseText);
     JSONcall = JSON.parse( this.responseText );
-    console.log(JSONcall);
-    $('#show-select').removeAttr("style");
-    $('#show-select').empty();
-    $('#show-select').append("<option>Shows matching " + input.value + "</option>")
+    // $('#show-select').removeAttr("style");
+    //document.querySelector('#show-select')
+    // $('#show-select').empty();
+    // $('#show-select').append("<option>Shows matching " + input.value + "</option>")
+    var pickShow = document.querySelector('#show-select');
+    pickShow.removeAttribute("style");
+    pickShow.innerHTML = '';
+    var option = document.createElement("option");
+    option.text = "Shows matching " + input.value;
+    pickShow.appendChild(option);
     showData();
   };
 
@@ -36,14 +38,20 @@ var doSubmit = function(event){
 
 function selectShow(x){
   console.log(JSONcall[x].show);
-  $('#show-detail').html("<h3>" + JSONcall[x].show.name + "</h3>" + "<br>" + "<img src =\'" + JSONcall[x].show.image.medium + "\'>" + "<br>" + JSONcall[x].show.summary)
+  //document.querySelector('#show-detail').innerHTML
+  // $('#show-detail').html
+  document.querySelector('#show-detail').innerHTML = "<h3>" + JSONcall[x].show.name + "</h3>" + "<br>" + "<img src =\'" + JSONcall[x].show.image.medium + "\'>" + "<br>" + JSONcall[x].show.summary;
 }
 
 function showData(){
+  //Object.keys returns the keys for an object, then use forEach to loop through the object. For this to work the object must be stored in a globally accessible.
   Object.keys(JSONcall).forEach(function(key){
+    //store the key in var due to repeats
     var tvShow = JSONcall[key].show;
-    $('<option>').val(key).text(tvShow.name).appendTo('#show-select');
+    // $('<option>').val(key).text(tvShow.name).appendTo('#show-select');
+    var option = document.createElement("option");
+    option.value = key;
+    option.text = tvShow.name
+    document.querySelector('#show-select').appendChild(option);
   });
 }
-
-//selectShow function displays the data contained
