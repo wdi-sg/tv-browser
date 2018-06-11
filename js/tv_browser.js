@@ -27,7 +27,7 @@
     	//create an option tag for each item in array retuned
      	var option = document.createElement('OPTION')
      	// each option tag is given a specific id(thetvdb number). this is so it can be accessed later
-     	option.setAttribute('id', ("http://api.tvmaze.com/lookup/shows?thetvdb=" + response[i].show.externals.thetvdb))
+     	option.setAttribute('value', ("http://api.tvmaze.com/lookup/shows?thetvdb=" + response[i].show.externals.thetvdb))
      	option.setAttribute('class', 'clickable')
      	
      	//New variable to fill up words option tag. It is appended to the option tag
@@ -61,38 +61,107 @@ document.querySelector('#submit').addEventListener('click', doSubmit);
 
 // further 2
 
-var clickOption = function(event){
+var responseHandler = function() {
 
-	//variable to create an array of the options listed
-	var optionNames = document.querySelectorAll('.clickable');
+    //clear details div
+    var details = document.querySelector('#show-detail')
+    details.innerHTML = "";
 
-	var responseHandler = function() {
 
-		// for loop to add a click event listener to each option name
-		for (var i = 0; i < optionNames.length; i++) {
-		optionNames[i].id
-		
-		}
-	}	
-	
-	// make a new request
-  	var request = new XMLHttpRequest();
-  	// listen for the request response
-  	request.addEventListener("load", responseHandler);
-  	// ready the system by calling open, and specifying the url
-  	request.open("GET", url);
-  	// send the request
-  	request.send();
+    //response text returns a string
+    console.log("response text", this.responseText);
+    
+    // converts string and returns us an javascript object.
+    var response = JSON.parse( this.responseText );
+    console.log( response );
 
-  	var requestFailed = function(){
-    	console.log("response text", this.responseText);
-    	console.log("status text", this.statusText);
-    	console.log("status code", this.status);
-  	};
-  
-  	request.addEventListener("error", requestFailed);
+    //show Name heading creating
+    var name = document.createElement('H1')
+    name.textContent = response.name;
+    details.appendChild(name);
+
+    //show image creation
+    var picture = document.createElement('img')
+    picture.setAttribute('src', response.image.medium)
+    details.appendChild(picture);
+
+    // show summary
+    var summary = document.createElement('div')
+    summary.innerHTML = response.summary;
+    details.appendChild(summary);
 
 }
+
+//global
+var optionNames = document.querySelectorAll('#show-select');
+optionNames = optionNames[0]
+  optionNames.addEventListener('change', function(){
+    console.log('changed')
+    // make a new request
+    var request = new XMLHttpRequest();
+    // listen for the request response
+    request.addEventListener("load", responseHandler);
+    // ready the system by calling open, and specifying the url
+    request.open("GET", optionNames.value);
+    // send the request
+    request.send();
+
+  })
+
+
+
+
+
+
+
+
+
+
+    // // make a new request
+    // var request = new XMLHttpRequest();
+    // // listen for the request response
+    // request.addEventListener("load", responseHandler);
+    // // ready the system by calling open, and specifying the url
+    // request.open("GET", optionNames[i].id);
+    // // send the request
+    // request.send();
+
+
+
+// var changeOption = function(event){
+
+// 	//variable to create an array of the options listed
+// 	var optionNames = document.querySelectorAll('.clickable');
+
+// 	var responseHandler = function() {
+
+// 		// for loop to add a click event listener to each option name
+// 		for (var i = 0; i < optionNames.length; i++) {
+// 		optionNames[i].id
+		
+// 		}
+// 	}	
+	
+	// // make a new request
+ //  	var request = new XMLHttpRequest();
+ //  	// listen for the request response
+ //  	request.addEventListener("load", responseHandler);
+ //  	// ready the system by calling open, and specifying the url
+ //  	request.open("GET", optionNames[2].id);
+ //  	// send the request
+ //  	request.send();
+
+//   	var requestFailed = function(){
+//     	console.log("response text", this.responseText);
+//     	console.log("status text", this.statusText);
+//     	console.log("status code", this.status);
+//   	};
+  
+//   	request.addEventListener("error", requestFailed);
+
+// }
+
+// optionNames.forEach.addEventListener('click', clickOption);
 
 
 
