@@ -1,22 +1,75 @@
+html{
+  margin: 0;
+}
 body {
   font: 16px/1.5 Courier, monospace;
   margin: 0;
   background: url('../images/reel.jpg') no-repeat center center fixed;
   background-size: cover;
 }
-
-main {
-  width: 80%;
+.container{
+  background-color: #333;
+  height:50px;
+  width:100%;
+}
+.nav{
+  margin:0 auto;
+  background-color: #333;
+  width:100%;
+}
+.navBar{
+  display: block;
+  width: 51%;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
-
-a {
-  color: #c00;
+ul {
+  list-style-type: none;
+  margin:0 auto;
+  overflow: hidden;
+  background-color: #333;
 }
-
+li {
+  float:left;
+}
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 12px 14px;
+  text-decoration: none;
+}
+li a:hover {
+    background-color: #111;
+}
+#show-search{
+  display: block;
+  margin: 0 auto;
+}
+#show-select{
+  margin: 10px auto;
+  display: block;
+}
+.btn {
+  background: #8120d6;
+  border-radius: 5px;
+  text-shadow: 2px 2px 1px #666666;
+  font-family: Courier New;
+  color: #ffffff;
+  font-size: 20px;
+  background-size: cover;
+  width: 150px;
+  padding: 1px 0px 1px 0px;
+  display:block;
+  text-align: center;
+  margin:0 auto;
+}
+p{
+  margin: 0 auto;
+  text-align: center;
+}
+.btn:hover {
+  background: #2490d4;
+}
 input {
   width: 20em;
 }
@@ -27,7 +80,7 @@ input[type="search"] {
 }
 
 select {
-  font-size: 150%;
+  font-size: 100%;
 }
 
 .browse {
