@@ -22,10 +22,12 @@ var responseHandler = function() {
 	})
 
  	//getting the title of the movie out in each search
+	var select = document.getElementById('show-select'); //get element outside
+	select.innerHTML="";  //clearing before starting
 	moviesArray.forEach(function(movie) {
 		var option = document.createElement('option');
 		option.textContent = movie.show.name;
-		var select = document.getElementById('show-select');
+		// var select = document.getElementById('show-select');
 		select.appendChild(option);
 	});
 }
@@ -57,10 +59,16 @@ btn.addEventListener('click',check);
 function setClick(){
 	// var x =document.getElementById('show-select');
 	// var i = x.selectedIndex; //selectIndex is a special word.
- //    document.getElementById("title").innerHTML = x.options[i].text;
+ 	//document.getElementById("title").innerHTML = x.options[i].text;
+ 	var getTitle = document.getElementById('title');
+	var showDetail = document.getElementById('show-detail'); //append element to group    
+
+ 	getTitle.textContent="";
+ 	showDetail.innerHTML="";
+
     var selectedMovie = this.value;
     var selectedMovieName = movies[selectedMovie];
-	var getTitle = document.getElementById('title');
+	// var getTitle = document.getElementById('title');
 	getTitle.textContent = selectedMovie;
 
 	var createImageDiv = document.createElement('div');
@@ -72,7 +80,7 @@ function setClick(){
     } else {
         createImageDiv.style.display = "none";
     }
-	var showDetail = document.getElementById('show-detail'); //append element to group
+	// var showDetail = document.getElementById('show-detail'); //append element to group
 	createImageDiv.appendChild(createImageTag);
 	showDetail.appendChild(createImageDiv); //appending to the showDetail group
 
@@ -81,6 +89,7 @@ function setClick(){
 	createSummaryDiv.innerHTML=writeUp;
 	showDetail.appendChild(createSummaryDiv); //appending to the showDetail group
 }
+
 
 	// console.log('Title of the movie: ' + movie );
 	// console.log('Summary of the movie: ' + writeUp);	
