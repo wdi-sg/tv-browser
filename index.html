@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
   <title>TV Maze API Search</title>
@@ -17,6 +17,47 @@
 
       <select id="show-select">
         <option value="">Select a show...</option>
+      </select>
+
+      <div id="show-detail"></div>
+
+    </div>
+  </main>
+
+  <script src="js/tv_browser.js"></script>
+</body>
+</html>
+ -->
+
+ <!-- new code starts here -->
+
+<!-- div tag use as a container, formmating content -->
+<!-- Form tag is used for sending request to the server, it has attributes like method={GET/POST} and action="something.cs" -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TV Maze API Search</title>
+  <script>
+     document.addEventListener("DOMContentLoaded", function(event) {
+        console.log("DOM fully loaded and parsed");
+        }); 
+    </script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main>
+
+    <img src="./images/tvm_api.png">
+
+    <div class="browse">
+      <form id="search">
+        <input type="search" placeholder="Search for a title..." id="show-search">
+        <input type="button" value="Submit" id="search-button">
+      </form>
+
+      <select id="show-select">
+        <option value=""></option>
       </select>
 
       <div id="show-detail"></div>
