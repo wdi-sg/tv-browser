@@ -4,6 +4,18 @@ Use the [TV Maze API docs](http://www.tvmaze.com/api) to build a single-page app
 
 When testing out the API's endpoint URLs, you will want to install [JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en) to make the JSON responses more readable.
 
+To search the TV Maze API use this URL: http://api.tvmaze.com/search/shows?q=girls
+
+The search query of the URL is the serarch term that the user entered.
+
+The response to the request will be an array of objects. When you recieve the response you should render data from each object in a loop.
+
+#### CORS
+
+If your browser give you an error regarding a Cross Origin Request, you can install this chrome extension to get rid of it:
+
+[https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en)
+
 ## MVP
 Use the input to get the search term from the user. Display the results in the dom.
 
