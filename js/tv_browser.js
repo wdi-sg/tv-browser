@@ -8,45 +8,31 @@ window.onload = function () {
   var select = document.getElementById('show-select');
   var button = document.querySelector('button');
 
-  var displayShowDetail = function (show) {
-    var container = document.createElement('div');
-    var heading = document.createElement('h2');
-    var image = document.createElement('img');
-    var summary = document.createElement('p');
+  var setup = function () {
+    hideSelect();
 
-    heading.innerHTML = show.name;
-    image.src = show.image ? show.image.medium : "";
-    summary.innerHTML = show.summary;
+    button.addEventListener('click', function () {
+      searchShow(searchShowsUrl + input.value, false);
+      clearDetail();
+      showSelect();
+    });
 
-    container.appendChild(heading);
-    container.appendChild(image);
-    container.appendChild(summary);
-
-    detail.appendChild(container);
+    select.addEventListener('change', function () {
+      searchShow(singleSearchUrl + this.value, true);
+    });
   };
 
-  var getShow = function (showName) {
-    var i;
+  var searchShow = function (url, isSingle) {
+    var request = new XMLHttpRequest();
 
-    for (i = 0; i < responseShows.length; i++) {
-      if (responseShows[i].show.name === showName) {
-        return responseShows[i];
-      }
+    if (isSingle) {
+      request.addEventListener('load', searchSingleShowHandler);
+    } else {
+      request.addEventListener('load', searchShowsHandler);
     }
-  };
 
-  var clearDetail = function () {
-    while (detail.firstChild) {
-      detail.removeChild(detail.firstChild);
-    }
-  };
-
-  var addOption = function (show) {
-    var option = document.createElement('option');
-
-    option.value = show.name;
-    option.innerHTML = show.name;
-    select.appendChild(option);
+    request.open('GET', url);
+    request.send();
   };
 
   var searchShowsHandler = function () {
@@ -65,17 +51,35 @@ window.onload = function () {
     displayShowDetail(show);
   };
 
-  var searchShow = function (url, isSingle) {
-    var request = new XMLHttpRequest();
+  var addOption = function (show) {
+    var option = document.createElement('option');
 
-    if (isSingle) {
-      request.addEventListener('load', searchSingleShowHandler);
-    } else {
-      request.addEventListener('load', searchShowsHandler);
+    option.value = show.name;
+    option.innerHTML = show.name;
+    select.appendChild(option);
+  };
+
+  var clearDetail = function () {
+    while (detail.firstChild) {
+      detail.removeChild(detail.firstChild);
     }
+  };
 
-    request.open('GET', url);
-    request.send();
+  var displayShowDetail = function (show) {
+    var container = document.createElement('div');
+    var heading = document.createElement('h2');
+    var image = document.createElement('img');
+    var summary = document.createElement('p');
+
+    heading.innerHTML = show.name;
+    image.src = show.image ? show.image.medium : "";
+    summary.innerHTML = show.summary;
+
+    container.appendChild(heading);
+    container.appendChild(image);
+    container.appendChild(summary);
+
+    detail.appendChild(container);
   };
 
   var hideSelect = function () {
@@ -86,20 +90,5 @@ window.onload = function () {
     select.style.display = 'block';
   }
 
-  var setup = function () {
-    hideSelect();
-
-    button.addEventListener('click', function () {
-      searchShow(searchShowsUrl + input.value, false);
-      clearDetail();
-      showSelect();
-    });
-
-    select.addEventListener('change', function () {
-      searchShow(singleSearchUrl + this.value, true);
-    });
-  };
-
   setup();
-
 };
