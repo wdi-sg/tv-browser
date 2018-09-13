@@ -7,6 +7,7 @@ var body = document.body;
 var selector = document.querySelector("#show-select");
 var input = document.querySelector('input');
 var submitButton = document.querySelector('button');
+var details = document.querySelector("#show-detail");
 var result;
 
 function responseHandler() {
@@ -48,7 +49,7 @@ function doSubmit() {
 
     var url = `http://api.tvmaze.com/search/shows?q=${input.value}`;
 
-    // document.querySelector('#show-select')
+    selector.style.visibility = "visible";
 
     console.log(url);
 
@@ -72,11 +73,26 @@ function doSubmitIndiv() {
     console.log(url);
 
     var request = new XMLHttpRequest();
-    request.addEventListener("load", responseHandler)
+    request.addEventListener("load", responseHandler);
+    request.addEventListener("load", function() {
+
+        var newH2 = document.createElement("h2");
+        newH2.textContent = result.name;
+        details.appendChild(newH2);
+
+        var newImg = document.createElement("img");
+        newImg.src = result.image.medium;
+        details.appendChild(newImg);
+
+        details.insertAdjacentHTML('beforeend', result.summary);
+
+    });
+
     request.addEventListener("error", requestFailed);
 
     request.open("GET", url);
     request.send();
+
 };
 
 

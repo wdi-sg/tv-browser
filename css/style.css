@@ -27,8 +27,17 @@ input[type="search"] {
 }
 
 select {
-/*	visibility: hidden;*/
+	visibility: hidden;
   font-size: 150%;
+}
+
+#show-detail h2 {
+	margin-top: 20px;
+}
+
+#show-detail img {
+	margin-top: 20px;
+	display: block;
 }
 
 .browse {
