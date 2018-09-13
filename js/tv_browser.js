@@ -83,7 +83,8 @@ function doSubmitIndiv() {
         details.appendChild(newH2);
 
         var newImg = document.createElement("img");
-        newImg.src = result.image.medium;
+        if (result.image) {
+            newImg.src = result.image.medium};
         details.appendChild(newImg);
 
         details.insertAdjacentHTML('beforeend', result.summary);
