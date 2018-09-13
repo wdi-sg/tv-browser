@@ -12,11 +12,11 @@
     <div class="browse">
       <div id="search-form">
         <input type="search" placeholder="Search for a title..." id="show-search">
-        <button>submit</button>
+        <button onclick="doSubmit()">submit</button>
       </div>
 
-      <select id="show-select">
-        <option value="">Select a show...</option>
+      <select id="show-select" onchange="selectShow(this.value)" style="display:none;">
+        <option>Select a show...</option>
       </select>
 
       <div id="show-detail"></div>
@@ -25,5 +25,6 @@
   </main>
 
   <script src="js/tv_browser.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js" charset="utf-8"></script> -->
 </body>
 </html>
