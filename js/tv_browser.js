@@ -6,11 +6,22 @@ window.onload = function(){
     var responseHandler = function() {
       console.log("response text", this.responseText);
       var response = JSON.parse( this.responseText );
+      var arrayShowName = [];
+      for (var i = 0; i < response.length; i++){
+        var getDiv = document.getElementById("show-select");
+        var getDivp = document.createElement("option");
+        getDivp.innerHTML = response[i].show.name;
+        getDiv.appendChild(getDivp);
+
+      }
     };
 
+
+
+    var input = document.querySelector("#show-search");
+
     var doSubmit = function(){
-        var input = document.querySelector("#show-search");
-        var url = " http://api.tvmaze.com/search/shows?q=" + input.value;
+        var url = "http://api.tvmaze.com/search/shows?q=" + input.value; //must be the whole address
 
         //console.log( response )
         // make a new request
