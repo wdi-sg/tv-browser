@@ -103,7 +103,6 @@ window.onload = function () {
     showCast.addEventListener('click', function () {
       searchCast(show.id);
     });
-    // allData.innerHTML = '';
   };
 
   var displayAllData = function (show) {
@@ -128,10 +127,22 @@ window.onload = function () {
     showCast.style.display = 'none';
 
     cast.forEach(function (person) {
-      var personElement = document.createElement('p');
+      var personElement = document.createElement('a');
+      personElement.style.display = 'block';
       personElement.innerHTML = person.person.name;
+      personElement.addEventListener('click', function () {
+        var request = new XMLHttpRequest();
+        request.addEventListener('load', personHandler);
+        request.open('GET', 'http://api.tvmaze.com/people/' + person.person.id);
+        request.send();
+      });
       castDetail.appendChild(personElement);
     });
+  };
+
+  var personHandler = function () {
+    var person = JSON.parse(this.responseText);
+    window.open(person.url, '_blank');
   };
 
   var hideSelect = function () {

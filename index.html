@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>TV Maze API Search</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
   <main>
 
@@ -19,11 +21,20 @@
         <option value="">Select a show...</option>
       </select>
 
-      <div id="show-detail"></div>
+      <div id="show-detail">
+        <h2 id="show-heading"></h2>
+        <img id="show-image">
+        <p id="show-summary"></p>
+        <a id="show-cast" href="#">Show Cast</a>
+        <div id="cast-detail"></div>
+        <hr>
+        <p id="show-all-data"></p>
+      </div>
 
     </div>
   </main>
 
   <script src="js/tv_browser.js"></script>
 </body>
+
 </html>
