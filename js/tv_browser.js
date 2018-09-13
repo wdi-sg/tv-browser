@@ -32,7 +32,7 @@ window.onload = function() {
 
   button.addEventListener("click", function() {
   	showSearch = document.getElementById("show-search").value;
-  	request.open("GET", "http://api.tvmaze.com/search/shows?q=girls" + showSearch);
+  	request.open("GET", url + showSearch);
   	request.send();
   	request.addEventListener("load", responseHandler);
   });
