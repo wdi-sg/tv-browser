@@ -26,7 +26,10 @@ function requestFailed() {
 
 function repopulateSelector () {
 
+    var input = document.querySelector('input')
     var selector = document.getElementById("show-select")
+
+    selector[0].textContent = `Shows matching "${input.value}"...`;
 
     while (selector.length > 1) {
         selector.removeChild(document.querySelectorAll("#show-select option:not(:first-child)")[0]);
