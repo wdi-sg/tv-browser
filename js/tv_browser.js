@@ -1,6 +1,7 @@
 window.onload = function() {
     var button = document.getElementsByTagName('button')[0]
     var board = document.getElementById('search-form')
+    var select = document.getElementsByTagName('select')[0]
 
     function retrieveResults(event) {
         var inputValue = document.getElementsByTagName('input')[0].value
@@ -9,10 +10,11 @@ window.onload = function() {
             var result = []
             for (i in responseObject) {
                 result.push(responseObject[i].show.name)
-                var display = document.createElement('p')
-                display.textContent = result[i]
-                board.appendChild(display)
+                var option = document.createElement('option')
+                option.textContent = result[i]
+                select.appendChild(option)
             }
+            select.style.visibility = 'visible'
             console.log("status text", this.statusText)
             console.log("status code", this.status)
             console.log(inputValue)
