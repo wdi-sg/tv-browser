@@ -4,17 +4,13 @@
 // window.onload = function () {
 
 var body = document.body;
-var request = new XMLHttpRequest();
 var result;
-
-request.addEventListener("load", responseHandler);
 
 function responseHandler() {
 
     // console.log("response text", this.responseText);
     // console.log("status text", this.statusText);
     // console.log("status code", this.status);
-
     var response = JSON.parse( this.responseText );
     console.log(response);
     result = response;
@@ -44,14 +40,17 @@ function requestFailed() {
     console.log("status code", this.status);
 };
 
-request.addEventListener("error", requestFailed);
-
 
 function doSubmit() {
     var input = document.querySelector('input');
     var url = `http://api.tvmaze.com/search/shows?q=${input.value}`;
 
     console.log(url);
+
+    var request = new XMLHttpRequest();
+    request.addEventListener ('load', responseHandler);
+    request.addEventListener ('load', repopulateSelector);
+    request.addEventListener("error", requestFailed);
 
     request.open("GET", url);
     request.send();
@@ -67,14 +66,15 @@ function doSubmitIndiv() {
 
     console.log(url);
 
+    var request = new XMLHttpRequest();
+    request.addEventListener("load", responseHandler)
+    request.addEventListener("error", requestFailed);
     request.open("GET", url);
     request.send();
 };
 
-document.querySelector('button').addEventListener('click', function() {
-    doSubmit();
-    setTimeout(repopulateSelector, 500);
-    });
+
+document.querySelector('button').addEventListener('click', doSubmit);
 
 document.querySelector('#show-select').addEventListener('change', doSubmitIndiv);
 
