@@ -7,7 +7,6 @@ window.onload = function () {
   var input = document.getElementById('show-search');
   var select = document.getElementById('show-select');
   var button = document.querySelector('button');
-  var responseShows;
 
   var displayShowDetail = function (show) {
     var container = document.createElement('div');
@@ -51,11 +50,10 @@ window.onload = function () {
   };
 
   var searchShowsHandler = function () {
-    responseShows = JSON.parse(this.responseText);
+    var responseShows = JSON.parse(this.responseText);
 
-    responseShows.forEach(function (show) {
-      displayShowDetail(show.show);
-      addOption(show.show);
+    responseShows.forEach(function (response) {
+      addOption(response.show);
     });
 
     select.options[0].innerHTML = 'Shows matching ' + input.value + '...';
@@ -64,7 +62,6 @@ window.onload = function () {
   var searchSingleShowHandler = function () {
     var show = JSON.parse(this.responseText);
     clearDetail();
-    console.log(show);
     displayShowDetail(show);
   };
 
@@ -81,9 +78,21 @@ window.onload = function () {
     request.send();
   };
 
+  var hideSelect = function () {
+    select.style.display = 'none';
+  };
+
+  var showSelect = function () {
+    select.style.display = 'block';
+  }
+
   var setup = function () {
+    hideSelect();
+
     button.addEventListener('click', function () {
       searchShow(searchShowsUrl + input.value, false);
+      clearDetail();
+      showSelect();
     });
 
     select.addEventListener('change', function () {
