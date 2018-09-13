@@ -18,7 +18,6 @@ function responseHandler() {
     var response = JSON.parse( this.responseText );
     console.log(response);
     result = response;
-    repopulateSelector ();
 };
 
 
@@ -32,7 +31,8 @@ function repopulateSelector () {
 
     for (i in result) {
         var newOption = document.createElement("option");
-        newOption.textContent = result[i].show.name
+        newOption.id = result[i].show.id;
+        newOption.textContent = result[i].show.name;
         selector.appendChild(newOption);
     };
 };
@@ -47,7 +47,7 @@ function requestFailed() {
 request.addEventListener("error", requestFailed);
 
 
-function doSubmit(event) {
+function doSubmit() {
     var input = document.querySelector('input');
     var url = `http://api.tvmaze.com/search/shows?q=${input.value}`;
 
@@ -57,9 +57,26 @@ function doSubmit(event) {
     request.send();
 };
 
-document.querySelector('button').addEventListener('click', doSubmit);
 
+function doSubmitIndiv() {
 
+    var num = document.querySelector('#show-select').selectedIndex;
+    var showId = document.querySelector('#show-select')[num].id;
+
+    var url = `http://api.tvmaze.com/shows/${showId}`;
+
+    console.log(url);
+
+    request.open("GET", url);
+    request.send();
+};
+
+document.querySelector('button').addEventListener('click', function() {
+    doSubmit();
+    setTimeout(repopulateSelector, 500);
+    });
+
+document.querySelector('#show-select').addEventListener('change', doSubmitIndiv);
 
 
 
