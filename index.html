@@ -5,25 +5,49 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <main>
-
-    <img src="./images/tvm_api.png">
+  <div class='container'>
+    <div class='nav'>
+      <div class='navBar'>
+        <ul>
+          <li><a href="#">HOME</a></li>
+          <li><a href="#">GENRE</a></li>
+          <li><a href="#">COUNTRY</a></li>
+          <li><a href="#">TV-SERIES</a></li>
+          <li><a href="#">TOP IMDb</a></li>
+          <li><a href="#">A-Z LIST</a></li>
+          <li><a href="#">REQUEST</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+    <div id='imageBar'>
+      <!-- add images that can scroll with bottom rating -->
+    </div>
 
     <div class="browse">
-      <div id="search-form">
-        <input type="search" placeholder="Search for a title..." id="show-search">
-        <button>submit</button>
+      <div id='search-form'>
+        <div class='input'>
+          <input type="search" placeholder="Search for a title..." id="show-search">
+        </div>
       </div>
-
-      <select id="show-select">
-        <option value="">Select a show...</option>
-      </select>
-
-      <div id="show-detail"></div>
-
+    </div>
+    <div class='container1'>
+      <div class='btn' id='submit'>
+        <p>SUMBIT</p> 
+      </div>
+    </div>
+    <div class='show'>
+      <form>
+        <select id="show-select">
+          <option class="add" value="">Select a show...</option>
+        </select>
+      </form>   
+    </div>
+    <p id="title"><!-- display information of the selected movie --></p>
+    <div id="show-detail">  
     </div>
   </main>
 
-  <script src="js/tv_browser.js"></script>
+<script src="js/tv_browser.js"></script>
 </body>
 </html>
