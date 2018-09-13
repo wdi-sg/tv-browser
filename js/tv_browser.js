@@ -2,7 +2,8 @@ var button = document.getElementsByTagName('button')[0]
 var board = document.getElementById('search-form')
 var select = document.getElementsByTagName('select')[0]
 var showDetail = document.getElementById('show-detail')
-var currentID
+var currentID //stores show ID
+var currentClass //stores people ID in class
 window.onload = function() {
 
     //reset page when new search item is inputted
@@ -24,6 +25,31 @@ window.onload = function() {
         }
     }
 
+    //add cast details to below clicked cast member
+    function castDetailFill() {
+        var e = JSON.parse(this.responseText)
+        var selectedNode = document.getElementsByClassName(currentClass)[0]
+        //detect if cast member was already clicked to prevent repitition
+        if (selectedNode.nextSibling.classList != 'expanded') {
+            var details = document.createElement('p')
+            details.classList = 'expanded'
+            details.innerHTML = `<img src= '${e.image.medium}'<br><br>${e.country.name}<br>${e.birthday}`
+            selectedNode.parentNode.insertBefore(details, selectedNode.nextSibling)
+        }
+    }
+
+    //ajax request to search specific people id
+    function castDetailRequest(event) {
+        currentClass = event.target.classList.toString()
+        console.log(currentClass)
+        event.target.style.fontWeight = 'bold'
+        var request = new XMLHttpRequest()
+        request.addEventListener("error", requestFailed);
+        request.addEventListener("load", castDetailFill)
+        request.open("GET", `http://api.tvmaze.com/people/${currentClass}`)
+        request.send()
+    }
+
     function castFill() {
         var castList = JSON.parse(this.responseText)
         var castHeader = document.createElement('h3')
@@ -31,15 +57,20 @@ window.onload = function() {
         showDetail.appendChild(castHeader)
         castList.forEach(function(e) {
             console.log(e.person.name)
-            var name = document.createElement('p')
+            var name = document.createElement('li')
             name.textContent = e.person.name
+            name.classList = e.person.id
+            name.addEventListener('click', castDetailRequest)
             showDetail.appendChild(name)
         })
+        //empty div to prevent uncaught type error for castDetailFill lastChild
+        var friendlyDivBro = document.createElement('div')
+        showDetail.appendChild(friendlyDivBro)
     }
 
     function castRequest(event) {
         console.log(currentID)
-        event.target.style.visibility = 'hidden'
+        event.target.parentNode.removeChild(event.target)
         var request = new XMLHttpRequest()
         request.addEventListener("error", requestFailed);
         request.addEventListener("load", castFill)
@@ -74,7 +105,7 @@ window.onload = function() {
     }
 
     //initiate AJAX request with select value
-    function displayDetails(event) {
+    function displayRequest(event) {
         clearDetails()
 
         var request = new XMLHttpRequest()
@@ -107,7 +138,7 @@ window.onload = function() {
         clearAll()
 
         var inputValue = document.getElementById('show-search').value
-        var request = new XMLHttpRequest
+        var request = new XMLHttpRequest()
 
         request.addEventListener("error", requestFailed);
         request.addEventListener("load", selectFill)
@@ -124,5 +155,5 @@ window.onload = function() {
 
     //event listeners
     button.addEventListener('click', showRequest)
-    select.addEventListener('change', displayDetails)
+    select.addEventListener('change', displayRequest)
 }
