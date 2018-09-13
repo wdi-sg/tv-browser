@@ -73,11 +73,18 @@ window.onload = function(){
 
     var request = new XMLHttpRequest();
 
+    var requestFailed = function(){
+        console.log("response text", this.responseText);
+        console.log("status text", this.statusText);
+        console.log("status code", this.status);
+    };
+
     var doSubmit = function(event){
         var input = document.querySelector('#show-search');
         var search = input.value;
         request.open("GET", api + search);
         request.send();
+        request.addEventListener("error", requestFailed);
     };
 
     document.querySelector('#submit').addEventListener('click', doSubmit);
