@@ -3,6 +3,7 @@ body {
   margin: 0;
   background: url('../images/reel.jpg') no-repeat center center fixed;
   background-size: cover;
+  text-align: center;
 }
 
 main {
@@ -36,4 +37,43 @@ select {
 
 .fail {
   color: red;
+}
+
+#show-select {
+  display: none;
+  margin: 30px auto;
+
+}
+
+#show-form {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+#show-search {
+  width: 500px;
+  display: flex;
+  margin: 30px auto;
+  text-align: center;
+}
+
+#submitButton {
+  display: flex;
+  margin: 0 auto;
+}
+
+#displayContainer {
+  width: 60%;
+  margin: 0 auto;
+}
+
+#title {
+  font-size: 200%;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+#imageDiv {
+  justify-content: center;
 }
