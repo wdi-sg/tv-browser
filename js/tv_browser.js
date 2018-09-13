@@ -7,12 +7,15 @@ window.onload = function () {
   var showHeading = document.getElementById('show-heading');
   var showImage = document.getElementById('show-image');
   var showSummary = document.getElementById('show-summary');
+  var showCast = document.getElementById('show-cast');
+  var castDetail = document.getElementById('cast-detail');
   var allData = document.getElementById('show-all-data');
   var input = document.getElementById('show-search');
   var select = document.getElementById('show-select');
   var button = document.querySelector('button');
 
   var setup = function () {
+    hideDetail();
     hideSelect();
 
     button.addEventListener('click', function () {
@@ -39,6 +42,13 @@ window.onload = function () {
     request.send();
   };
 
+  var searchCast = function (showId) {
+    var request = new XMLHttpRequest();
+    request.addEventListener('load', searchCastHandler);
+    request.open('GET', 'http://api.tvmaze.com/shows/' + showId + '/cast');
+    request.send();
+  };
+
   var searchShowsHandler = function () {
     var responseShows = JSON.parse(this.responseText);
 
@@ -56,6 +66,11 @@ window.onload = function () {
     displayShowDetail(show);
   };
 
+  var searchCastHandler = function () {
+    var cast = JSON.parse(this.responseText);
+    displayCast(cast);
+  };
+
   var addOption = function (show) {
     var option = document.createElement('option');
 
@@ -66,15 +81,29 @@ window.onload = function () {
 
   var hideDetail = function () {
     detail.style.display = 'none';
+
+    while (castDetail.firstChild) {
+      castDetail.removeChild(castDetail.firstChild);
+    }
+
+    allData.innerHTML = '';
   };
 
   var displayShowDetail = function (show) {
+    showCast.style.display = 'inline-block';
+    displaySummary(show);
+    displayAllData(show);
+  };
+
+  var displaySummary = function (show) {
     detail.style.display = 'block';
     showHeading.innerHTML = show.name;
     showImage.src = show.image ? show.image.medium : "";
     showSummary.innerHTML = show.summary;
-    allData.innerHTML = '';
-    displayAllData(show);
+    showCast.addEventListener('click', function () {
+      searchCast(show.id);
+    });
+    // allData.innerHTML = '';
   };
 
   var displayAllData = function (show) {
@@ -93,6 +122,16 @@ window.onload = function () {
       }
       allData.innerHTML += '<br>';
     }
+  };
+
+  var displayCast = function (cast) {
+    showCast.style.display = 'none';
+
+    cast.forEach(function (person) {
+      var personElement = document.createElement('p');
+      personElement.innerHTML = person.person.name;
+      castDetail.appendChild(personElement);
+    });
   };
 
   var hideSelect = function () {
