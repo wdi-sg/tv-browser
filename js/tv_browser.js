@@ -6,21 +6,33 @@ var responseObject
 
 window.onload = function() {
 
+    function clearDetails() {
+        while (showDetail.lastChild) {
+            showDetail.removeChild(showDetail.lastChild)
+        }
+    }
     //runs on select change event
     function displayDetails(event) {
-        responseObject.forEach(function(element) {
-            console.log(element)
+        clearDetails()
+        responseObject.forEach(function(e) {
             //fills show-detail with selected show details - TBC
-            if (element.show.name == select.value) {
+            if (e.show.name == select.value) {
                 var line = document.createElement('p')
-                line.textContent = element.show.name
+                line.innerHTML = `${e.show.name}<br>${e.show.premiered}<br>${e.show.language}<br>${e.show.type}<br>${e.show.summary}`
                 showDetail.appendChild(line)
             }
         })
     }
     //AJAX request function triggered on button click.
     function retrieveResults(event) {
-        var inputValue = document.getElementsByTagName('input')[0].value
+        while (select.lastChild) {
+            select.removeChild(select.lastChild)
+        }
+        clearDetails()
+        var placeholder = document.createElement('option')
+        placeholder.textContent = 'Select a show...'
+        select.appendChild(placeholder)
+        var inputValue = document.getElementById('show-search').value
         var responseHandler = function() {
             responseObject = JSON.parse(this.responseText)
             var result = [] //array to store responseObject show.name
@@ -34,7 +46,6 @@ window.onload = function() {
             select.style.visibility = 'visible' //set selector to become visible
             console.log("status text", this.statusText)
             console.log("status code", this.status)
-            console.log(inputValue)
         }
 
         //standard AJAX stuff
@@ -47,5 +58,6 @@ window.onload = function() {
     //event listeners
     button.addEventListener('click', retrieveResults)
     select.addEventListener('change', displayDetails)
+
 
 }
