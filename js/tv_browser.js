@@ -28,7 +28,7 @@ window.onload = function() {
             //fills show-detail with selected show details - TBC
             if (e.show.name == select.value) {
                 var line = document.createElement('p')
-                line.innerHTML = `${e.show.name}<br>${e.show.premiered}<br>${e.show.language}<br>${e.show.type}<br>${e.show.summary}`
+                line.innerHTML = `<h2>${e.show.name}</h2><img src=${e.show.image.medium}></img><br>${e.show.summary}`
                 showDetail.appendChild(line)
             }
         })
