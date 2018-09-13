@@ -40,7 +40,7 @@ window.onload = function() {
         clearDetails()
 
         var request = new XMLHttpRequest()
-
+        request.addEventListener("error", requestFailed);
         request.addEventListener("load", detailFill)
         request.open("GET", `http://api.tvmaze.com/singlesearch/shows?q=${select.value}`)
         request.send()
@@ -67,13 +67,19 @@ window.onload = function() {
         clearAll()
 
         var inputValue = document.getElementById('show-search').value
-        var request = new XMLHttpRequest()
+        var request = new XMLHttpRequest
 
+        request.addEventListener("error", requestFailed);
         request.addEventListener("load", selectFill)
         request.open("GET", `http://api.tvmaze.com/search/shows?q=${inputValue}`)
         request.send()
     }
 
+    function requestFailed(event) {
+        console.log("response text", this.responseText)
+        console.log("status text", this.statusText)
+        console.log("status code", this.status)
+    }
     //event listeners
     button.addEventListener('click', retrieveResults)
     select.addEventListener('change', displayDetails)
