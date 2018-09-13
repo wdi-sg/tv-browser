@@ -6,6 +6,16 @@ var responseObject
 
 window.onload = function() {
 
+    function clearAll() {
+        while (select.lastChild) {
+            select.removeChild(select.lastChild)
+        }
+        clearDetails()
+        var placeholder = document.createElement('option')
+        placeholder.textContent = 'Select a show...'
+        select.appendChild(placeholder)
+    }
+
     function clearDetails() {
         while (showDetail.lastChild) {
             showDetail.removeChild(showDetail.lastChild)
@@ -25,14 +35,9 @@ window.onload = function() {
     }
     //AJAX request function triggered on button click.
     function retrieveResults(event) {
-        while (select.lastChild) {
-            select.removeChild(select.lastChild)
-        }
-        clearDetails()
-        var placeholder = document.createElement('option')
-        placeholder.textContent = 'Select a show...'
-        select.appendChild(placeholder)
+        clearAll()
         var inputValue = document.getElementById('show-search').value
+
         var responseHandler = function() {
             responseObject = JSON.parse(this.responseText)
             var result = [] //array to store responseObject show.name
