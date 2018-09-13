@@ -76,6 +76,8 @@ function doSubmitIndiv() {
     request.addEventListener("load", responseHandler);
     request.addEventListener("load", function() {
 
+        details.innerHTML = "";
+
         var newH2 = document.createElement("h2");
         newH2.textContent = result.name;
         details.appendChild(newH2);
