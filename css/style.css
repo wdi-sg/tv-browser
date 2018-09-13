@@ -27,6 +27,7 @@ input[type="search"] {
 }
 
 select {
+/*	visibility: hidden;*/
   font-size: 150%;
 }
 

@@ -4,6 +4,9 @@
 // window.onload = function () {
 
 var body = document.body;
+var selector = document.querySelector("#show-select");
+var input = document.querySelector('input');
+var submitButton = document.querySelector('button');
 var result;
 
 function responseHandler() {
@@ -26,9 +29,6 @@ function requestFailed() {
 
 function repopulateSelector () {
 
-    var input = document.querySelector('input')
-    var selector = document.getElementById("show-select")
-
     selector[0].textContent = `Shows matching "${input.value}"...`;
 
     while (selector.length > 1) {
@@ -45,8 +45,10 @@ function repopulateSelector () {
 
 
 function doSubmit() {
-    var input = document.querySelector('input');
+
     var url = `http://api.tvmaze.com/search/shows?q=${input.value}`;
+
+    // document.querySelector('#show-select')
 
     console.log(url);
 
@@ -62,8 +64,8 @@ function doSubmit() {
 
 function doSubmitIndiv() {
 
-    var num = document.querySelector('#show-select').selectedIndex;
-    var showId = document.querySelector('#show-select')[num].id;
+    var num = selector.selectedIndex;
+    var showId = selector[num].id;
 
     var url = `http://api.tvmaze.com/shows/${showId}`;
 
@@ -78,9 +80,9 @@ function doSubmitIndiv() {
 };
 
 
-document.querySelector('button').addEventListener('click', doSubmit);
+submitButton.addEventListener('click', doSubmit);
 
-document.querySelector('#show-select').addEventListener('change', doSubmitIndiv);
+selector.addEventListener('change', doSubmitIndiv);
 
 
 
