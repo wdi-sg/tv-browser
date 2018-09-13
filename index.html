@@ -12,7 +12,7 @@
     <div class="browse">
       <div id="search-form">
         <input type="search" placeholder="Search for a title..." id="show-search">
-        <button>submit</button>
+        <button id="submitButton">submit</button>
       </div>
 
       <select id="show-select">
@@ -23,7 +23,52 @@
 
     </div>
   </main>
+  <script>
 
-  <script src="js/tv_browser.js"></script>
+window.onload = function() {
+  var submitButton = document.getElementById('submitButton');
+  var searchForm = document.getElementById('show-search');
+
+  const URL_STRING = "http://api.tvmaze.com/search/shows?q="
+
+  var addOption = function(optionText, listPosition, select) { 
+    var option = document.createElement("option");
+    option.text = optionText;
+    select.add(option, listPosition);
+  }
+
+  submitButton.addEventListener('click', function(event) {
+    var url = URL_STRING + searchForm.value;
+
+    // what to do when we recieve the request
+    var responseHandler = function() {
+      var response = JSON.parse( this.responseText );
+      console.log( response );
+      var querySelect = document.getElementById('show-select');
+
+      for(var i=0; i<response.length; i++) {
+        console.log(response[i].show.name);
+        addOption(response[i].show.name, querySelect[i], querySelect);
+      };
+    };
+
+    // make a new request
+    var request = new XMLHttpRequest();
+
+    // listen for the request response
+    request.addEventListener("load", responseHandler);
+
+
+    // ready the system by calling open, and specifying the url
+    request.open("GET", url);
+
+    // send the request
+    request.send();
+  });
+};
+
+
+  </script>
+ <!-- <script src="js/tv_browser.js"></script> -->
 </body>
 </html>
