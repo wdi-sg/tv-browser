@@ -7,6 +7,7 @@ window.onload = function () {
   var input = document.getElementById('show-search');
   var select = document.getElementById('show-select');
   var button = document.querySelector('button');
+  var allData = document.createElement('p');
 
   var setup = function () {
     hideSelect();
@@ -47,8 +48,11 @@ window.onload = function () {
 
   var searchSingleShowHandler = function () {
     var show = JSON.parse(this.responseText);
+
     clearDetail();
     displayShowDetail(show);
+    detail.appendChild(allData);
+    displayAllData(show);
   };
 
   var addOption = function (show) {
@@ -62,6 +66,7 @@ window.onload = function () {
   var clearDetail = function () {
     while (detail.firstChild) {
       detail.removeChild(detail.firstChild);
+      allData.innerHTML = '';
     }
   };
 
@@ -80,6 +85,24 @@ window.onload = function () {
     container.appendChild(summary);
 
     detail.appendChild(container);
+  };
+
+  var displayAllData = function (show) {
+    var key;
+
+    for (key in show) {
+      allData.innerHTML += key + ':';
+      if (Array.isArray(show[key])) {
+        show[key].forEach(function (value) {
+          allData.innerHTML += ' ' + value;
+        });
+      } else if (typeof show[key] === 'object') {
+        displayAllData(show[key]);
+      } else {
+        allData.innerHTML += show[key];
+      }
+      allData.innerHTML += '<br>';
+    }
   };
 
   var hideSelect = function () {
