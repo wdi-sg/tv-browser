@@ -10,18 +10,30 @@
     <img src="./images/tvm_api.png">
 
     <div class="browse">
+
       <div id="search-form">
+
         <input type="search" placeholder="Search for a title..." id="show-search">
-        <button>submit</button>
+
+        <button id="submit">submit</button>
+
       </div>
 
-      <select id="show-select">
-        <option value="">Select a show...</option>
-      </select>
+      <div class = "dropdown_container">
+          <select class="my_dropdown" id="show-select">
+
+            <option value="">Select a show...</option>
+            <option value="Romance">Romance</option>
+            <option value="Crime">Crime</option>
+            <option value="Comedy">Comedy</option>
+
+          </select>
+      </div>
 
       <div id="show-detail"></div>
 
     </div>
+
   </main>
 
   <script src="js/tv_browser.js"></script>

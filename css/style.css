@@ -5,6 +5,14 @@ body {
   background-size: cover;
 }
 
+.images {
+    width: 196px;
+    border-radius: 15px;
+    margin-top: 4px;
+    margin-right: 10px;
+}
+
+
 main {
   width: 80%;
   margin: 0 auto;
@@ -23,7 +31,7 @@ input {
 
 input[type="search"] {
   font-size: 200%;
-  margin: 1em;
+  margin-top: 5px;
 }
 
 select {
@@ -37,3 +45,28 @@ select {
 .fail {
   color: red;
 }
+
+option {
+	font-size: 150px;
+}
+
+#show-select {
+	width:200px;
+	margin-top: 10px;
+	display: none;
+}
+
+div.dropdown_container {
+	width: 300px;
+}
+
+select.my_dropdown {
+	width: auto;
+}
+
+
+
+
+
+
+
