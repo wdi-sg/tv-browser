@@ -1,7 +1,8 @@
 // API Docs at:
 // http://www.tvmaze.com/api
 window.onload = function () {
-  var baseUrl = 'http://api.tvmaze.com/search/shows?q=';
+  var searchShowsUrl = 'http://api.tvmaze.com/search/shows?q=';
+  var singleSearchUrl = 'http://api.tvmaze.com/singlesearch/shows?q=';
   var detail = document.getElementById('show-detail');
   var input = document.getElementById('show-search');
   var select = document.getElementById('show-select');
@@ -14,9 +15,9 @@ window.onload = function () {
     var image = document.createElement('img');
     var summary = document.createElement('p');
 
-    heading.innerHTML = show.show.name;
-    image.src = show.show.image ? show.show.image.medium : "";
-    summary.innerHTML = show.show.summary;
+    heading.innerHTML = show.name;
+    image.src = show.image ? show.image.medium : "";
+    summary.innerHTML = show.summary;
 
     container.appendChild(heading);
     container.appendChild(image);
@@ -44,35 +45,49 @@ window.onload = function () {
   var addOption = function (show) {
     var option = document.createElement('option');
 
-    option.value = show.show.name;
-    option.innerHTML = show.show.name;
+    option.value = show.name;
+    option.innerHTML = show.name;
     select.appendChild(option);
   };
 
-  var searchShowHandler = function () {
+  var searchShowsHandler = function () {
     responseShows = JSON.parse(this.responseText);
 
     responseShows.forEach(function (show) {
-      displayShowDetail(show);
-      addOption(show);
+      displayShowDetail(show.show);
+      addOption(show.show);
     });
 
     select.options[0].innerHTML = 'Shows matching ' + input.value + '...';
   };
 
-  var searchShow = function () {
+  var searchSingleShowHandler = function () {
+    var show = JSON.parse(this.responseText);
+    clearDetail();
+    console.log(show);
+    displayShowDetail(show);
+  };
+
+  var searchShow = function (url, isSingle) {
     var request = new XMLHttpRequest();
-    request.addEventListener('load', searchShowHandler);
-    request.open('GET', baseUrl + input.value);
+
+    if (isSingle) {
+      request.addEventListener('load', searchSingleShowHandler);
+    } else {
+      request.addEventListener('load', searchShowsHandler);
+    }
+
+    request.open('GET', url);
     request.send();
   };
 
   var setup = function () {
-    button.addEventListener('click', searchShow);
+    button.addEventListener('click', function () {
+      searchShow(searchShowsUrl + input.value, false);
+    });
 
     select.addEventListener('change', function () {
-      clearDetail();
-      displayShowDetail(getShow(this.value));
+      searchShow(singleSearchUrl + this.value, true);
     });
   };
 
