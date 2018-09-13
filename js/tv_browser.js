@@ -4,17 +4,20 @@ window.onload = function () {
   var searchShowsUrl = 'http://api.tvmaze.com/search/shows?q=';
   var singleSearchUrl = 'http://api.tvmaze.com/singlesearch/shows?q=';
   var detail = document.getElementById('show-detail');
+  var showHeading = document.getElementById('show-heading');
+  var showImage = document.getElementById('show-image');
+  var showSummary = document.getElementById('show-summary');
+  var allData = document.getElementById('show-all-data');
   var input = document.getElementById('show-search');
   var select = document.getElementById('show-select');
   var button = document.querySelector('button');
-  var allData = document.createElement('p');
 
   var setup = function () {
     hideSelect();
 
     button.addEventListener('click', function () {
       searchShow(searchShowsUrl + input.value, false);
-      clearDetail();
+      hideDetail();
       showSelect();
     });
 
@@ -49,10 +52,8 @@ window.onload = function () {
   var searchSingleShowHandler = function () {
     var show = JSON.parse(this.responseText);
 
-    clearDetail();
+    hideDetail();
     displayShowDetail(show);
-    detail.appendChild(allData);
-    displayAllData(show);
   };
 
   var addOption = function (show) {
@@ -63,28 +64,17 @@ window.onload = function () {
     select.appendChild(option);
   };
 
-  var clearDetail = function () {
-    while (detail.firstChild) {
-      detail.removeChild(detail.firstChild);
-      allData.innerHTML = '';
-    }
+  var hideDetail = function () {
+    detail.style.display = 'none';
   };
 
   var displayShowDetail = function (show) {
-    var container = document.createElement('div');
-    var heading = document.createElement('h2');
-    var image = document.createElement('img');
-    var summary = document.createElement('p');
-
-    heading.innerHTML = show.name;
-    image.src = show.image ? show.image.medium : "";
-    summary.innerHTML = show.summary;
-
-    container.appendChild(heading);
-    container.appendChild(image);
-    container.appendChild(summary);
-
-    detail.appendChild(container);
+    detail.style.display = 'block';
+    showHeading.innerHTML = show.name;
+    showImage.src = show.image ? show.image.medium : "";
+    showSummary.innerHTML = show.summary;
+    allData.innerHTML = '';
+    displayAllData(show);
   };
 
   var displayAllData = function (show) {
