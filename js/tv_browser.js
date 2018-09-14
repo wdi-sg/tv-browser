@@ -34,14 +34,25 @@ window.onload = function(){
             //console.log(response2);
             var getPTag = document.createElement('p');
             var makeHTag = document.createElement('h2');
+            var makeImgTag = document.createElement('img');
+            var newDivForImage = document.createElement('div');
+            var newDivForPTag = document.createElement('div');
+
+
             makeHTag.innerHTML = response2.name;
-            //console.log(response2.name);
+            console.log(response2);
+
             getPTag.innerHTML = response2.summary;
             getPTag.style = "font-size: 10px; font-weight: normal";
-            makeHTag.appendChild(getPTag);
-            //console.log(getPTag.innerHTML);
-            showDetail.appendChild(makeHTag);
+            newDivForPTag.appendChild(getPTag);
 
+            makeImgTag.src = response2.image.medium;
+            newDivForImage.appendChild(makeImgTag);
+            //console.log(getPTag.innerHTML);
+
+            showDetail.appendChild(makeHTag);
+            showDetail.appendChild(newDivForImage);
+            showDetail.appendChild(newDivForPTag);
         })
 
       })
