@@ -20,13 +20,29 @@ window.onload = function(){
         // showDetailId.appendChild(createPTag);
       }
 
-      document.querySelectorAll('option').addEventListener('change', function(){
-        console.log()
+      var showSelect = document.getElementById('show-select');
+      var showDetail = document.getElementById('show-detail');
+      showSelect.addEventListener('change', function(){
+        //console.log(this.value); to check what is the value of this!
+        var url2 = "http://api.tvmaze.com/singlesearch/shows?q=" + this.value;
+        var request2 = new XMLHttpRequest();
 
-        // var url2 = "http://api.tvmaze.com/singlesearch/shows?" + this.value;
-        // var request2 = new XMLHttpRequest();
-        // request2.open("GET", url2);
-        // request2.send();
+        request2.open("GET", url2);
+        request2.send();
+        request2.addEventListener("load",  function(){
+            var response2 = JSON.parse( this.responseText );
+            //console.log(response2);
+            var getPTag = document.createElement('p');
+            var makeHTag = document.createElement('h2');
+            makeHTag.innerHTML = response2.name;
+            //console.log(response2.name);
+            getPTag.innerHTML = response2.summary;
+            getPTag.style = "font-size: 10px; font-weight: normal";
+            makeHTag.appendChild(getPTag);
+            //console.log(getPTag.innerHTML);
+            showDetail.appendChild(makeHTag);
+
+        })
 
       })
 
