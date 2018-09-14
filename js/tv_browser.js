@@ -42,8 +42,10 @@ var populateShowDetails = function (event) {
 var responseHandler = function() {
   showSelect.style.visibility = "visible";
 
-  // crude way to reset select inputs
-  showSelect.innerHTML = `<option>Shows matching \"${searchString}\"</option>`;
+  while (showSelect.length > 1) {
+    showSelect.removeChild(showSelect[0].nextSibling);
+  }
+  showSelect[0].textContent = `"Shows matching \"${searchString}\"`;
 
   //actually does stuff
   var response = JSON.parse( this.responseText );
