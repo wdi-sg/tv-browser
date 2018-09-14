@@ -4,7 +4,7 @@
 
 window.onload = function() { // what to do when we recieve the request
     var request = new XMLHttpRequest();
-    var ulistDiv = document.createElement('ul');
+    var allOptions = document.querySelectorAll('option');
     var showSelect = document.querySelector('select[id="show-select"]');
     var showDetail = document.getElementById('show-detail');
     var input = document.querySelector('#show-search');
@@ -36,8 +36,21 @@ window.onload = function() { // what to do when we recieve the request
     request.addEventListener("error", requestFailed);
 
 //issue: Need to clear previous list
+
+// while siblings exsit, clear siblings
+
     var showlist = function(list) {
         var showArr = [];
+
+        while(allOptions[0].nextSibling !== null){
+            showSelect.removeChild(allOptions[0].nextSibling)
+
+            while(showDetail.firstChild){
+            showDetail.removeChild(showDetail.firstChild);
+        }
+        }
+
+
         for (var i = 0; i < list.length; i++) {
             showArr.push(list[i].show.name);
             var listDiv = document.createElement('option');
@@ -53,43 +66,66 @@ window.onload = function() { // what to do when we recieve the request
     }
 
     var showChosen = function(event) {
+        //this.value
         var selected = document.querySelector('select[id="show-select"]').value;
         console.log(selected);
-        for (var i=0; i<response.length;i++){
 
-//issue: works but returns error
+        while(showDetail.firstChild){
+            showDetail.removeChild(showDetail.firstChild);
+        }
+
+        for (var i=0; i<response.length;i++){
 
         if (response[i].show.name === selected) {
 
             var itemHolder = document.createElement('div')
-            var image = document.createElement('img')
             var selectedName = document.createElement('div')
-
-            var imageUrl = response[i].show.image.medium;
+            var summary = document.createElement('p');
 
             itemHolder.classList.add('items-holder')
 
             selectedName.classList.add('name')
             selectedName.textContent = selected;
 
+            //if !== null then show image
+            if (response[i].show.image !== null){
+            var image = document.createElement('img')
+
+            var imageUrl = response[i].show.image.medium;
             image.classList.add('showImage');
             image.setAttribute('src', imageUrl);
-
             itemHolder.appendChild(image);
-            itemHolder.appendChild(selectedName);
+            }
 
+            itemHolder.appendChild(selectedName);
             showDetail.appendChild(itemHolder);
 
         }
     }
-            showSelect.addEventListener('change', function(){
-                itemHolder.parentNode.removeChild(itemHolder);
-            })
 
     }
 
     var clearList = function(){
     }
+
+    // var showCast = function(){
+    //         var castUrl = "http://api.tvmaze.com/shows/" + id + "/cast";
+
+    //         request = new XMLHttpRequest();
+
+    //         request.open("GET", castUrl);
+    //         request.send();
+
+    //         request.addEventListener("load", castHandler);
+    //         request.addEventListener("error", requestFailed);
+    //         console.log(castUrl);
+    // }
+
+    // var castHandler = function() {
+    //     console.log("response text", this.responseText);
+    //     response = JSON.parse(this.responseText);
+    //     showlist(response);
+    // };
 
 
     document.querySelector('#submit').addEventListener('click', doSubmit);
