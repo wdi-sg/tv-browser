@@ -27,7 +27,7 @@ function requestFailed() {
 };
 
 
-function repopulateSelector () {
+function repopulateSelector() {
 
     selector[0].textContent = `Shows matching "${input.value}"...`;
 
@@ -94,23 +94,12 @@ function doSubmitIndiv() {
 
     request.open("GET", url);
     request.send();
-
 };
 
 
 submitButton.addEventListener('click', doSubmit);
 
 selector.addEventListener('change', doSubmitIndiv);
-
-
-
-
-
-
-
-
-
-
 
 
 // };
