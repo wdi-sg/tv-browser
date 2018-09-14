@@ -4,14 +4,18 @@
 window.onload = function(){
     var api = "http://api.tvmaze.com/search/shows?q="
     // make a new request
+    var showSelect = document.getElementById("show-select");
+    var showDetail = document.getElementById("show-detail");
+    var allOptions = document.getElementsByTagName("option");
 
     var responseHandler = function() {
         //console.log("response text", this.responseText);
         var response = JSON.parse( this.responseText );
         console.log( response );
+
+
         //returns an array of objects
         for (var i = 0; i < response.length; i++){
-            var showSelect = document.getElementById("show-select");
             var arrayShows = response[i];
             var showName = arrayShows.show.name;
 
@@ -28,6 +32,10 @@ window.onload = function(){
             //selecting an option (one show) from the options list
             document.querySelector('#show-select').addEventListener('change', function(){
 
+                while (showDetail.firstChild) {
+                    showDetail.removeChild(showDetail.firstChild);
+                }
+
                 //new AJAX request
                 var request = new XMLHttpRequest();
 
@@ -43,7 +51,6 @@ window.onload = function(){
                 request.addEventListener("load", function(){
                     var oneResponse = JSON.parse( this.responseText );
 
-                    var showDetail = document.getElementById("show-detail");
                     //returns an object
                     console.log(oneResponse.summary);
                     console.log(oneResponse.image.medium);
@@ -82,9 +89,15 @@ window.onload = function(){
     var doSubmit = function(event){
         var input = document.querySelector('#show-search');
         var search = input.value;
+
+        while (allOptions[0].nextSibling !== null) {
+             showSelect.removeChild(allOptions[0].nextSibling);
+        }
+        allOptions[0].innerHTML = "Shows matching " + search + "...";
         request.open("GET", api + search);
         request.send();
         request.addEventListener("error", requestFailed);
+        showSelect.style.visibility = "visible";
     };
 
     document.querySelector('#submit').addEventListener('click', doSubmit);

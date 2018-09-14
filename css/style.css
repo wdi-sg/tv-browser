@@ -41,3 +41,7 @@ select {
 #show-detail{
     margin-top: 10px;
 }
+
+#show-select{
+    visibility: hidden;
+}
