@@ -53,10 +53,10 @@ function doSubmit() {
     console.log(url);
 
     var request = new XMLHttpRequest();
+
     request.addEventListener ('load', responseHandler);
     request.addEventListener ('load', repopulateSelector);
-    request.addEventListener("error", requestFailed);
-
+    request.addEventListener('error', requestFailed);
     request.open("GET", url);
     request.send();
 };
@@ -91,7 +91,6 @@ function doSubmitIndiv() {
     });
 
     request.addEventListener("error", requestFailed);
-
     request.open("GET", url);
     request.send();
 };

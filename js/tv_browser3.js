@@ -48,17 +48,38 @@ function requestFailed() {
 
 request.addEventListener("error", requestFailed);
 
+function doAjax(url, callback) {
+
+    request.addEventListener("load", function(){
+        if( this.status !== 200 ){
+            //
+        }else{
+            callback( JSON.parse(this.responseText);
+
+        }
+
+    });
+
+    request.open("GET", url);
+    request.send();
+
+}
 
 function doSubmit() {
     var input = document.querySelector('input');
     var url = `http://api.tvmaze.com/search/shows?q=${input.value}`;
 
-    request.addEventListener("load", repopulateSelector);
+    doAjax(url, function(response){
+        //
+        repopulateSelector(reponse);
+    });
 
-    console.log(url);
+    // request.addEventListener("load", repopulateSelector);
 
-    request.open("GET", url);
-    request.send();
+    // console.log(url);
+
+    // request.open("GET", url);
+    // request.send();
 
 };
 
