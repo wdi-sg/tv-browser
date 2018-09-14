@@ -27,10 +27,25 @@ window.onload = function(){
         request2.addEventListener("load", function(){
            var response2 = JSON.parse(this.responseText);
            console.log(response2);
+
+           var getImage = document.createElement("img");
+            getImage.src = response2.image.medium;
+            getImage.display = "block";
+            showOption.appendChild(getImage);
+
             var getTitle = document.createElement("h2");
             getTitle.innerHTML = response2.name;
             showOption.appendChild(getTitle);
-            console.log(response2);
+            console.log("=======",response2.name);
+            //get paragraph;
+            var getParagrah = document.createElement("p");
+            getParagrah.innerHTML = response2.summary;
+            getParagrah.style = "font-family: sans-serif";
+            showOption.appendChild(getParagrah);
+
+
+
+
         });
 
 
