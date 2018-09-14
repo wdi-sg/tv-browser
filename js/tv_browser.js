@@ -2,7 +2,6 @@ window.onload = function(){
 // API Docs at:
 // http://www.tvmaze.com/api	
 
-var dataObj;
 // what to do when we recieve the request
 var responseHandler = function() {
   console.log("response text", this.responseText);
@@ -24,11 +23,14 @@ var responseHandler = function() {
   	newOpt.innerHTML = response[i].show.name;
   	document.getElementById("show-select").appendChild(newOpt);
   }
+  	var select = document.getElementById("show-select");
+  	select.addEventListener('change',callSelect);
 };
 // make a new request
 var request = new XMLHttpRequest();
 
 function doSubmit(event){ 
+
  	var input = document.querySelector('#show-search'); 
  	var part = input.value; 
  	var url = "http://api.tvmaze.com/search/shows?q="+part;
@@ -39,6 +41,22 @@ function doSubmit(event){
 	// send the request
 	request.send();
  };
+
+ function callSelect(event){
+
+ 	var input = this.value;
+ 	var input1 = '"input"';
+ 	var detail = document.getElementById("show-detail");
+ 	while (detail.firstChild){
+ 		detail.removeChild(detail.firstChild);
+ 	}
+
+ 	var url = "http://api.tvmaze.com/search/shows?q="+input1;
+
+ 	request.open("GET", url);
+
+ 	request.send();
+}
 
 document.querySelector('#submit').addEventListener('click', doSubmit);
 
