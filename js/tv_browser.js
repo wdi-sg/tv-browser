@@ -8,16 +8,15 @@ var selector = document.querySelector("#show-select");
 var input = document.querySelector('input');
 var submitButton = document.querySelector('button');
 var details = document.querySelector("#show-detail");
-var result;
+var response;
 
 function responseHandler() {
 
     // console.log("response text", this.responseText);
     // console.log("status text", this.statusText);
     // console.log("status code", this.status);
-    var response = JSON.parse( this.responseText );
+    response = JSON.parse( this.responseText );
     console.log(response);
-    result = response;
 };
 
 
@@ -36,10 +35,10 @@ function repopulateSelector () {
         selector.removeChild(document.querySelectorAll("#show-select option:not(:first-child)")[0]);
     };
 
-    for (i in result) {
+    for (i in response) {
         var newOption = document.createElement("option");
-        newOption.id = result[i].show.id;
-        newOption.textContent = result[i].show.name;
+        newOption.id = response[i].show.id;
+        newOption.textContent = response[i].show.name;
         selector.appendChild(newOption);
     };
 };
@@ -79,15 +78,15 @@ function doSubmitIndiv() {
         details.innerHTML = "";
 
         var newH2 = document.createElement("h2");
-        newH2.textContent = result.name;
+        newH2.textContent = response.name;
         details.appendChild(newH2);
 
         var newImg = document.createElement("img");
-        if (result.image) {
-            newImg.src = result.image.medium};
+        if (response.image) {
+            newImg.src = response.image.medium};
         details.appendChild(newImg);
 
-        details.insertAdjacentHTML('beforeend', result.summary);
+        details.insertAdjacentHTML('beforeend', response.summary);
 
     });
 
