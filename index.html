@@ -12,10 +12,10 @@
     <div class="browse">
       <div id="search-form">
         <input type="search" placeholder="Search for a title..." id="show-search">
-        <button>submit</button>
+        <button id="submitButton">submit</button>
       </div>
-
-      <select id="show-select">
+<!-- on change, activate function showOptions with this parameter -->
+      <select onchange="showOptions(this)" id="show-select">
         <option value="">Select a show...</option>
       </select>
 
