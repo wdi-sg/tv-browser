@@ -34,6 +34,7 @@ var responseHandler = function() {
     console.log("Title: " + response[i].show.name);
     console.log("Score: " + response[i].score);
     console.log("Type: " + response[i].show.type);
+    console.log("Img: " + response[i].show.image.medium);
     console.log("OfficalSite: " + response[i].show.officialSite);
     console.log(" ");
     updateOption(i, response[i].show.name);
