@@ -13,6 +13,10 @@ main {
   justify-content: center;
 }
 
+img {
+	width: 250px;
+}
+
 a {
   color: #c00;
 }
