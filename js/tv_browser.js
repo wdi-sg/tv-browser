@@ -42,7 +42,6 @@
          showDetailContainer.removeChild(showDetailContainer.childNodes[0])
      }
      let detailElement = document.createElement('div');
-     debugger
      detailElement.innerHTML = queriedShows[optionBox.value].show.summary;
      showDetailContainer.appendChild(detailElement);
  }
