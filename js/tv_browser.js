@@ -53,16 +53,11 @@ function selectShow(e) {
         img.src = showImageUrl;
         // img.className = "float-left";
         showDetail.insertAdjacentElement("beforeend", img);
-        // showSummary.className = "float-right";
+        showSummary.className = "float-right";
     }
 
     showDetail.insertAdjacentElement("beforeend", showSummary);
 
-
-
-
-
-    console.log("i waz ere");
 }
 
 function processResults() {

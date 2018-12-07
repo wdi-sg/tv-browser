@@ -28,7 +28,17 @@ input[type="search"] {
 }
 
 select {
-	font-size: 150%;
+	font-size: 100%;
+}
+
+#submit {
+	font-size: 200%;
+	border: 2px solid blue;
+	background-color: blue;
+	color: white;
+	margin: 10px;
+	border-radius: 20%;
+	outline: none;
 }
 
 .browse {
@@ -40,33 +50,81 @@ select {
 }
 
 .float-left {
-	display: inline-block;
+	width: 50%;
+	float: left;
 }
 
 .float-right {
+	margin: auto;
+	/* width: 50%; */
 	float: right;
+	padding: 5px;
 }
 
-/* .clearfix:after {
-	content: "";
-	display: table;
-	clear: both;
-} */
+.clearfix:after {
+	/* content: ""; */
+	/* display: table; */
+	/* clear: both; */
+}
 
 .show-detail {
-	display: flex;
+	display: block;
 }
 
 /* Portrait and Landscape */
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+	.float-right {
+		width: 50%;
+	}
+}
 
 /* iPad Pro */
 
 /* Portrait and Landscape */
-@media only screen and (min-device-width: 1024px) and (max-device-width: 1366p x) and (-webkit-min-device-pixel-ratio: 2) {}
+/* @media only screen and (min-device-width: 1024px) and (max-device-width: 1366p x) and (-webkit-min-device-pixel-ratio: 2) {
+	.float-right {
+		margin: auto;
+		width: 100%;
+		padding: 5px;
+	}
+} */
 
 /* ----------- Non-Retina Screens ----------- */
-@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {}
+@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {
+	.float-right {
+		width: 50%;
+	}
+
+	select {
+		font-size: 100%;
+	}
+
+	#submit {
+		font-size: 100%;
+		border: 2px solid blue;
+		background-color: blue;
+		color: white;
+		margin: 10px;
+	}
+}
 
 /* ----------- Retina Screens ----------- */
-@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {}
+@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {
+	.float-right {
+		width: 50%;
+	}
+}
+
+/* Galaxy Phone */
+/* Portrait and Landscape */
+@media screen
+  and (device-width: 360px)
+  and (device-height: 640px)
+  and (-webkit-device-pixel-ratio: 4) {
+		.float-right {
+			margin: auto;
+			width: 100%;
+			/* float: right; */
+			padding: 5px;
+		}
+}
