@@ -15,26 +15,36 @@
                  optionBox.removeChild(optionBox.childNodes[0]);
              }
              queriedShows = JSON.parse(result.responseText);
-             console.log('success!');
-             for (show in queriedShows) {
-                 let showElement = document.createElement('option');
-                 showElement.value = [show];
-                 showElement.innerHTML = queriedShows[show].show.name;
-                 optionBox.appendChild(showElement);
-             };
+             if (queriedShows.length == 1) {
+                 while (showDetailContainer.hasChildNodes()) {
+                     showDetailContainer.removeChild(showDetailContainer.childNodes[0])
+                 }
+                 let detailElement = document.createElement('div');
+                 detailElement.innerHTML = queriedShows[0].show.summary;
+                 showDetailContainer.appendChild(detailElement);
+             } else {
+                 console.log('success!');
+                 for (show in queriedShows) {
+                     let showElement = document.createElement('option');
+                     showElement.value = [show];
+                     showElement.innerHTML = queriedShows[show].show.name;
+                     optionBox.appendChild(showElement);
+                 };
+             }
          })
          .catch((error) => {
              console.log('something went wrong', error)
          })
  }
 
- const  displayShowDetail=()=>{
-     while (showDetailContainer.hasChildNodes()){
+ const displayShowDetail = () => {
+     while (showDetailContainer.hasChildNodes()) {
          showDetailContainer.removeChild(showDetailContainer.childNodes[0])
      }
-    let detailElement = document.createElement('div');
-    detailElement.innerHTML = queriedShows[optionBox.value].show.summary;
-    showDetailContainer.appendChild(detailElement);
+     let detailElement = document.createElement('div');
+     debugger
+     detailElement.innerHTML = queriedShows[optionBox.value].show.summary;
+     showDetailContainer.appendChild(detailElement);
  }
 
 
