@@ -2,6 +2,7 @@
  // http://www.tvmaze.com/api
  const queryBox = document.getElementById('show-search');
  const optionBox = document.getElementById('show-select');
+ const showDetailContainer = document.getElementById('show-detail');
  let userQuery;
  let queriedShows = [];
 
@@ -27,9 +28,19 @@
          })
  }
 
+ const  displayShowDetail=()=>{
+     while (showDetailContainer.hasChildNodes()){
+         showDetailContainer.removeChild(showDetailContainer.childNodes[0])
+     }
+    let detailElement = document.createElement('div');
+    detailElement.innerHTML = queriedShows[optionBox.value].show.summary;
+    showDetailContainer.appendChild(detailElement);
+ }
 
 
  (() => {
      let button = document.getElementById('submit-button');
-     button.addEventListener('click', queryLoop)
+     button.addEventListener('click', queryLoop);
+     optionBox.addEventListener('change', displayShowDetail);
+
  })()
