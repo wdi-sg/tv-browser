@@ -1,39 +1,72 @@
 body {
-  font: 16px/1.5 Courier, monospace;
-  margin: 0;
-  background: url('../images/reel.jpg') no-repeat center center fixed;
-  background-size: cover;
+	font: 16px/1.5 Courier, monospace;
+	margin: auto;
+	background: url('../images/reel.jpg') no-repeat center center fixed;
+	background-size: cover;
+	width: 100%;
 }
 
 main {
-  width: 80%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+	width: 80%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 a {
-  color: #c00;
+	color: #c00;
 }
 
 input {
-  width: 20em;
+	width: 20em;
 }
 
 input[type="search"] {
-  font-size: 200%;
-  margin: 1em;
+	font-size: 200%;
+	margin: 1em;
 }
 
 select {
-  font-size: 150%;
+	font-size: 150%;
 }
 
 .browse {
-  padding: 10px 25px;
+	padding: 10px 25px;
 }
 
 .fail {
-  color: red;
+	color: red;
 }
+
+.float-left {
+	display: inline-block;
+}
+
+.float-right {
+	float: right;
+}
+
+/* .clearfix:after {
+	content: "";
+	display: table;
+	clear: both;
+} */
+
+.show-detail {
+	display: flex;
+}
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {}
+
+/* iPad Pro */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366p x) and (-webkit-min-device-pixel-ratio: 2) {}
+
+/* ----------- Non-Retina Screens ----------- */
+@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {}
+
+/* ----------- Retina Screens ----------- */
+@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {}
