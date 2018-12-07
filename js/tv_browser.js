@@ -47,17 +47,17 @@ var requestFailed = function() {
 };
 
 getButtonResponse = function() {
-// make a new request
+// create a postman to send and receive info
     var request = new XMLHttpRequest();
-// ready the system by calling open, and specifying the url
-    var url = "http://api.tvmaze.com/search/shows?q=" + input.value;
-    request.open("GET", url);
-// send the request
-    request.send();
-// listen for the request response
+// give advanced instructions to the postman on actions to take when there is a response
     request.addEventListener("load", responseHandler);
     request.addEventListener("load", getListing);
     request.addEventListener("error", requestFailed);
+// provide the address to the postman
+    var url = "http://api.tvmaze.com/search/shows?q=" + input.value;
+    request.open("GET", url);
+// send the postman off to send the request to get info
+    request.send();
 }
 
 getSelectResponse = function() {
@@ -73,9 +73,9 @@ getSelectResponse = function() {
         }
     }
     request.open("GET", selectedURL);
-// send the request
+
     request.send();
-// listen for the request response
+
     request.addEventListener("load", responseHandler);
     request.addEventListener("load", function() {
     name = document.createElement("h1");
