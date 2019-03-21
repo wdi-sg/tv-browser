@@ -26,13 +26,28 @@ window.onload = function(){
 
 //get user search input
 function searchInput(){
+    //clear previous search options if present
+    clearOldSearchOptions()
     var searchTerm = document.querySelector("input").value
     // since input is from button: searchType is search
     sendSearch(searchTerm, "search");
 };
 
+//clear previous search options if present
+function clearOldSearchOptions(){
+    document.querySelector('#show-select').innerHTML = '<option value="">Select a show...</option>';
+};
+
+//clear previous singlesearch results if present
+function clearOldSearchResults(){
+    document.querySelector('#show-detail').innerHTML = "";
+};
+
 // forming the request
 function sendSearch(searchTerm, searchType){
+    //clear previous singlesearch results if present
+    clearOldSearchResults();
+    //creating the new request
     var request = new XMLHttpRequest();
     //ready the system by calling open, and specifying the url
     request.open("GET", websitePartOne + searchType + websitePartTwo + searchTerm);
@@ -53,18 +68,30 @@ function searchResponseHandler(){
     // console.log("response text", this.responseText);
     var response = JSON.parse(this.responseText);
     console.log(response);
-    for (let set of response) {
-        let result = document.createElement("option");
-        result.value = response.show.name;
-        result.innerText = response.show.name;
+    for (let option of response) {
+        var result = document.createElement("option");
+        result.value = option.show.name;
+        result.innerText = option.show.name;
         document.querySelector('#show-select').appendChild(result);
     }
 };
 
+//if searchType is singlesearch, process response, then add into show-detail
+function singleSearchResponseHandler(){
+    // console.log("response text", this.responseText);
+    var response = JSON.parse(this.responseText);
+    console.log(response);
+    //creating elements and appending
+    var title = document.createElement("h2");
+    var image = document.createElement("img");
+    var summary = document.createElement("div");
+    title.innerText = response.name;
+    summary.innerHTML = response.summary;
+    image.setAttribute("src", response.image.medium);
+    document.querySelector('#show-detail').appendChild(title);
+    document.querySelector('#show-detail').appendChild(image);
+    document.querySelector('#show-detail').appendChild(summary);
+};
+
 //alert if no results found
-
-
 //alert if error 404
-
-
-//receive and display results in show detail
