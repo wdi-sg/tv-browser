@@ -14,7 +14,9 @@ main {
 }
 
 a {
-  color: #c00;
+  color: blue;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 input {
@@ -36,4 +38,16 @@ select {
 
 .fail {
   color: red;
+}
+
+#show-detail {
+	width: 800px;
+	height: 700px;
+	padding: 20px;
+	margin: 20px;
+	background-color: red;
+}
+
+.bold {
+	font-weight: bold;
 }
