@@ -1,5 +1,7 @@
 # TV Browser
 
+![https://media.giphy.com/media/XhT868oxljs88/giphy.gif](https://media.giphy.com/media/XhT868oxljs88/giphy.gif)
+
 Use the [TV Maze API docs](http://www.tvmaze.com/api) to build a single-page app that allows a user to search TV shows. The documentation lists the various **endpoints** that the TV Maze development team has made available. Identify which endpoint(s) would most useful for your TV show searching app. Try clicking on the URL examples for each endpoint to see the structure of the JSON data at that endpoint. Each of the API's endpoints may have differently structured JSON responses.
 
 When testing out the API's endpoint URLs, you will want to install [JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en) to make the JSON responses more readable.
@@ -12,7 +14,7 @@ The response to the request will be an array of objects. When you recieve the re
 
 #### CORS
 
-If your browser give you an error regarding a Cross Origin Request, you can install this chrome extension to get rid of it:
+Your browser may give you an error regarding a Cross Origin Request, depending on your operating system and version of chrome.  You can install this chrome extension to get rid of it:
 
 [https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en)
 
