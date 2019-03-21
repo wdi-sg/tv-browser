@@ -1,10 +1,12 @@
-var clearOffChildElements = function (selector) {
-    document.querySelector(selector).childNodes.forEach(function(element) {
-        element.remove();
-    });
+function clearOffChildElements (selector) {
+    let elements = document.querySelector(selector).childNodes;
+
+    for (let i = elements.length - 1; i >= 0; i--) {
+        elements[i].remove();
+    }
 }
 
-var searchButtonEvent = function (event) {
+function searchButtonEvent (event) {
     let request = new XMLHttpRequest();
 
     let userInput = document.querySelector("#search-form > input").value;
@@ -34,7 +36,7 @@ var searchButtonEvent = function (event) {
     request.send();
 }
 
-var selectOptionEvent = function (event) {
+function selectOptionEvent (event) {
     let request = new XMLHttpRequest();
     let url = baseUrl + idQuery + this.value;
 
