@@ -22,7 +22,7 @@ Your browser may give you an error regarding a Cross Origin Request, depending o
 Use the input to get the search term from the user. Display the results in the dom.
 
 ## Further
-When you get the results, fill in the select element with an option element for each result
+When you get the results, fill in the select element with an option element for each result.
 
 ## Further
 Attach an event listener to the select. When the user selects an option make another AJAX call. Use the response of that AJAX call to render the individual show they requested
