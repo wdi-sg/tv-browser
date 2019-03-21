@@ -7,9 +7,17 @@ var responseHandler = function(){
   console.log("response text", this.responseText);
   var response = JSON.parse( this.responseText );
   console.log(response);
+  for (var i = 0; i < response.length; i++){
+    var option = document.createElement("option");
+    option.innerText = response[i].show.name;
+    option.value = response[i].show.id;
+    document.getElementById("show-select").appendChild(option);
+    console.log(option.value);
+    console.log(option.innerText);
+  }
 }
 
-//this function 
+//this function
 var doSubmit = function(event){
   var input = document.querySelector('#show-search');
   var searchTerm = input.value;
@@ -26,3 +34,7 @@ var doSubmit = function(event){
 }
 
 document.querySelector('#submit').addEventListener('click', doSubmit);
+
+//build a for loop out to handle looping of the array of objects that is generated
+//can we use a forEach loop, instead of a for loop?
+//show.name
