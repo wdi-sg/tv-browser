@@ -3,26 +3,51 @@
 <head>
   <title>TV Maze API Search</title>
   <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Patrick+Hand" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Satisfy|Shadows+Into+Light" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-  <main>
 
-    <img src="./images/tvm_api.png">
+    <div class="main-container">
+        <div class="header-container">
+            <header>
+                <h1>Tv Maze API Search</h1>
+            </header>
+        </div>
 
-    <div class="browse">
-      <div id="search-form">
-        <input type="search" placeholder="Search for a title..." id="show-search">
-        <button>submit</button>
-      </div>
+        <div class="search-container">
+            <form>
+              <div class="form-group">
+                <input type="search" class="form-control form-control-lg" id="show-search" placeholder="Search for shows...">
+              </div>
+            </form>
 
-      <select id="show-select">
-        <option value="">Select a show...</option>
-      </select>
+            <div class="submit-container">
+                <button type="button" class="btn btn-light btn-lg" onClick="doSubmit()">Search</button>
+            </div>  <!-- end of submit container -->
+        </div> <!--   end of search container -->
 
-      <div id="show-detail"></div>
+        <div class="list-container">
+            <div class="dropdown invisible">
+              <button class="btn btn-light dropdown-toggle btn-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Select a show
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+<!--                 <button class="dropdown-item" type="button">Action</button> -->
+              </div>
+            </div>
 
-    </div>
-  </main>
+        </div>  <!-- end of list selection container -->
+
+    </div>  <!-- end of main container -->
 
   <script src="js/tv_browser.js"></script>
 </body>
