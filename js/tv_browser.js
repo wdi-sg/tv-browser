@@ -41,7 +41,7 @@ function resultSearch() {
 	var searchPrompt = document.createElement("option");
 	searchPrompt.textContent = "Select a show...";
 	document.getElementById("show-select").appendChild(searchPrompt);
-	for (i=0, i < response.length, i++); {
+	for (var i=0, i<response.length, i++); {
 		var options = document.createElement("option");
 		options.setAttribute('value', response[i].show.id);
 		options.textContent = response[i].show.name;
