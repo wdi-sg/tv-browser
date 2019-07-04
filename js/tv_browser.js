@@ -6,21 +6,59 @@ var url = "";
 var response = [];
 
 var selectTitle = document.querySelector('#show-select');
+var showDetail = document.querySelector('#show-detail');
 
-var displayResults = function(response){
-  console.log('hi');
-  console.log(response);
-  for (var i = 0; i< response.length; i++){
-    console.log(response[i].show.name);
-    var showOption = document.createElement('option');
+selectTitle.style.visibility = "hidden";
+
+var displaySelect = function(event){
+  console.log(event);
+  console.log(event.target.value);
+  console.log(event.target.selectedIndex);
+
+  var index = parseInt(event.target.selectedIndex) - 1;
+  console.log(response[index]);
+
+  title = document.createElement('h1');
+  title.innerText = event.target.value;
+  showDetail.appendChild(title);
+
+  showImg = document.createElement('img');
+  showImg.setAttribute('src', response[index].show.image.medium);
+  showDetail.appendChild(showImg);
+}
+
+var clearDisplay = function(){
+  showDetail.innerHTML = '';
+}
+var fetchResults = function(response){
+  // console.log('hi');
+  // console.log(response);
+
+  for (let i = 0; i< response.length; i++){
+    // console.log(response[i].show.name);
+    let showOption = document.createElement('option');
+
     showOption.innerText = response[i].show.name;
+    showOption.setAttribute('id',"option-" + (i+1));
     showOption.setAttribute('value',response[i].show.name);
+    showOption.setAttribute('data-id',response[i].show.id);
+    // console.log('after set');
+    // showOption.addEventListener('change', function(){
+    //   displaySelect();
+    // });
+
     selectTitle.appendChild(showOption);
   }
 }
 
+selectTitle.addEventListener('change', function(){
+  clearDisplay();
+  displaySelect(event);
+});
+
 var submitRequest = function(event){
   var searchTerm = document.querySelector('#show-search').value;
+  selectTitle.style.visibility = "visible";
 
   console.log(searchTerm);
 
@@ -40,7 +78,7 @@ var submitRequest = function(event){
 
 
     // return response;
-    displayResults(response);
+    fetchResults(response);
     };
 
   // make a new request
