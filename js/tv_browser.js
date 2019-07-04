@@ -1,7 +1,12 @@
 // API Docs at:
 // http://www.tvmaze.com/api
 
-var showId;
+
+var submitButton = document.getElementById("submit");
+var userInput = document.getElementById("show-search");
+
+
+// var showId;
 var showName;
 var showImg;
 var showSum;
@@ -10,30 +15,41 @@ var sel;
 var showWrapper;
 var selectedValue;
 
-var addShowtoList = function() {
-    // Display the results
+var showContent;
 
+var addShowtoList = function(showId) {
     // assign show.id as <option> "value
     // create new <option> element with showId as value"
-
     var results = document.createElement('option');
     results.setAttribute('value', showId);
     results.textContent = showName;
 
-    // added onclick if this is selected display relevant content
-    // results.setAttribute('onclick', 'displayContent(showId)');
-
     sel = document.querySelector('#show-select');
-    sel.setAttribute('onchange', 'getSelectValue()');
+    sel.setAttribute("onchange", "getSelectValue(this)");
     sel.appendChild(results);
 };
 
 // check for choice
-var getSelectValue = function() {
-    selectedValue = sel.value;
-    console.log("selected id: " + selectedValue);
-    // displayContent(selectedValue);
+var getSelectValue = function(showId) {
+    if (sel.value == showId) {
+        console.log(sel.value);
+    }
 };
+
+// Hide the Start button
+var hideMovieInfo = function(id){
+    var movieChoice = document.querySelector(id);
+    movieChoice.classList.add('hidden');
+    console.log("hide button");
+};
+
+// Show the Start button
+var showMovieInfo = function(id){
+    var movieChoice = document.querySelector(id);
+    movieChoice.classList.remove('hidden');
+    console.log("show button");
+};
+
 
 
 // what to do when we received request
@@ -41,19 +57,11 @@ var responseHandler = function () {
     // console.log("response text", this.responseText);
     var response = JSON.parse(this.responseText);
 
-    // selectedValue();
-    // console.log(getSelectValue());
-
     // after receiving response,
     // retrieve all the results based on search input
     for (var i = 0; i < response.length; i++) {
         // store each result show.id as value for <option>
         showId = response[i].show.id;
-
-        // if (  == showId) {
-        //     console.log("select:" + selectedValue + "showId:" + showId);
-        //     displayContent(showId);
-        // }
 
         // store each result show.name as innerHTML for <option> & <div><h1>
         showName = response[i].show.name;
@@ -70,6 +78,7 @@ var responseHandler = function () {
 
         addShowtoList();
         displayContent(showId);
+        // getSelectValue(showId);
     }
 };
 
@@ -77,7 +86,7 @@ var responseHandler = function () {
 var displayContent = function(value) {
 
     // create new .<div> to store all the show content
-    var showContent = document.createElement('div');
+    showContent = document.createElement('div');
     // set the <div> id to selected value of option
     // so that we can check which option the user select
     showContent.setAttribute('id', value);
@@ -90,10 +99,8 @@ var displayContent = function(value) {
     var showPoster = document.createElement('img');
     showPoster.src = showImg;
 
-
-
     // create a <p> element for show summary
-    var showDesc = document.createElement('span');
+    var showDesc = document.createElement('div');
     showDesc.innerHTML = showSum;
 
     showWrapper = document.querySelector('#show-detail');
@@ -101,20 +108,20 @@ var displayContent = function(value) {
     showContent.appendChild(showTitle);
     showContent.appendChild(showPoster);
     showContent.appendChild(showDesc);
-
-
 };
 
 
-
+submitButton.addEventListener("click",function(){
 // make a new request
-var request = new XMLHttpRequest();
+    var request = new XMLHttpRequest();
 
-// listen for request response
-request.addEventListener("load", responseHandler);
+    // listen for request response
+    request.addEventListener("load", responseHandler);
 
-// ready the system by calling open, and specifying the url
-request.open("GET", "http://api.tvmaze.com/search/shows?q=boys");
+    // ready the system by calling open, and specifying the url
+    var searchStr = "http://api.tvmaze.com/search/shows?q=" + userInput.value;
+    request.open("GET", searchStr);
 
-// send the request
-request.send();
+    // send the request
+    request.send();
+})
