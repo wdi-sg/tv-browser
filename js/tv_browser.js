@@ -8,13 +8,14 @@ var getResults = function() {
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", endpoint, true);
+    xhr.send();
 
     xhr.onload = function() {
         if (this.status === 200) {
             //check to make sure request was successful
             //console.log(this.responseText);
             var results = JSON.parse(this.responseText);
-            //console.log(results);
+            // console.log(results);
 
             //perform for loop on parsed results and use values to populate drop down
             var numOfResults = Object.keys(results).length;
@@ -22,8 +23,9 @@ var getResults = function() {
             for (var i = 0; i < numOfResults; i++) {
                 var dropDownResult = document.createElement("option");
 
+                //string.replace default is to replace only first instance. g makes global
                 var whiteSpaceName = results[i].show.name;
-                dropDownResult.value = whiteSpaceName.replace(" ", "-");
+                dropDownResult.value = whiteSpaceName.replace(/ /g, "-");
                 console.log(dropDownResult.value);
 
                 dropDownResult.text = results[i].show.name;
@@ -33,35 +35,39 @@ var getResults = function() {
             }
         }
     }
-    xhr.send();
+    // xhr.send();
 };
 
 submitButton.addEventListener("click", getResults);
 
-var selectedShow = null;
-// put back into function after dubugging
 
 var displaySelectedShow = function() {
+    //clear the current show displayed
+    var output = document.getElementById("show-detail");
+    while (output.firstChild) {
+        output.removeChild(output.firstChild);
+    };
+
     // grabs the value of selected option using selectedIndex
-    selectedShow = dropDownDisplay.options[dropDownDisplay.selectedIndex].value;
+    var selectedShow = dropDownDisplay.options[dropDownDisplay.selectedIndex].value;
     console.log(selectedShow);
 
     // endpoint changes to selected show's direct url
-    // var endpoint = `http://api.tvmaze.com/singlesearch/shows?q=${selectedShow}`;
-    var endpoint = selectedShow[url];
+    var endpoint = `http://api.tvmaze.com/singlesearch/shows?q=${selectedShow}`;
     console.log(endpoint);
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", endpoint, true);
+    xhr.send();
 
     xhr.onload = function() {
         if (this.status === 200) {
             //check to make sure request was successful
-            console.log(this.responseText);
+            // console.log(this.responseText);
             var results = JSON.parse(this.responseText);
             console.log(results);
 
-            var output = document.getElementById("show-detail");
+            // var output = document.getElementById("show-detail"); declared above so should work
 
             var showImage = document.createElement("img");
             showImage.src = results.image.original; //dunno if need quotes
@@ -79,5 +85,3 @@ var displaySelectedShow = function() {
 };
 
 dropDownDisplay.addEventListener("change", displaySelectedShow);
-
-// (p.replace('dog', 'monkey'))
