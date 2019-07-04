@@ -14,7 +14,7 @@ var getResults = function() {
             //check to make sure request was successful
             //console.log(this.responseText);
             var results = JSON.parse(this.responseText);
-            console.log(results);
+            //console.log(results);
 
             //perform for loop on parsed results and use values to populate drop down
             var numOfResults = Object.keys(results).length;
@@ -22,14 +22,15 @@ var getResults = function() {
             for (var i = 0; i < numOfResults; i++) {
                 var dropDownResult = document.createElement("option");
 
-                dropDownResult.value = results[i].show.name;
+                var whiteSpaceName = results[i].show.name;
+                dropDownResult.value = whiteSpaceName.replace(" ", "-");
                 console.log(dropDownResult.value);
 
                 dropDownResult.text = results[i].show.name;
-                console.log(dropDownResult.text);
+                // console.log(dropDownResult.text);
 
                 dropDownDisplay.add(dropDownResult)
-            }//end of for loop, still inside onload function
+            }
         }
     }
     xhr.send();
@@ -37,19 +38,22 @@ var getResults = function() {
 
 submitButton.addEventListener("click", getResults);
 
-//Attach an event listener to the select (NOT the option). When the user selects an option make another AJAX call. Use the response of that AJAX call to render the response of the individual show and display it in the output.
+var selectedShow = null;
+// put back into function after dubugging
 
 var displaySelectedShow = function() {
-    // grab the value of that selected option >
-    var selectedShow = dropDownDisplay.options[dropDownDisplay.selectedIndex].value;
+    // grabs the value of selected option using selectedIndex
+    selectedShow = dropDownDisplay.options[dropDownDisplay.selectedIndex].value;
+    console.log(selectedShow);
 
-    // selectedShow becomes the new query. i think can reuse endpoint variable. if not then change lor
-    var endpoint= `http://api.tvmaze.com/singlesearch/shows?q=${selectedShow}`;
+    // endpoint changes to selected show's direct url
+    // var endpoint = `http://api.tvmaze.com/singlesearch/shows?q=${selectedShow}`;
+    var endpoint = selectedShow[url];
+    console.log(endpoint);
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", endpoint, true);
 
-    //this will return a SINGLE object with several keys (some are nested)
     xhr.onload = function() {
         if (this.status === 200) {
             //check to make sure request was successful
@@ -57,17 +61,17 @@ var displaySelectedShow = function() {
             var results = JSON.parse(this.responseText);
             console.log(results);
 
-            var output= document.getElementById("show-detail");
+            var output = document.getElementById("show-detail");
 
             var showImage = document.createElement("img");
-            showImage.src = results.image.original;
+            showImage.src = results.image.original; //dunno if need quotes
             output.appendChild(showImage);
 
             var showTitle = document.createElement("h1");
             showTitle.innerHTML = results.name;
             output.appendChild(showTitle);
 
-            var showDescription= document.createElement("p");
+            var showDescription = document.createElement("p");
             showDescription.innerHTML = results.summary;
             output.appendChild(showDescription);
         }
@@ -75,3 +79,5 @@ var displaySelectedShow = function() {
 };
 
 dropDownDisplay.addEventListener("change", displaySelectedShow);
+
+// (p.replace('dog', 'monkey'))
