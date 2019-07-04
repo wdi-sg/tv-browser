@@ -1,6 +1,8 @@
+//declare some variables that i neeeeeed
 var submitButton = document.getElementById("submit")
 var dropDownDisplay = document.getElementById("show-select");
 
+//function that gets list of results based on user query
 var getResults = function() {
     var searchBar = document.getElementById("search-bar");
     var userQuery = searchBar.value;
@@ -12,30 +14,29 @@ var getResults = function() {
 
     xhr.onload = function() {
         if (this.status === 200) {
-            //check to make sure request was successful
-            //console.log(this.responseText);
+            //check to make sure request was successful - should return object(?) of objects
+            // console.log(this.responseText);
             var results = JSON.parse(this.responseText);
-            // console.log(results);
+            console.log(results);
 
             //perform for loop on parsed results and use values to populate drop down
-            var numOfResults = Object.keys(results).length;
+            //object.keys() returns an array of an object's own property names
+            var numOfShows = Object.keys(results).length;
 
-            for (var i = 0; i < numOfResults; i++) {
+            for (var i = 0; i < numOfShows; i++) {
                 var dropDownResult = document.createElement("option");
 
                 //string.replace default is to replace only first instance. g makes global
                 var whiteSpaceName = results[i].show.name;
                 dropDownResult.value = whiteSpaceName.replace(/ /g, "-");
-                console.log(dropDownResult.value);
 
                 dropDownResult.text = results[i].show.name;
-                // console.log(dropDownResult.text);
 
+                //add option to drop down
                 dropDownDisplay.add(dropDownResult)
             }
         }
     }
-    // xhr.send();
 };
 
 submitButton.addEventListener("click", getResults);
@@ -67,12 +68,6 @@ var displaySelectedShow = function() {
             var results = JSON.parse(this.responseText);
             console.log(results);
 
-            // var output = document.getElementById("show-detail"); declared above so should work
-
-            var showImage = document.createElement("img");
-            showImage.src = results.image.original; //dunno if need quotes
-            output.appendChild(showImage);
-
             var showTitle = document.createElement("h1");
             showTitle.innerHTML = results.name;
             output.appendChild(showTitle);
@@ -80,6 +75,10 @@ var displaySelectedShow = function() {
             var showDescription = document.createElement("p");
             showDescription.innerHTML = results.summary;
             output.appendChild(showDescription);
+
+            var showImage = document.createElement("img");
+            showImage.src = results.image.original;
+            output.appendChild(showImage);
         }
     }
 };

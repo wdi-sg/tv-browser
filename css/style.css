@@ -1,7 +1,7 @@
 body {
   font: 16px/1.5 Helvetica, serif;
   margin: 0;
-  background: url('../images/reel.jpg') no-repeat top left fixed;
+  background: url('../images/qbkls.png') repeat;
 }
 
 .container {
@@ -37,10 +37,32 @@ select {
   font-size: 150%;
 }
 
-.browse {
+#show-detail {
+	margin: 40px 0;
+}
+
+#show-detail img {
+	max-width: 40%;
+	margin: 10px 0;
+}
+
+#show-detail h1 {
+	font-family: "Raleway", sans serif;
+	font-size: 60px;
+}
+
+#show-detail p {
+	font-family: "Raleway", sans serif;
+	font-size: 25px;
+	line-height: 1.7;
+  text-align: justify;
+  margin: 10px 0;
+}
+
+/*.browse {
   padding: 10px 25px;
 }
 
 .fail {
   color: red;
-}
+}*/
