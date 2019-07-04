@@ -11,18 +11,24 @@ var getResults = function() {
     xhr.onload = function() {
         if (this.status === 200) {
             //check to make sure request was successful
-            console.log(this.responseText);
+            //console.log(this.responseText);
             var results = JSON.parse(this.responseText);
             console.log(results);
 
-            //create for loop on parsed results and use values to populate drop down
+            //perform for loop on parsed results and use values to populate drop down
             var dropDownDisplay = document.getElementById("show-select");
+            var numOfResults = Object.keys(results).length;
 
-            for (var i = 0, i > results something, i++) {
-                var dropDownResults = document.createElement("select");
-                dropDownResults.value = results[i].show.name;
-                dropDownResults.text = results[i].show.name;
-                dropDownDisplay.appendChild(dropDownResults);
+            for (var i = 0; i < numOfResults; i++) {
+                var dropDownResult = document.createElement("option");
+
+                dropDownResult.value = results[i].show.name;
+                console.log(dropDownResult.value);
+
+                dropDownResult.text = results[i].show.name;
+                console.log(dropDownResult.text);
+
+                dropDownDisplay.add(dropDownResult)
             }//end of for loop, still inside onload function
         }
     }
