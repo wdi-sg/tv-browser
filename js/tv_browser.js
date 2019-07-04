@@ -5,11 +5,17 @@ var url = "";
 
 var response = [];
 
+var selectTitle = document.querySelector('#show-select');
+
 var displayResults = function(response){
   console.log('hi');
   console.log(response);
   for (var i = 0; i< response.length; i++){
     console.log(response[i].show.name);
+    var showOption = document.createElement('option');
+    showOption.innerText = response[i].show.name;
+    showOption.setAttribute('value',response[i].show.name);
+    selectTitle.appendChild(showOption);
   }
 }
 
@@ -21,6 +27,9 @@ var submitRequest = function(event){
   url = "http://api.tvmaze.com/search/shows?q=" + searchTerm;
   console.log(url);
 
+  //clear the search term
+  document.querySelector('#show-search').value = "";
+
   // what to do when we recieve the request
   var responseHandler = function() {
     // console.log("response text", this.responseText);
@@ -28,6 +37,7 @@ var submitRequest = function(event){
     // console.log("status code", this.status);
 
     response = JSON.parse( this.responseText);
+
 
     // return response;
     displayResults(response);
@@ -46,6 +56,7 @@ var submitRequest = function(event){
   // send the request
   request.send();
 
+  //clear the search term
 
 }
 
