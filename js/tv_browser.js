@@ -8,6 +8,7 @@ var showSum;
 
 var sel;
 var showWrapper;
+var selectedValue;
 
 var addShowtoList = function() {
     // Display the results
@@ -29,8 +30,9 @@ var addShowtoList = function() {
 
 // check for choice
 var getSelectValue = function() {
-    var selectedValue = sel.value;
-    console.log(selectedValue);
+    selectedValue = sel.value;
+    console.log("selected id: " + selectedValue);
+    // displayContent(selectedValue);
 };
 
 
@@ -39,11 +41,19 @@ var responseHandler = function () {
     // console.log("response text", this.responseText);
     var response = JSON.parse(this.responseText);
 
+    // selectedValue();
+    // console.log(getSelectValue());
+
     // after receiving response,
     // retrieve all the results based on search input
     for (var i = 0; i < response.length; i++) {
         // store each result show.id as value for <option>
         showId = response[i].show.id;
+
+        // if (  == showId) {
+        //     console.log("select:" + selectedValue + "showId:" + showId);
+        //     displayContent(showId);
+        // }
 
         // store each result show.name as innerHTML for <option> & <div><h1>
         showName = response[i].show.name;
@@ -59,11 +69,12 @@ var responseHandler = function () {
         showSum = response[i].show.summary;
 
         addShowtoList();
+        displayContent(showId);
     }
 };
 
 // create <div> to display show title, image & summary
-var displayContent = function() {
+var displayContent = function(value) {
 
     // create new .<div> to store all the show content
     var showContent = document.createElement('div');
@@ -79,16 +90,19 @@ var displayContent = function() {
     var showPoster = document.createElement('img');
     showPoster.src = showImg;
 
+
+
     // create a <p> element for show summary
-    var showDesc = document.createElement('p');
-    showDesc.textContent = showSum;
+    var showDesc = document.createElement('span');
+    showDesc.innerHTML = showSum;
 
     showWrapper = document.querySelector('#show-detail');
     showWrapper.appendChild(showContent);
-
     showContent.appendChild(showTitle);
     showContent.appendChild(showPoster);
     showContent.appendChild(showDesc);
+
+
 };
 
 
