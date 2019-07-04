@@ -7,8 +7,22 @@ var response = [];
 
 var selectTitle = document.querySelector('#show-select');
 var showDetail = document.querySelector('#show-detail');
+var searchResults = document.querySelector('#search-results');
+var searchTerm = "";
 
 selectTitle.style.visibility = "hidden";
+
+var clearDisplay = function(){
+  showDetail.innerHTML = '';
+}
+
+var clearOptions = function(){
+    var child = selectTitle.lastElementChild;
+    while (child) {
+        selectTitle.removeChild(child);
+        child = selectTitle.lastElementChild;
+    }
+}
 
 var displaySelect = function(event){
   console.log(event);
@@ -18,21 +32,32 @@ var displaySelect = function(event){
   var index = parseInt(event.target.selectedIndex) - 1;
   console.log(response[index]);
 
-  title = document.createElement('h1');
+  var title = document.createElement('h1');
   title.innerText = event.target.value;
   showDetail.appendChild(title);
 
-  showImg = document.createElement('img');
+  var showImg = document.createElement('img');
   showImg.setAttribute('src', response[index].show.image.medium);
   showDetail.appendChild(showImg);
+
+  var showDes = document.createElement('p');
+  showDes.innerHTML = response[index].show.summary;
+  showDetail.appendChild(showDes);
+
 }
 
-var clearDisplay = function(){
-  showDetail.innerHTML = '';
-}
+
 var fetchResults = function(response){
   // console.log('hi');
   // console.log(response);
+  selectTitle.style.visibility = "visible";
+  var defaultOption = document.createElement('option');
+
+  defaultOption.innerText = "Select a show...";
+  defaultOption.setAttribute('id',"option-0");
+  defaultOption.setAttribute('value',"");
+
+  selectTitle.appendChild(defaultOption);
 
   for (let i = 0; i< response.length; i++){
     // console.log(response[i].show.name);
@@ -49,6 +74,8 @@ var fetchResults = function(response){
 
     selectTitle.appendChild(showOption);
   }
+
+  searchResults.innerHTML = response.length + ' shows matches the word "' + searchTerm + '"';
 }
 
 selectTitle.addEventListener('change', function(){
@@ -57,8 +84,8 @@ selectTitle.addEventListener('change', function(){
 });
 
 var submitRequest = function(event){
-  var searchTerm = document.querySelector('#show-search').value;
-  selectTitle.style.visibility = "visible";
+  searchTerm = document.querySelector('#show-search').value;
+  clearOptions();
 
   console.log(searchTerm);
 
