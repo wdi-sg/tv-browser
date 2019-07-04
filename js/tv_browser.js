@@ -26,6 +26,7 @@ let showsSearch = '';
 let runSearchRequest = function(event){
     let select = document.querySelector('#show-select');
     select.style.display = 'block';
+    removeShow();
     removeOptions();
     let input = document.querySelector('#show-search');
     showsSearch = input.value;
@@ -52,6 +53,7 @@ let selectOptions = false;
 let setShows = function (myObject) {
     let select = document.querySelector("#show-select");
     let show;
+    select.children[0].textContent = 'Shows matching '+ showsSearch;
     for(let i=0; i<myObject.length; i++){
         show = myObject[i]["show"]["name"];
         shows.push(show);
@@ -59,9 +61,9 @@ let setShows = function (myObject) {
         let option = document.createElement('option');
         option.classList.add('options');
         option.textContent = shows[i];
-        select.addEventListener('change', runMovieRequest);
         select.appendChild(option);
     }
+    select.addEventListener('change', runMovieRequest);
     selectOptions = true;
 }
 /////////////////////////////////////////////////////////////////////
@@ -87,13 +89,16 @@ let displayShow = function (myObject) {
     let detail = document.querySelector("#show-detail");
     let image = document.createElement('img');
     let title = document.createElement('h2');
+    let rating = document.createElement('h3');
 
     let indexOfShow = shows.indexOf(showValue);
     title.textContent = showValue;
     image.src = myObject[indexOfShow]["show"]["image"]["medium"];
+    rating.textContent = 'Rating: ' + myObject[indexOfShow]["show"]["rating"]["average"];
 
     detail.appendChild(title);
     detail.appendChild(image);
+    detail.appendChild(rating);
 
 }
 /////////////////////////////////////////////////////////////////////
@@ -110,6 +115,19 @@ let removeOptions = function () {
     }
     //make select options false again so if user wants to click a diff search query, they can do so
     selectOptions = false;
+}
+/////////////////////////////////////////////////////////////////////
+//            DELETES CURRENT SHOW BEING DISPLAYED
+/////////////////////////////////////////////////////////////////////
+
+let removeShow = function () {
+
+    let div = document.querySelector("#show-detail");
+
+    for (let i=0; i<div.children.length; i++) {
+        div.removeChild(div.children[0]);
+    }
+
 }
 /////////////////////////////////////////////////////////////////////
 //                         END OF SCRIPT
