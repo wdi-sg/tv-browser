@@ -36,9 +36,9 @@ var responseHandler = function() {
   var myObject = JSON.parse(this.responseText);
 
   console.log(myObject);
-
   console.log(myObject[0].show.image.medium);
   console.log(myObject[0].show.name);
+  console.log(myObject[0].show.url);
 
 //To display the name keys of results in the selector
   for(i=0;i<myObject.length;i++) {
@@ -56,18 +56,26 @@ var responseHandler = function() {
   for (i=0;i<myObject.length;i++) {
 
     var image = document.createElement("img");
-    image.setAttribute('id','image-'+showName);
+    var imageId = myObject[i].show.name;
+    image.setAttribute('id',imageId);
+    image.setAttribute('class','image-results');
     image.src = myObject[i].show.image.medium;
     var results = document.querySelector("#show-detail");
     results.appendChild(image);
-
   };
 
+  var selectImages = document.querySelectorAll(".image-results");
+  for (i=0;i<myObject.length;i++) {
+    selectImages[i].addEventListener('click',function(){
+        window.location = "http://www.google.com";
+        // myObject[i].show.url;
+        // window.open(url) = "http://www.google.com";
+    });
+  }
+
 }
 
-var clickImage = function() {
 
-}
 
 // // make a new request
 // var request = new XMLHttpRequest();
@@ -85,3 +93,12 @@ var clickImage = function() {
 // window.onload = function() {
 //     // button.addEventListener('click', submit);
 // };
+
+// var selectImages = document.querySelectorAll(.image-results);
+
+// for (i=0;i<myObject.length;i++) {
+//     selectImages[i].onclick = `location.href = ${myObject[i].show.url}`
+// }
+// $("a#thing_to_click").on('click', function(){
+//      window.open(url) = "http://www.google.com/";
+// });
