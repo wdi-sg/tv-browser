@@ -1,12 +1,16 @@
 // API Docs at:
 // http://www.tvmaze.com/api
 
+var showSel = document.querySelector("select");
+showSel.style.display = "none";
+// showSel.setAttribute("style","display: hidden;");
 
 var input = document.querySelector("input");
 
 var submit = function(){
     var searchValue = input.value;
     console.log(searchValue);
+    showSel.style.display = "initial";
 
     // make a new request
     var request = new XMLHttpRequest();
@@ -66,8 +70,11 @@ var responseHandler = function() {
 
   var selectImages = document.querySelectorAll(".image-results");
   for (i=0;i<myObject.length;i++) {
+    console.log(myObject[i].show.url);
+    var url = myObject[i].show.url;
+    console.log(url);
     selectImages[i].addEventListener('click',function(){
-        window.location = "http://www.google.com";
+        window.location = url;
         // myObject[i].show.url;
         // window.open(url) = "http://www.google.com";
     });
