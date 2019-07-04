@@ -6,38 +6,38 @@ var showName;
 var showImg;
 var showSum;
 
+var sel;
+var showWrapper;
 
 var addShowtoList = function() {
     // Display the results
-    //console.log(showId);
-
-    // console.log('type:' + (typeof showId));
-    // console.log(showName);
-    // console.log(showImg);
-    // console.log(showSum);
 
     // assign show.id as <option> "value
     // create new <option> element with showId as value"
 
     var results = document.createElement('option');
-    results.value = showId;
-    results.innerHTML = showName;
+    results.setAttribute('value', showId);
+    results.textContent = showName;
 
-    var sel = document.querySelector('#show-select');
+    // added onclick if this is selected display relevant content
+    // results.setAttribute('onclick', 'displayContent(showId)');
 
+    sel = document.querySelector('#show-select');
+    sel.setAttribute('onchange', 'getSelectValue()');
     sel.appendChild(results);
-    console.log(sel);
-    console.log("option created!");
+};
+
+// check for choice
+var getSelectValue = function() {
+    var selectedValue = sel.value;
+    console.log(selectedValue);
 };
 
 
 // what to do when we received request
 var responseHandler = function () {
-    console.log("response text", this.responseText);
+    // console.log("response text", this.responseText);
     var response = JSON.parse(this.responseText);
-    console.log(response);
-
-    //console.log(response[0]);
 
     // after receiving response,
     // retrieve all the results based on search input
@@ -60,10 +60,35 @@ var responseHandler = function () {
 
         addShowtoList();
     }
-    // for (var i = 0; i < response.length; i++) {
-    //     console.log(response[i].show.name);
-    // }
+};
 
+// create <div> to display show title, image & summary
+var displayContent = function() {
+
+    // create new .<div> to store all the show content
+    var showContent = document.createElement('div');
+    // set the <div> id to selected value of option
+    // so that we can check which option the user select
+    showContent.setAttribute('id', value);
+
+    // create a h1 element for show title
+    var showTitle = document.createElement('h1');
+    showTitle.textContent = showName;
+
+    // create a img element for show poster
+    var showPoster = document.createElement('img');
+    showPoster.src = showImg;
+
+    // create a <p> element for show summary
+    var showDesc = document.createElement('p');
+    showDesc.textContent = showSum;
+
+    showWrapper = document.querySelector('#show-detail');
+    showWrapper.appendChild(showContent);
+
+    showContent.appendChild(showTitle);
+    showContent.appendChild(showPoster);
+    showContent.appendChild(showDesc);
 };
 
 
@@ -79,9 +104,3 @@ request.open("GET", "http://api.tvmaze.com/search/shows?q=boys");
 
 // send the request
 request.send();
-
-// create dropdown list when window load
-// var onClickSel = function () {
-//     addShowtoList();
-//     console.log("show added");
-// }
