@@ -1,5 +1,5 @@
-//declare some variables that i neeeeeed
-var submitButton = document.getElementById("submit")
+//declare some variables for the event listeners
+var submitButton = document.getElementById("submit");
 var dropDownDisplay = document.getElementById("show-select");
 
 //function that gets list of results based on user query
@@ -13,15 +13,19 @@ var getResults = function() {
     xhr.send();
 
     xhr.onload = function() {
+        //remove past drop-down list results
+        while (dropDownDisplay.firstChild) {
+        dropDownDisplay.removeChild(dropDownDisplay.firstChild);
+        };
+
         if (this.status === 200) {
-            //check to make sure request was successful - should return object(?) of objects
+            //check to make sure request was successful - should return array of objects
             // console.log(this.responseText);
             var results = JSON.parse(this.responseText);
             console.log(results);
 
             //perform for loop on parsed results and use values to populate drop down
-            //object.keys() returns an array of an object's own property names
-            var numOfShows = Object.keys(results).length;
+            var numOfShows = results.length;
 
             for (var i = 0; i < numOfShows; i++) {
                 var dropDownResult = document.createElement("option");
@@ -33,9 +37,9 @@ var getResults = function() {
                 dropDownResult.text = results[i].show.name;
 
                 //add option to drop down
-                dropDownDisplay.add(dropDownResult)
+                dropDownDisplay.add(dropDownResult);
             }
-        }
+        } else {console.log("Oops, an error occurred!")}
     }
 };
 
@@ -80,7 +84,7 @@ var displaySelectedShow = function() {
             showImage.src = results.image.original;
             output.appendChild(showImage);
         }
-    }
+    } else {console.log("Oops, an error occurred!")}
 };
 
 dropDownDisplay.addEventListener("change", displaySelectedShow);
