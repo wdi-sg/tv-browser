@@ -37,3 +37,18 @@ select {
 .fail {
   color: red;
 }
+
+/* img{
+  width: 100%;
+  height: auto;
+} */
+
+#search-results{
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+#show-select{
+  margin-bottom: 20px;
+  min-width: 320px;
+}
