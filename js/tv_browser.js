@@ -1,16 +1,23 @@
 // API Docs at:
 // http://www.tvmaze.com/api
 
+
+//hide selector div hidden by default
 var showSel = document.querySelector("select");
 showSel.style.display = "none";
-// showSel.setAttribute("style","display: hidden;");
 
+
+
+
+//upon submit show selector box and send request and retrieve response
 var input = document.querySelector("input");
-
 var submit = function(){
     var searchValue = input.value;
     console.log(searchValue);
     showSel.style.display = "initial";
+    // var show = document.querySeletor("show-detail");
+    // var child = document.querySelectorAll("")
+    // show.removeChild()
 
     // make a new request
     var request = new XMLHttpRequest();
@@ -66,46 +73,29 @@ var responseHandler = function() {
     image.src = myObject[i].show.image.medium;
     var results = document.querySelector("#show-detail");
     results.appendChild(image);
-  };
 
-  var selectImages = document.querySelectorAll(".image-results");
-  for (i=0;i<myObject.length;i++) {
-    console.log(myObject[i].show.url);
+    var selectImages = document.querySelectorAll(".image-results");
     var url = myObject[i].show.url;
-    console.log(url);
+
     selectImages[i].addEventListener('click',function(){
         window.location = url;
         // myObject[i].show.url;
         // window.open(url) = "http://www.google.com";
     });
-  }
+
+
+  };
+
+  // var selectImages = document.querySelectorAll(".image-results");
+  // for (i=0;i<myObject.length;i++) {
+  //   console.log(myObject[i].show.url);
+  //   var url = myObject[i].show.url;
+  //   console.log(url);
+  //   selectImages[i].addEventListener('click',function(){
+  //       window.location = url;
+  //       // myObject[i].show.url;
+  //       // window.open(url) = "http://www.google.com";
+  //   });
+  // }
 
 }
-
-
-
-// // make a new request
-// var request = new XMLHttpRequest();
-
-// // listen for the request response
-// request.addEventListener("load", responseHandler);
-
-// // ready the system by calling open, and specifying the url
-// // open doesn't open anything??
-// request.open("GET", "http://api.tvmaze.com/search/shows?q="+input);
-
-// // send the request
-// request.send();
-
-// window.onload = function() {
-//     // button.addEventListener('click', submit);
-// };
-
-// var selectImages = document.querySelectorAll(.image-results);
-
-// for (i=0;i<myObject.length;i++) {
-//     selectImages[i].onclick = `location.href = ${myObject[i].show.url}`
-// }
-// $("a#thing_to_click").on('click', function(){
-//      window.open(url) = "http://www.google.com/";
-// });
