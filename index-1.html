@@ -1,0 +1,44 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Unknown </title></head><body>
+<h1 id="tv-browser">TV Browser</h1>
+<p><img alt="https://media.giphy.com/media/XhT868oxljs88/giphy.gif" src="https://media.giphy.com/media/XhT868oxljs88/giphy.gif" /></p>
+<p>Use the <a href="http://www.tvmaze.com/api">TV Maze API docs</a> to build a single-page app that allows a user to search TV shows. The documentation lists the various <strong>endpoints</strong> that the TV Maze development team has made available. Identify which endpoint(s) would most useful for your TV show searching app. Try clicking on the URL examples for each endpoint to see the structure of the JSON data at that endpoint. Each of the API's endpoints may have differently structured JSON responses.</p>
+<p>When testing out the API's endpoint URLs, you will want to install <a href="https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en">JSON Formatter</a> to make the JSON responses more readable.</p>
+<p>To search the TV Maze API use this URL: http://api.tvmaze.com/search/shows?q=girls</p>
+<p>The search query of the URL is the serarch term that the user entered.</p>
+<p>The response to the request will be an array of objects. When you recieve the response you should render data from each object in a loop.</p>
+<h4 id="cors">CORS</h4>
+<p>Your browser may give you an error regarding a Cross Origin Request, depending on your operating system and version of chrome.  You can install this chrome extension to get rid of it:</p>
+<p><a href="https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en">https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en</a></p>
+<h2 id="mvp">MVP</h2>
+<p>Use the input to get the search term from the user. Display the results in the dom.</p>
+<h2 id="further">Further</h2>
+<p>When you get the results, fill in the select element with an option element for each result</p>
+<h2 id="further_1">Further</h2>
+<p>Attach an event listener to the select. When the user selects an option make another AJAX call. Use the response of that AJAX call to render the individual show they requested</p>
+<h2 id="full-app">Full App</h2>
+<ol>
+<li>
+<p>Make the selector field (CSS selector <code>"#show-select"</code>) hidden by default.</p>
+</li>
+<li>
+<p>After the user submits a search for a TV show...</p>
+</li>
+<li>un-hide the <code>"#show-select"</code> field.</li>
+<li>populate the <code>"#show-select"</code> field with the list of search results. (create option tags in the select for each result you get)</li>
+<li>
+<p>make the first / default select option read "Shows matching <code>keyword</code>â€¦".</p>
+</li>
+<li>
+<p>Whenever the user selects a title from the <code>#show-select</code> field (HINT: listen for a <code>"change"</code> event), display that show's name and image in the <code>"#show-detail"</code> div.</p>
+</li>
+</ol>
+<h2 id="take-a-look">Take a look:</h2>
+<p>http://ga-wdi-exercises.github.io/tv-browser/</p>
+<h3 id="further_2">Further</h3>
+<p>Display in the DOM all of the data given to you for a particular show.</p>
+<h3 id="further_3">Further</h3>
+<p>Add a link to the <code>cast</code> of the show.
+If the user clicks on the cast link, make an AJAX call to get that info and display it to the user.</p>
+<h3 id="further_4">Further</h3>
+<p>Make each cast person clickable. When the user clicks on that person make an AJAX request for the person.</p>
+</body></html>
