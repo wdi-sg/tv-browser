@@ -7,7 +7,7 @@ var showDetail = document.getElementById("show-detail");
 
 var searchShows = function(){
 
-    if(showDetail.hasChildNodes()){ //to remove any previous search output
+    while(showDetail.hasChildNodes()){ //to remove any previous search output
         showDetail.removeChild(showDetail.firstChild);
     }
 
@@ -29,7 +29,7 @@ var searchShows = function(){
     request.send();
 };
 
-// what to do when we recieve the request
+// what to do when we receive the request
 var responseHandler = function() {
 
   // "this" keyword refers to the request variable and is specific to THIS request
@@ -39,9 +39,23 @@ var responseHandler = function() {
   console.log("status code", this.status);
 
   var myObject = JSON.parse(this.responseText);
+
+    var showList = []; //create an array of shows
+    for (var i = 0; i < myObject.length; i++){
+        console.log(myObject[i].show.name);
+        showList.push(myObject[i].show);
+        var eachShow = document.createElement("option");
+        var selectDrop = document.getElementById("show-select");
+        eachShow.setAttribute("value", myObject[i].show.name);
+        eachShow.innerHTML = myObject[i].show.name;
+        selectDrop.appendChild(eachShow);
+    }
+
+
+
     var para = document.createElement("p"); //create paragraph to hold show details
+    //used innerHTML so that text in para can be styled using HTML
     para.innerHTML = `Show name: ${myObject[0].show.name} <br> Language: ${myObject[0].show.language} <br> Genres: ${myObject[0].show.genres} <br> Run time: ${myObject[0].show.runtime} mins <br> Date premiered: ${myObject[0].show.name} <br> Summary: ${myObject[0].show.summary}`;
-//    var showDetail = document.getElementById("show-detail");
     showDetail.appendChild(para);
 };
 
