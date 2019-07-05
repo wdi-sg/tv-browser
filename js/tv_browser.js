@@ -1,10 +1,11 @@
 console.log("Let's freaking do this!");
+
 var input;
 var responseObject;
 var responseList = [];
 var word;
 
-//create show selection
+//create show selection function
 var createOption = function(oNo,name){
     var option = document.createElement("option");
         option.setAttribute("id","o" + oNo);
@@ -16,7 +17,7 @@ var createOption = function(oNo,name){
         })
 };
 
-//create images divs
+//create images divs function
 var createImg = function(iNo,imageURL){
     var img = document.createElement("img");
         img.setAttribute("id","i" + iNo);
@@ -25,13 +26,19 @@ var createImg = function(iNo,imageURL){
 
     var showDetail = document.getElementById("show-detail");
         showDetail.appendChild(img);
-
 };
+
+//remove previous search result
+// var removeImg = function(imgLength){
+
+//     for (i = 0; i < imgLength; i++) {
+//         showDetail.removeChild(img);
+//     }
+// };
 
 //when user typed and clicked the submit button
 var input = function() {
     word = document.querySelector("#show-search");
-    // inputWord = word.value;
     // console.log("inputWord: " + inputWord);
 
     var responseHandler = function() {
@@ -42,6 +49,7 @@ var input = function() {
         // console.log("status code", this.status);
         console.log(responseObject);
 
+        // removeImg();
             //for loop for selector and image creation
             for (i = 0; i < responseObject.length; i++) {
 
@@ -52,7 +60,7 @@ var input = function() {
                 // console.log("i is " + i );
 
                 responseImg = responseObject[i].show.image.medium;
-                // console.log("responseImg: " + responseImg);
+                // -> console.log("responseImg: " + responseImg);
                 createImg(i,responseImg);
                 // console.log("url is " + responseList[i].show.name );
             }
@@ -66,11 +74,6 @@ var input = function() {
 };
 
 var submitClicked = document.getElementById("button").addEventListener("click",input);
-
-
-
-
-// what to do when we recieve the request
 
 // API Docs at:
 // http://www.tvmaze.com/api
