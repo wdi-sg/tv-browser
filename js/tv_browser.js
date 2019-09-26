@@ -19,9 +19,35 @@ var showSelect = function () {
 document.getElementById("show-select").style.visibility = "visible";
 };
 
+
+function runCode (){
+// make a new request
+var input = document.querySelector('#show-search'); 
+var inputValue = input.value;
+var request = new XMLHttpRequest();
+
+// listen for the request response
+request.addEventListener("load", responseHandler);
+request.addEventListener("error", requestFailed);
+
+// ready the system by calling open, and specifying the url
+request.open("GET", "http://api.tvmaze.com/search/shows?q="+inputValue);
+// send the request
+request.send();
+}
+
+var requestFailed = function(){
+  console.log("response text", this.responseText);
+  console.log("status text", this.statusText);
+  console.log("status code", this.status);
+};
+
+
 var responseHandler = function() {
   // console.log("response text", this.responseText);
  showSelect ()	
+ // remove any old options
+ document.getElementById('show-select').innerText = null
   response = JSON.parse( this.responseText );
   console.log( response);
 
@@ -35,7 +61,7 @@ for (var i = 0; i < response.length; i++) {
 	showList.textContent = response[i].show.name;
 	showOption.appendChild(showList);
 }
-document.querySelector('#show-select').addEventListener('click', displayTvShow); 
+document.querySelector('#show-select').addEventListener('change', displayTvShow); 
 };
 
 // place options after search form (or other area)
@@ -62,25 +88,4 @@ var displayTvShow = function () {
 	}
 }
 
-function runCode (){
-// make a new request
-var input = document.querySelector('#show-search'); 
-var inputValue = input.value;
-var request = new XMLHttpRequest();
-
-// listen for the request response
-request.addEventListener("load", responseHandler);
-request.addEventListener("error", requestFailed);
-
-// ready the system by calling open, and specifying the url
-request.open("GET", "http://api.tvmaze.com/search/shows?q="+inputValue);
-// send the request
-request.send();
-}
-
-var requestFailed = function(){
-  console.log("response text", this.responseText);
-  console.log("status text", this.statusText);
-  console.log("status code", this.status);
-};
 
