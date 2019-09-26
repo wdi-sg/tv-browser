@@ -2,14 +2,26 @@
 // http://www.tvmaze.com/api
 
 
-// window.onload=runCode;
+window.onload = function() {
+  hideSelect();
+};
 
 var response=null;
 var doSubmit = function(event){  };
 document.querySelector('#submit').addEventListener('click', runCode); 
 
+
+var hideSelect = function () { 
+document.getElementById("show-select").style.visibility = "hidden";
+};
+
+var showSelect = function () { 
+document.getElementById("show-select").style.visibility = "visible";
+};
+
 var responseHandler = function() {
   // console.log("response text", this.responseText);
+ showSelect ()	
   response = JSON.parse( this.responseText );
   console.log( response);
 
@@ -23,7 +35,7 @@ for (var i = 0; i < response.length; i++) {
 	showList.textContent = response[i].show.name;
 	showOption.appendChild(showList);
 }
-document.querySelector('#show-select').addEventListener('change', displayTvShow); 
+document.querySelector('#show-select').addEventListener('click', displayTvShow); 
 };
 
 // place options after search form (or other area)
