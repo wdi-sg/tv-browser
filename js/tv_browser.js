@@ -24,6 +24,12 @@ function runCode (){
 // make a new request
 var input = document.querySelector('#show-search'); 
 var inputValue = input.value;
+
+// check for blank space and do nothing if blank...
+if (inputValue.replace(/\s+/g, '').length == 0) {
+    return "Please enter something...";
+}
+
 var request = new XMLHttpRequest();
 
 // listen for the request response
