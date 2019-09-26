@@ -4,22 +4,19 @@
 
 // window.onload=runCode;
 
-var myShowData = {};
-
+var response=null;
 var doSubmit = function(event){  };
 document.querySelector('#submit').addEventListener('click', runCode); 
 
 var responseHandler = function() {
   // console.log("response text", this.responseText);
-  var response = JSON.parse( this.responseText );
+  response = JSON.parse( this.responseText );
   console.log( response);
 
 var showOption = document.getElementById('show-select');
 // output each bit of show info to the DOM/HTML
 for (var i = 0; i < response.length; i++) {
  	console.log( "id: " + response[i].show.id + " name: " + response[i].show.name );
- 	myShowData.push('id:' + response[i].show.id)
- //
  // output show detail
     var showList = document.createElement('option');
 	showList.setAttribute('value', response[i].show.id);
@@ -34,10 +31,22 @@ document.querySelector('#show-select').addEventListener('change', displayTvShow)
 
 var displayTvShow = function () {
 	var input = document.querySelector('#show-select'); 
+	var inputValue = input.value;
+	inputValue = parseInt(inputValue);
 	console.log ('input value: ' + inputValue)
+	// get the proper show...
+	for (var i = 0; i < response.length; i++) {
+		if (response[i].show.id === inputValue ){
+		 	console.log( "id: " + response[i].show.id + " name: " + response[i].show.name );
+		 	var outputShow = "<h1>" + response[i].show.name + "</hr><br>\n";
+		 	outputShow = outputShow + '<img src="' + response[i].show.image.medium + '">'
+		} 
+
 	// display info on screen
-	var outputShow = 
-	// document.getElementById('show-detail').innerHTML = timerChange;
+
+	
+	document.getElementById('show-detail').innerHTML = outputShow;
+	}
 }
 
 function runCode (){
