@@ -4,6 +4,8 @@
 
 // window.onload=runCode;
 
+var myShowData = {};
+
 var doSubmit = function(event){  };
 document.querySelector('#submit').addEventListener('click', runCode); 
 
@@ -16,6 +18,7 @@ var showOption = document.getElementById('show-select');
 // output each bit of show info to the DOM/HTML
 for (var i = 0; i < response.length; i++) {
  	console.log( "id: " + response[i].show.id + " name: " + response[i].show.name );
+ 	myShowData.push('id:' + response[i].show.id)
  //
  // output show detail
     var showList = document.createElement('option');
@@ -23,11 +26,19 @@ for (var i = 0; i < response.length; i++) {
 	showList.textContent = response[i].show.name;
 	showOption.appendChild(showList);
 }
+document.querySelector('#show-select').addEventListener('change', displayTvShow); 
 };
 
 // place options after search form (or other area)
 // choose option and post the full data on the show- title, image and description.
 
+var displayTvShow = function () {
+	var input = document.querySelector('#show-select'); 
+	console.log ('input value: ' + inputValue)
+	// display info on screen
+	var outputShow = 
+	// document.getElementById('show-detail').innerHTML = timerChange;
+}
 
 function runCode (){
 // make a new request
