@@ -38,8 +38,9 @@ var displayTvShow = function () {
 	for (var i = 0; i < response.length; i++) {
 		if (response[i].show.id === inputValue ){
 		 	console.log( "id: " + response[i].show.id + " name: " + response[i].show.name );
-		 	var outputShow = "<h1>" + response[i].show.name + "</hr><br>\n";
-		 	outputShow = outputShow + '<img src="' + response[i].show.image.medium + '">'
+		 	var outputShow = "<h1>" + response[i].show.name + "</h1><br>\n";
+		 	outputShow = outputShow + '<img src="' + response[i].show.image.medium + '"><br>';
+		 	outputShow = outputShow + response[i].show.summary;
 		} 
 
 	// display info on screen
