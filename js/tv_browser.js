@@ -3,9 +3,27 @@
 
 // what to do when we recieve the request
 var responseHandler = function() {
-  console.log("response text", this.responseText);
-  console.log("status text", this.statusText);
-  console.log("status code", this.status);
+
+    // Store the response text
+        // The returned response text is a string, so we need to convert it back to JSON format
+    var allResult = [];
+    allResult = JSON.parse(this.responseText);
+
+    console.log(allResult);
+
+    // Filter for show name
+    for(var i = 0; i < allResult.length; i++) {
+
+        var selectShowDropDown = document.querySelector('#show-select');
+
+        var listOfShowNames = document.createElement('option');
+
+        listOfShowNames.innerHTML = allResult[i].show.name;
+
+        selectShowDropDown.appendChild(listOfShowNames);
+
+    }
+
 };
 
 // Make a new request
