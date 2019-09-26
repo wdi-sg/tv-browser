@@ -11,13 +11,28 @@ var responseHandler = function() {
   display.id = "results";
   display.innerHTML = JSON.stringify(response);
   document.body.appendChild(display);
-};
+
+  //add to options
+  for ( i=0; i < response.length; i++ ) {
+    var show = response[i].show.name;
+
+    var select = document.querySelector('#show-select');
+    var result = document.createElement("option");
+    result.innerHTML = show;
+    result.id = "option"+i;
+    select.appendChild(result);
+  }
+}
+
+
 
 // var requestFailed = function(){
 //     console.log("response text", this.responseText);
 //     console.log("status text", this.statusText);
 //     console.log("status code", this.status);
 // };
+
+//to clear displayed results
 function clearDisplay() {
   var toClear = document.getElementById("results");
   toClear.innerHTML = "";
