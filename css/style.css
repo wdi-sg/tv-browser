@@ -37,3 +37,7 @@ select {
 .fail {
   color: red;
 }
+
+.hidden {
+	display: none;
+}

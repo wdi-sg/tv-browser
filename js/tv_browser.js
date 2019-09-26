@@ -1,5 +1,8 @@
 //
+var selector = document.getElementById('show-select');
+
 var doSubmit = function(event) {
+    selector.classList.remove("hidden");
     var input = document.querySelector('#show-search');
     var url = input.value;
     var request = new XMLHttpRequest();
@@ -15,7 +18,6 @@ document.getElementById('show-search').addEventListener('keypress', function() {
 document.querySelector('button').addEventListener('click', doSubmit);
 
 var displayBox = document.getElementById('show-detail');
-var selector = document.getElementById('show-select');
 var globalResponseObject;
 
 // handles response from AJAX
