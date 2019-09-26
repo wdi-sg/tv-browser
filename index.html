@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>TV Maze API Search</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <main>
+  <head>
+    <title>TV Maze API Search</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main>
+      <img src="./images/tvm_api.png" />
 
-    <img src="./images/tvm_api.png">
+      <div class="browse">
+        <div id="search-form">
+          <input
+            type="search"
+            placeholder="Search for a title..."
+            id="show-search"
+          />
+          <button>submit</button>
+        </div>
 
-    <div class="browse">
-      <div id="search-form">
-        <input type="search" placeholder="Search for a title..." id="show-search">
-        <button>submit</button>
+        <select id="show-select">
+          <option value="">Select a show...</option>
+        </select>
+
+        <div id="show-detail"></div>
       </div>
+    </main>
 
-      <select id="show-select">
-        <option value="">Select a show...</option>
-      </select>
-
-      <div id="show-detail"></div>
-
-    </div>
-  </main>
-
-  <script src="js/tv_browser.js"></script>
-</body>
+    <script src="js/tv_browser.js"></script>
+  </body>
 </html>
