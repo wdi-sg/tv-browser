@@ -3,8 +3,14 @@
 
 var responseHandler = function() {
   console.log("response text", this.responseText);
-  console.log("status text", this.statusText);
-  console.log("status code", this.status);
+  var response = JSON.parse( this.responseText );
+  console.log( response );
+
+  //display results
+  var display = document.createElement("div");
+  display.id = "results";
+  display.innerHTML = JSON.stringify(response);
+  document.body.appendChild(display);
 };
 
 // var requestFailed = function(){
@@ -12,8 +18,13 @@ var responseHandler = function() {
 //     console.log("status text", this.statusText);
 //     console.log("status code", this.status);
 // };
+function clearDisplay() {
+  var toClear = document.getElementById("results");
+  toClear.innerHTML = "";
+}
 
 var doSubmit = function(event){
+
     var input = document.querySelector('#show-search');
     var subj = input.value;
 
