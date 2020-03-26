@@ -1,62 +1,54 @@
-// API Docs at:
-// http://www.tvmaze.com/api
+//Getting initial DOM elements
 var select = document.getElementById('show-select');
+var showDetail = document.getElementById('show-detail');
 
-//Response Handler
+//Response Handler for initial search
 var responseHandler = function() {
   //Parse initial JSON input
   var response = JSON.parse(this.responseText);
   console.log(response);
-  //Recursive function to display everything in the object
-  // displayEntireObject(response)
-
-  //Displaying Show Name
   displayNames(response);
 };
 
+//Function to display names after initial search
 var displayNames = function(obj){
     for (var i in obj){
         var nameDisplay = document.createElement('option');
         nameDisplay.innerText = obj[i]['show']['name']
-        nameDisplay.value = obj[i]['show']['name']
+        nameDisplay.value = obj[i]['show']['id']
         select.appendChild(nameDisplay)
     }
 }
 
-// var displayEntireObject = function(obj){
-//     for (var i in obj){
-//         if (typeof obj[i] === 'object'){
-//             displayEntireObject(obj[i])
-//         } else {
-//             var itemDisplay = document.createElement('p');
-//             itemDisplay.innerText = i + ": " + obj[i]
-//             display.appendChild(itemDisplay)
-//         }
-//     }
-// }
+//Response handler for selecting of movie
+var movieHandler = function() {
+    var movie = JSON.parse(this.responseText);
+    console.log(movie);
+    displayMovie(movie);
+}
 
-// function findById(obj, id) {
-//     var result;
-//     for (var p in obj) {
-//         if (obj.id === id) {
-//             return obj;
-//         } else {
-//             if (typeof obj[p] === 'object') {
-//                 result = findById(obj[p], id);
-//                 if (result) {
-//                     return result;
-//                 }
-//             }
-//         }
-//     }
-//     return result;
-// }
+//Function to display show details after movie selected
+var displayMovie = function(obj){
+    var movieName = document.createElement('h2');
+    var movieImage = document.createElement('img');
+    var movieSummary = document.createElement('p');
 
+    movieName.innerText = obj.name;
+    movieImage.src = obj.image.medium;
+    movieSummary.innerHTML = obj.summary;
+
+    showDetail.appendChild(movieName);
+    showDetail.appendChild(movieImage);
+    showDetail.appendChild(movieSummary);
+}
+
+//error handler
 var errorHandler = function(){
     console.log(this)
 }
 
-var doSubmit = function(event){
+//AJAX call for initial search
+var initialSearch = function(event){
     var input = document.querySelector('#show-search');
     var showSearch = " http://api.tvmaze.com/search/shows?q=" + input.value;
     // make a new request
@@ -69,5 +61,20 @@ var doSubmit = function(event){
     request.addEventListener("load", responseHandler)
     request.addEventListener("error", errorHandler);
 }
+document.querySelector('#submit').addEventListener('click', initialSearch);
 
-document.querySelector('#submit').addEventListener('click', doSubmit);
+//AJAX call for specific movie
+var getMovie = function(event){
+    var input = document.querySelector('#show-select');
+    var showSelect = "http://api.tvmaze.com/shows/" + input.value;
+    // make a new request
+    var request = new XMLHttpRequest();
+    // ready the system by calling open, and specifying the url
+    request.open("GET", showSelect);
+    //sending request
+    request.send();
+    // listen for the request response
+    request.addEventListener("load", movieHandler)
+    request.addEventListener("error", errorHandler);
+}
+document.querySelector('#show-select').addEventListener('change', getMovie);
