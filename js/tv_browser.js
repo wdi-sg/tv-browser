@@ -163,7 +163,7 @@ function displayCastMembers(){
   } else {
     for (var i=0; i < results.length; i++) {
       var desc = document.createElement("p");
-      desc.innerText = `${results[i].person.name} as ${results[i].character.name}`
+      desc.innerHTML = `<h1>${results[i].person.name}</h1> as ${results[i].character.name}`
       var characterImage = document.createElement("img");
       characterImage.id = results[i].person.id;
       characterImage.src = results[i].character.image.medium
