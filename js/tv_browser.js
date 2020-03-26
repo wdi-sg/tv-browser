@@ -92,19 +92,18 @@ function populateDropDown() {
             var itemDropDown = document.createElement("option")
             itemDropDown.innerText = results[index].show.name;
 
-             //Assign the kebab-cased show name as the 'value' to the <option> element.
-            itemDropDown.value = kebabCase(results[index].show.name);
+             //Assign the show id as the 'value' to the <option> element.
+            itemDropDown.value = (results[index].show.id);
             dropdown.appendChild(itemDropDown);
         }
     }
 };
 
 
-//getOneShow() retrieves the kebab-cased value of the selected option & sends a request to the API.
+//getOneShow() retrieves the ID value of the selected option & sends a request to the API.
 function getOneShow() {
-    var selectedShow = this.value;
-    var singleSearchURL = `http://api.tvmaze.com/singlesearch/shows?q=`;
-    var query = singleSearchURL + selectedShow
+    var selectedShowID = this.value;
+    var query = `http://api.tvmaze.com/shows/${selectedShowID}`;
     getData(query, displayShow);
 }
 
