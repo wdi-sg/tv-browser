@@ -106,20 +106,25 @@ function displayShow() {
     var itemName = document.createElement("h1");
     var itemDesc = document.createElement("p");
     var itemImage = document.createElement('img')
+
+    var castButton = document.createElement('button');
+    castButton.id = results.id
+    castButton.innerText = `Show Cast`
+    castButton.addEventListener(`click`, getCastMembers);
     itemImage.src = results.image.medium
     itemName.innerText = results.name;
     itemDesc.innerHTML = results.summary;
+    display.appendChild(castButton)
     display.appendChild(itemName);
     display.appendChild(itemImage)
     display.appendChild(itemDesc);
-
     //Generate the breakdown of all the object's values.
     breakdownObject(results);
 }
 
+
 //breakdownObject() goes through a nested object and breaks down all its keys/values.
 var breakdownObject = function(obj) {
-
     var objectKeys = Object.keys(obj); //Returns array of all the key values
 
     //Loop through the objectItems array while using it to reference from the parent object (objectName)
@@ -129,11 +134,9 @@ var breakdownObject = function(obj) {
         //Then objectItems = ['name', 'type']
         //And result = gameOfThrones['id']
         var result = obj[objectKeys[index]];
-
         //If the result is still an object, breakdown the result further.
         if (isPlainObject(result)) {
             breakdownObject(result);
-
             //If it's not an object, generate paragraph with key(capitalised+bolded) & value & append to the show-details div.
         } else {
             var info = document.createElement("p");
@@ -148,3 +151,43 @@ var breakdownObject = function(obj) {
         }
     }
 };
+
+function getCastMembers(){
+  debugger;
+  const query = `http://api.tvmaze.com/shows/${this.id}/cast`
+  request.open('GET', query);
+  request.send();
+  request.addEventListener("load", displayCastMembers);
+  request.addEventListener("error", requestFailed);
+}
+
+function displayCastMembers(){
+  var results = JSON.parse(this.responseText);
+  for (var i=0; i < results.length; i++) {
+    var desc = document.createElement("p");
+    desc.innerText = `${results[i].person.name} as ${results[i].character.name}`
+    var characterImage = document.createElement("img");
+    characterImage.id = results[i].person.id;
+    characterImage.src = results[i].character.image.medium
+    characterImage.addEventListener('click', getActor);
+    display.appendChild(characterImage);
+    display.appendChild(desc);
+  }
+}
+
+function getActor(){
+  const query = `http://api.tvmaze.com/people/${this.id}`
+
+  request.open('GET', query);
+  request.send();
+  request.addEventListener("load", displayActor);
+  request.addEventListener("error", requestFailed);
+}
+
+function displayActor(){
+  var results = JSON.parse(this.responseText)
+  var image = document.createElement("img");
+  image.src = results.image.medium
+  display.appendChild(image);
+  return breakdownObject(results[0]);
+}
