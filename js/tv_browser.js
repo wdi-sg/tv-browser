@@ -183,9 +183,16 @@ function getActor(xhttp){
 
 function displayActor(){
   var results = JSON.parse(this.responseText)
+
+  //Create actorName & image elements.
+  var actorName = document.createElement("h1");
   var image = document.createElement("img");
+  actorName.innerText = results.name;
   image.src = results.image.medium
+  display.appendChild(actorName);
   display.appendChild(image);
+
+  //Render breakdown of the rest of the actor object's keys/values.
   breakdownObject(results);
 }
 
