@@ -16,16 +16,19 @@ function kebabCase(string) {
 }
 
 function submitRequest() {
-    var inputValue = kebabCase(inputElement.value); //turns all queries into kebab case
-    inputElement.value = "";
+    var userInput = inputElement.value;
+    var inputValue = kebabCase(userInput); //turns all queries into kebab case
+    document.getElementById('first-option').innerText = `Shows matching "${userInput}"`;
     var query = url + inputValue;
     request.open("GET", query);
     request.send();
     request.addEventListener("load", populateDropDown);
     request.addEventListener("error", requestFailed);
+    inputElement.value = "";
 }
 
 function populateDropDown() {
+  dropdown.classList.remove('hide');
     display.innerText = "";
     console.log(`responseHandler triggered`)
     var results = JSON.parse(this.responseText);
