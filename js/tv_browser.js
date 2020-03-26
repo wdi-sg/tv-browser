@@ -4,7 +4,7 @@
 //fuzzy search api endpoint: http://api.tvmaze.com/search/shows?q=girls
 var pattern = "";
 
-displayShowInfo = function (showName, showImgSrc) {
+displayShowInfo = function (showName, showImgSrc, showSumm) {
   if (document.querySelector("#show-title") === null) {
     showDetails = document.querySelector("#show-detail");
 
@@ -14,25 +14,33 @@ displayShowInfo = function (showName, showImgSrc) {
     var showPoster = document.createElement("img");
     showPoster.src = showImgSrc;
     showPoster.id = "show-poster";
+    var showSummary = document.createElement("div");
+    showSummary.id = "show-summary";
+    showSummary.innerHTML = showSumm;
+
     showDetails.appendChild(showTitle);
     showDetails.appendChild(showPoster);
+    showDetails.appendChild(showSummary);
   } else {
     console.log("here");
     var oldShowTitle = document.querySelector("#show-title");
     oldShowTitle.parentElement.removeChild(oldShowTitle);
     var oldShowPoster = document.querySelector("#show-poster");
     oldShowPoster.parentElement.removeChild(oldShowPoster);
+    var oldShowSummary = document.querySelector("#show-summary");
+    oldShowSummary.parentElement.removeChild(oldShowSummary);
 
-    displayShowInfo(showName, showImgSrc);
+    displayShowInfo(showName, showImgSrc, showSumm);
   }
 }
 
 var parseShowInfo = function () {
   var response = JSON.parse(this.responseText);
+  console.log(response);
   var showName = response.name;
   var showImgSrc = (response.image === null) ? "images/204.jpeg" : response.image.medium;
-
-  displayShowInfo(showName, showImgSrc);
+  var showSumm = response.summary;
+  displayShowInfo(showName, showImgSrc, showSumm);
 }
 
 var fetchShowInfo = function () {
