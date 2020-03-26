@@ -1,34 +1,39 @@
 // API Docs at:
 // http://www.tvmaze.com/api
-var display = document.getElementById('display');
+var select = document.getElementById('show-select');
 
 //Response Handler
 var responseHandler = function() {
   //Parse initial JSON input
-  var response = JSON.parse(this.responseText)[0];
+  var response = JSON.parse(this.responseText);
   console.log(response);
   //Recursive function to display everything in the object
-  displayEntireObject(response)
+  // displayEntireObject(response)
 
   //Displaying Show Name
-  // var name = response.show.name;
-  // var nameDisplay = document.createElement('p')
-  // nameDisplay.innerText = name;
-  // console.log(display)
-  // display.appendChild(nameDisplay);
+  displayNames(response);
 };
 
-var displayEntireObject = function(obj){
+var displayNames = function(obj){
     for (var i in obj){
-        if (typeof obj[i] === 'object'){
-            displayEntireObject(obj[i])
-        } else {
-            var itemDisplay = document.createElement('p');
-            itemDisplay.innerText = i + ": " + obj[i]
-            display.appendChild(itemDisplay)
-        }
+        var nameDisplay = document.createElement('option');
+        nameDisplay.innerText = obj[i]['show']['name']
+        nameDisplay.value = obj[i]['show']['name']
+        select.appendChild(nameDisplay)
     }
 }
+
+// var displayEntireObject = function(obj){
+//     for (var i in obj){
+//         if (typeof obj[i] === 'object'){
+//             displayEntireObject(obj[i])
+//         } else {
+//             var itemDisplay = document.createElement('p');
+//             itemDisplay.innerText = i + ": " + obj[i]
+//             display.appendChild(itemDisplay)
+//         }
+//     }
+// }
 
 // function findById(obj, id) {
 //     var result;
