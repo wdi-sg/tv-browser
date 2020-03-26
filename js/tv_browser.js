@@ -2,21 +2,23 @@
 // http://www.tvmaze.com/api
 
 //AJAX
-request.addEventListener("load", responseHandler);
-request.open("GET", "http://api.tvmaze.com/search/shows?q=girls");
-request.send();
-
 
 let request = new XMLHttpRequest();
-let response = [];
-
-const ele_select = document.querySelectorAll('select')[0];
-const ele_button = document.querySelectorAll('button')[0];
-
 
 const responseHandler = function(){
 	response = JSON.parse(this.responseText);
 };
+
+request.addEventListener("load", responseHandler);
+request.open("GET", "http://api.tvmaze.com/search/shows?q=girls");
+request.send();
+
+////////////////////////////////////////////////////////////
+
+let response = [];
+
+const ele_select = document.querySelectorAll('select')[0];
+const ele_button = document.querySelectorAll('button')[0];
 
 const inputHandler = function(){
 	let user_input = document.querySelectorAll('input')[0].value;
@@ -53,9 +55,6 @@ ele_button.addEventListener('click', function(event){
 	document.querySelector('option').innerHTML = `Shows matching "${user_input}"`;
 });
 
-
-
-
 ele_select.addEventListener('change', function(event){
 	responseHandler;
 	let user_input = document.querySelectorAll('input')[0].value;
@@ -63,8 +62,6 @@ ele_select.addEventListener('change', function(event){
 		image.src = getImage(event.target.value);
 	document.querySelector('#show-detail').innerHTML = event.target.value;
 	document.querySelector('#show-detail').appendChild(image);
-
-	// window.open(getURL(event.target.value));
 });
 
 
