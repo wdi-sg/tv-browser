@@ -1,38 +1,34 @@
-// API Docs at:
-// http://www.tvmaze.com/api
-
-
-// var url = "http://api.tvmaze.com/search/shows?q=";
+//Global Variables
 var objectStore;
 var showStore;
 var tvdbStore;
+
+//For the first AJAX
 var responseHandler = function() {
     var responseObjectArray = [];
     var showArray = [];
     var tvdbArray = [];
-    // console.log("response text", this.responseText);
-    // console.log("status text", this.statusText);
-    // console.log("status code", this.status);
+
+//Parse response output
     responseObjectArray = JSON.parse(this.responseText);
     objectStore = responseObjectArray;
-    console.log(responseObjectArray);
+    //console.log(responseObjectArray);
+
+    //For each object in response, get show name and tvdb id
     responseObjectArray.forEach(function(element) {
         var tvdb = element.show.externals.thetvdb;
         var showName = element.show.name;
         console.log(`${showName}, ${tvdb}`)
 
         showArray.push(showName);
-
         tvdbArray.push(tvdb);
     })
-    console.log(showArray);
-    console.log(tvdbArray);
+    //console.log(showArray);
+    //console.log(tvdbArray);
     showArray = showArray;
     tvdbStore  = tvdbArray;
-    // clearPrev();
-    // listShows(showArray);
     addShowOptions(showArray);
-    // url = "http://api.tvmaze.com/search/shows?q=";
+
 
 
 };
@@ -41,9 +37,9 @@ var responseHandler = function() {
 var request = new XMLHttpRequest();
 // listen for the request response
 request.addEventListener("load", responseHandler);
-// ready the system by calling open, and specifying the url
 
 
+// Add click function to submit button
 var inputBox = document.getElementById("show-search")
 var submitBtn = document.getElementsByTagName("button")[0];
 var value = inputBox.value;
@@ -56,29 +52,31 @@ var submitAction = function() {
 
     // send the request
     request.send();
-
 }
 submitBtn.addEventListener('click', submitAction);
 
-function listShows(showArray) {
-    var list = document.createElement("ul");
-    showArray.forEach(function(element) {
-        var listItem = document.createElement("li");
-        listItem.innerText = element;
-        list.appendChild(listItem);
-    })
-    document.getElementById("search-form").appendChild(list);
-}
+// Function for displaying shows in list (not used)
 
-function clearPrev() {
-    var form = document.getElementById("search-form");
-    if (form.lastChild.tagName == "UL"){
-      var prevList = form.getElementsByTagName("ul")[0];
-    document.getElementById("search-form").removeChild(prevList)
-    }
+// function listShows(showArray) {
+//     var list = document.createElement("ul");
+//     showArray.forEach(function(element) {
+//         var listItem = document.createElement("li");
+//         listItem.innerText = element;
+//         list.appendChild(listItem);
+//     })
+//     document.getElementById("search-form").appendChild(list);
+// }
 
-}
+// function clearPrev() {
+//     var form = document.getElementById("search-form");
+//     if (form.lastChild.tagName == "UL"){
+//       var prevList = form.getElementsByTagName("ul")[0];
+//     document.getElementById("search-form").removeChild(prevList)
+//     }
 
+// }
+
+// Updates option selector with list of shows
 function addShowOptions(showArray) {
     clearPrevOptions();
     showArray.forEach(function(element,index) {
@@ -90,6 +88,7 @@ function addShowOptions(showArray) {
     })
 }
 
+// Removes previous list when new search is made
 function clearPrevOptions() {
         var selector = document.getElementById("show-select");
         selector.innerHTML = "";
@@ -111,6 +110,7 @@ selector.addEventListener("change", function(){
     request2.send();
 
 
+// For AJAX call 2
 var responseHandler2 = function() {
     var responseObjectArray = [];
 
@@ -123,6 +123,8 @@ var responseHandler2 = function() {
 request2.addEventListener("load", responseHandler2);
 
 })
+
+// Gets tvdb id from the id array
 function getTVDB (id){
     console.log(id)
     var show = objectStore[id];
