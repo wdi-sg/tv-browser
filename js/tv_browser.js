@@ -14,6 +14,7 @@ var responseHandler = function() {
     console.log("status code", this.status);
     console.log("response text", this.responseText);
     var lengthOfArray = response.length;
+    optionGetter.setAttribute("style", "visibility: visible");
     //looping to print all show names
     for (i=0; i<lengthOfArray; i++){
     var createOption = document.createElement('option');
@@ -51,17 +52,6 @@ var optRequestApi = function (){
     console.log("status code", this.status);
     console.log("response text", this.responseText);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 // to load up the response handler for the item which
