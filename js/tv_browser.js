@@ -7,22 +7,36 @@ var display = document.getElementById('show-detail')
 const inputElement = document.getElementById('show-search');
 const submitBtn = document.getElementById('submit-btn');
 const url = `http://api.tvmaze.com/search/shows?q=`
+const dropdown = document.getElementById('show-select');
 
 submitBtn.addEventListener('click', submitRequest)
 
+function kebabCase(string) {
+    return string.replace(/\s/g, `-`).toLowerCase();
+}
 
-var responseHandler = function() {
+function submitRequest() {
+    var inputValue = kebabCase(inputElement.value); //turns all queries into kebab case
+    inputElement.value = "";
+    var query = url + inputValue;
+    request.open("GET", query);
+    request.send();
+    request.addEventListener("load", populateDropDown);
+    request.addEventListener("error", requestFailed);
+}
+
+function populateDropDown() {
+    display.innerText = "";
     console.log(`responseHandler triggered`)
     var results = JSON.parse(this.responseText);
-    for (var index=0; index < results.length; index++) {
-      var itemName = document.createElement("h1");
-      var itemDesc = document.createElement("p");
-      itemName.innerText = results[index].show.name;
-      itemDesc.innerHTML = results[index].show.summary;
-      display.appendChild(itemName);
-      display.appendChild(itemDesc);
+    for (var index = 0; index < results.length; index++) {
+        var itemDropDown = document.createElement("option")
+        itemDropDown.innerText = results[index].show.name;
+        itemDropDown.value = kebabCase(results[index].show.name);
+        dropdown.appendChild(itemDropDown);
     }
 };
+
 
 var requestFailed = function() {
     console.log(`requestFailed triggered`)
@@ -31,11 +45,27 @@ var requestFailed = function() {
     display.innerText = `There was an error.`;
 };
 
-function submitRequest(event) {
-    var inputValue = inputElement.value.replace(/\s/g, `-`); //turns all queries into kebab case
-    var query = url + inputValue;
-    request.open("GET", query);
+
+dropdown.addEventListener('change', getOneShow);
+
+function getOneShow() {
+    var selectedShow = this.value;
+    var singleSearchURL = `http://api.tvmaze.com/singlesearch/shows?q=`;
+    var query = singleSearchURL + selectedShow
+    console.log(query);
+    request.open('GET', query);
     request.send();
-    request.addEventListener("load", responseHandler);
+    request.addEventListener("load", displayShow);
     request.addEventListener("error", requestFailed);
+}
+
+function displayShow() {
+    display.innerText = "";
+    var results = JSON.parse(this.responseText);
+    var itemName = document.createElement("h1");
+    var itemDesc = document.createElement("p");
+    itemName.innerText = results.name;
+    itemDesc.innerHTML = results.summary;
+    display.appendChild(itemName);
+    display.appendChild(itemDesc);
 }
