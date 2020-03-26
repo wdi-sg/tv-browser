@@ -1,70 +1,108 @@
-// API Docs at:
-// http://www.tvmaze.com/api
-
 var request = new XMLHttpRequest();
 
-var display = document.getElementById('show-detail')
-const inputElement = document.getElementById('show-search');
-const submitBtn = document.getElementById('submit-btn');
-const url = `http://api.tvmaze.com/search/shows?q=`
-const dropdown = document.getElementById('show-select');
+//Helper functions:
+var isPlainObject = function(obj) {
+    return Object.prototype.toString.call(obj) === '[object Object]';
+};
 
-submitBtn.addEventListener('click', submitRequest)
+function capitalise(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 function kebabCase(string) {
     return string.replace(/\s/g, `-`).toLowerCase();
 }
 
+//Targetting all HTML elements for easy reference.
+var display = document.getElementById('show-detail')
+const inputElement = document.getElementById('show-search');
+const submitBtn = document.getElementById('submit-btn');
+const url = `http://api.tvmaze.com/search/shows?q=`
+const dropdown = document.getElementById('show-select');
+var firstDropdown = document.createElement("option")
+
+//Clicking the submit button should trigger a submitRequest.
+submitBtn.addEventListener('click', submitRequest)
+
 function submitRequest() {
+    //Get the user input as a string.
     var userInput = inputElement.value;
-    var inputValue = kebabCase(userInput); //turns all queries into kebab case
-    document.getElementById('first-option').innerText = `Shows matching "${userInput}"`;
-    var query = url + inputValue;
-    request.open("GET", query);
-    request.send();
-    request.addEventListener("load", populateDropDown);
-    request.addEventListener("error", requestFailed);
+
+    //Clear the input & previous results.
     inputElement.value = "";
+    display.innerText = ""
+
+    //If user input is empty, give error message.
+    if (userInput === "") {
+        display.innerText = `Input cannot be empty.`;
+    //If it's not empty, send a request to the servers with the input.
+    } else {
+        //Turn input into kebab case so that we can account for spaces in show names.
+        var inputValue = kebabCase(userInput);
+        //Making a string with API url with the input
+        var query = url + inputValue;
+        //Request info from the servers.
+        request.open("GET", query);
+        request.send();
+        request.addEventListener("load", populateDropDown);
+        request.addEventListener("error", requestFailed);
+
+        dropdown.textContent = ""; //Clears the entire drop down menu, including the first option.
+        //Change the first option in the dropdown to show `shows matching (userinput)`.
+        firstDropdown.innerText = `Shows matching "${userInput}"`;
+        //Add the first option into dropdown.
+        dropdown.appendChild(firstDropdown);
+    }
 }
 
+//populateDropDown will populate the dropdown list with the data received from submitRequest
 function populateDropDown() {
+    //Make dropdown appear.
     dropdown.classList.remove('hide');
-    display.innerText = "";
-    console.log(`responseHandler triggered`)
+    //Get the array of results.
     var results = JSON.parse(this.responseText);
-    for (var index = 0; index < results.length; index++) {
-        var itemDropDown = document.createElement("option")
-        itemDropDown.innerText = results[index].show.name;
-        itemDropDown.value = kebabCase(results[index].show.name);
-        dropdown.appendChild(itemDropDown);
+
+    //If results array is empty, return error message.
+    if (results.length === 0) {
+        return display.innerText = `Sorry, no results were found matching your search!`
+    } else {
+        //For each object in the array, create a new option element with the object's name as its value and innerText.
+        for (var index = 0; index < results.length; index++) {
+            var itemDropDown = document.createElement("option")
+            itemDropDown.innerText = results[index].show.name;
+            itemDropDown.value = kebabCase(results[index].show.name); //kebabcase the value.
+            dropdown.appendChild(itemDropDown);
+        }
     }
 };
 
+//requestFailed will trigger error status.
 
 var requestFailed = function() {
-    console.log(`requestFailed triggered`)
     console.log("status code", this.status);
-    console.log(`There was an error.`)
     display.innerText = `There was an error.`;
 };
 
-
+//When an option is selected from the dropdown menu, trigger getOneShow function.
 dropdown.addEventListener('change', getOneShow);
 
+//getOneShow() retrieves the kebab-cased value of the selected option & sends a request to the API.
 function getOneShow() {
     var selectedShow = this.value;
     var singleSearchURL = `http://api.tvmaze.com/singlesearch/shows?q=`;
     var query = singleSearchURL + selectedShow
-    console.log(query);
     request.open('GET', query);
     request.send();
     request.addEventListener("load", displayShow);
     request.addEventListener("error", requestFailed);
 }
 
+//displayShow() displays all the show info in the show-details div.
+
 function displayShow() {
     display.innerText = "";
     var results = JSON.parse(this.responseText);
+    //Generate the main show info: title, image & summary.
     var itemName = document.createElement("h1");
     var itemDesc = document.createElement("p");
     var itemImage = document.createElement('img')
@@ -74,21 +112,35 @@ function displayShow() {
     display.appendChild(itemName);
     display.appendChild(itemImage)
     display.appendChild(itemDesc);
+
+    //Generate the breakdown of all the object's values.
     breakdownObject(results);
 }
 
-var breakdownObject = function(objectName) {
-    var objectItems = Object.keys(objectName); //Returns array of all the key values
-    for (var i = 0; i < objectItems.length; i++) {
-        var info = document.createElement("p");
-        var key = document.createElement("span");
-        key.classList.add('bold');
-        var value = document.createElement("span");
-        var result = objectName[objectItems[i]];
+//breakdownObject() goes through a nested object and breaks down all its keys/values.
+var breakdownObject = function(obj) {
+
+    var objectKeys = Object.keys(obj); //Returns array of all the key values
+
+    //Loop through the objectItems array while using it to reference from the parent object (objectName)
+    for (var index = 0; index < objectKeys.length; index++) {
+
+        //If object = {name: 'Game of Thrones', type: 'tv show'},
+        //Then objectItems = ['name', 'type']
+        //And result = gameOfThrones['id']
+        var result = obj[objectKeys[index]];
+
+        //If the result is still an object, breakdown the result further.
         if (isPlainObject(result)) {
             breakdownObject(result);
+
+            //If it's not an object, generate paragraph with key(capitalised+bolded) & value & append to the show-details div.
         } else {
-            key.innerHTML = `${capitalise(objectItems[i])}: `;
+            var info = document.createElement("p");
+            var key = document.createElement("span");
+            key.classList.add('bold');
+            var value = document.createElement("span");
+            key.innerHTML = `${capitalise(objectKeys[index])}: `;
             value.innerHTML = result;
             info.appendChild(key);
             info.appendChild(value)
@@ -96,75 +148,3 @@ var breakdownObject = function(objectName) {
         }
     }
 };
-
-var isPlainObject = function(obj) {
-    return Object.prototype.toString.call(obj) === '[object Object]';
-};
-
-function capitalise(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-var gameofthrones = {
-    "id": 82,
-    "url": "http://www.tvmaze.com/shows/82/game-of-thrones",
-    "name": "Game of Thrones",
-    "type": "Scripted",
-    "language": "English",
-    "genres": [
-        "Drama",
-        "Adventure",
-        "Fantasy"
-    ],
-    "status": "Ended",
-    "runtime": 60,
-    "premiered": "2011-04-17",
-    "officialSite": "http://www.hbo.com/game-of-thrones",
-    "schedule": {
-        "time": "21:00",
-        "days": [
-            "Sunday"
-        ]
-    },
-    "rating": {
-        "average": 9.1
-    },
-    "weight": 97,
-    "network": {
-        "id": 8,
-        "name": "HBO",
-        "country": {
-            "name": "United States",
-            "code": "US",
-            "timezone": "America/New_York"
-        }
-    },
-    "webChannel": {
-        "id": 22,
-        "name": "HBO Go",
-        "country": {
-            "name": "United States",
-            "code": "US",
-            "timezone": "America/New_York"
-        }
-    },
-    "externals": {
-        "tvrage": 24493,
-        "thetvdb": 121361,
-        "imdb": "tt0944947"
-    },
-    "image": {
-        "medium": "http://static.tvmaze.com/uploads/images/medium_portrait/190/476117.jpg",
-        "original": "http://static.tvmaze.com/uploads/images/original_untouched/190/476117.jpg"
-    },
-    "summary": "<p>Based on the bestselling book series <i>A Song of Ice and Fire</i> by George R.R. Martin, this sprawling new HBO drama is set in a world where summers span decades and winters can last a lifetime. From the scheming south and the savage eastern lands, to the frozen north and ancient Wall that protects the realm from the mysterious darkness beyond, the powerful families of the Seven Kingdoms are locked in a battle for the Iron Throne. This is a story of duplicity and treachery, nobility and honor, conquest and triumph. In the <b>Game of Thrones</b>, you either win or you die.</p>",
-    "updated": 1580402781,
-    "_links": {
-        "self": {
-            "href": "http://api.tvmaze.com/shows/82"
-        },
-        "previousepisode": {
-            "href": "http://api.tvmaze.com/episodes/1623968"
-        }
-    }
-}
