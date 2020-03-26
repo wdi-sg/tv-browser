@@ -1,8 +1,6 @@
 body {
   font: 16px/1.5 Courier, monospace;
   margin: 0;
-  background: url('../images/reel.jpg') no-repeat center center fixed;
-  background-size: cover;
 }
 
 main {
@@ -11,6 +9,10 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.browse {
+  padding: 10px 25px;
 }
 
 a {
@@ -29,11 +31,6 @@ input[type="search"] {
 select {
   font-size: 150%;
 }
-
-.browse {
-  padding: 10px 25px;
-}
-
 .fail {
   color: red;
 }
