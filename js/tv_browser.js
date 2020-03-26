@@ -42,10 +42,7 @@ function submitRequest() {
         //Making a string with API url with the input
         var query = url + inputValue;
         //Request info from the servers.
-        request.open("GET", query);
-        request.send();
-        request.addEventListener("load", populateDropDown);
-        request.addEventListener("error", requestFailed);
+        getData(query, populateDropDown);
 
         dropdown.textContent = ""; //Clears the entire drop down menu, including the first option.
         //Change the first option in the dropdown to show `shows matching (userinput)`.
@@ -91,10 +88,7 @@ function getOneShow() {
     var selectedShow = this.value;
     var singleSearchURL = `http://api.tvmaze.com/singlesearch/shows?q=`;
     var query = singleSearchURL + selectedShow
-    request.open('GET', query);
-    request.send();
-    request.addEventListener("load", displayShow);
-    request.addEventListener("error", requestFailed);
+    getData(query, displayShow);
 }
 
 //displayShow() displays all the show info in the show-details div.
@@ -152,41 +146,54 @@ var breakdownObject = function(obj) {
     }
 };
 
+//Function to get cast members.
 function getCastMembers(){
+  //Grabs the image element ID, which is the actor's id.
   const query = `http://api.tvmaze.com/shows/${this.id}/cast`
-  request.open('GET', query);
-  request.send();
-  request.addEventListener("load", displayCastMembers);
-  request.addEventListener("error", requestFailed);
+  display.innerText = "";
+  getData(query, displayCastMembers);
+
 }
 
 function displayCastMembers(){
   var results = JSON.parse(this.responseText);
-  for (var i=0; i < results.length; i++) {
-    var desc = document.createElement("p");
-    desc.innerText = `${results[i].person.name} as ${results[i].character.name}`
-    var characterImage = document.createElement("img");
-    characterImage.id = results[i].person.id;
-    characterImage.src = results[i].character.image.medium
-    characterImage.addEventListener('click', getActor);
-    display.appendChild(characterImage);
-    display.appendChild(desc);
+
+  if (results.length===0) {
+    return display.innerText = "There were no cast members found."
+  } else {
+    for (var i=0; i < results.length; i++) {
+      var desc = document.createElement("p");
+      desc.innerText = `${results[i].person.name} as ${results[i].character.name}`
+      var characterImage = document.createElement("img");
+      characterImage.id = results[i].person.id;
+      characterImage.src = results[i].character.image.medium
+      characterImage.addEventListener('click', getActor);
+      display.appendChild(characterImage);
+      display.appendChild(desc);
+    }
   }
 }
 
-function getActor(){
+function getActor(xhttp){
   const query = `http://api.tvmaze.com/people/${this.id}`
-
-  request.open('GET', query);
-  request.send();
-  request.addEventListener("load", displayActor);
-  request.addEventListener("error", requestFailed);
+  display.innerText = "";
+  getData(query, displayActor);
 }
+
 
 function displayActor(){
   var results = JSON.parse(this.responseText)
   var image = document.createElement("img");
   image.src = results.image.medium
   display.appendChild(image);
-  return breakdownObject(results[0]);
+  breakdownObject(results);
+}
+
+//Function to handle GET server requests
+function getData(url, callback) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", url, true);
+  xhttp.send();
+  xhttp.addEventListener("load", callback);
+  xhttp.addEventListener("error", requestFailed);
 }
