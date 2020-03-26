@@ -3,11 +3,17 @@
 
 // make a new request
 var request = new XMLHttpRequest();
-var showDetail = document.querySelector('#show-detail')
+var showDetail = document.querySelector('#show-detail');
+var showSelect = document.querySelector('#show-select');
 
 var createliTag = function(movieDataArray){
+    var optionMovieName = document.createElement('option');
+        optionMovieName.setAttribute('value', movieDataArray.show.name);
+        optionMovieName.innerText = movieDataArray.show.name;
+        showSelect.appendChild(optionMovieName);
+
     var olTag = document.createElement('ol');
-        olTag.setAttribute('id', 'movie-name')
+        olTag.setAttribute('id', 'movie-name');
         olTag.innerText = movieDataArray.show.name;
 
         var liTag = document.createElement('li');
