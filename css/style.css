@@ -21,6 +21,10 @@ input {
   width: 20em;
 }
 
+button {
+  font-size: 150%;
+}
+
 input[type="search"] {
   font-size: 200%;
   margin: 1em;
