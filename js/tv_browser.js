@@ -40,6 +40,35 @@ var submitSearch = function () {
 
 submitButton.addEventListener('click', submitSearch);
 
+var displayResult = function () {
+    var userInput = selectShow.value;
+    var url = `http://api.tvmaze.com/search/shows?q=${userInput}`
+    var responseHandler = function () {
+        response = JSON.parse(this.responseText);
+        // save details i want to print
+        var name = response[0].show.name;
+        var summary = response[0].show.summary;
+        var image = response[0].show.image.medium;
+        var genre = response[0].show.genres;
+        console.log(response[0])
+        var selection = document.createElement('div');
+        selection.innerHTML = `
+        <h1>Title: ${name}</h1>
+        <img src=${image}>
+        <p> Genre: ${genre}</p>
+        <p> Summary: ${summary}</p>
+        `
+        showDetails.appendChild(selection);
+    };
+    var request = new XMLHttpRequest();
+
+    request.addEventListener("load", responseHandler);
+
+    request.open("GET", url);
+
+    request.send();
+};
+
 var requestFailed = function () {
     console.log("response text", this.responseText);
     console.log("status text", this.statusText);
