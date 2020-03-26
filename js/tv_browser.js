@@ -8,31 +8,31 @@ var showSelect = document.querySelector('#show-select');
 
 var createliTag = function(movieDataArray){
     var optionMovieName = document.createElement('option');
-        optionMovieName.setAttribute('value', movieDataArray.show.name);
-        optionMovieName.innerText = movieDataArray.show.name;
-        showSelect.appendChild(optionMovieName);
+    optionMovieName.setAttribute('value', movieDataArray.show.name);
+    optionMovieName.innerText = movieDataArray.show.name;
+    showSelect.appendChild(optionMovieName);
 
     var olTag = document.createElement('ol');
-        olTag.setAttribute('id', 'movie-name');
-        olTag.innerText = movieDataArray.show.name;
+    olTag.setAttribute('id', 'movie-name');
+    olTag.innerText = movieDataArray.show.name;
 
-        var liTag = document.createElement('li');
-        liTag.innerText = "Type: " +movieDataArray.show.type;
-        olTag.appendChild(liTag);
+    var liTag = document.createElement('li');
+    liTag.innerText = "Type: " +movieDataArray.show.type;
+    olTag.appendChild(liTag);
 
-        liTag = document.createElement('li');
-        liTag.innerText = "Language: " +movieDataArray.show.language;
-        olTag.appendChild(liTag);
+    liTag = document.createElement('li');
+    liTag.innerText = "Language: " +movieDataArray.show.language;
+    olTag.appendChild(liTag);
 
-        liTag = document.createElement('li');
-        liTag.innerText = "Rating: " +movieDataArray.show.rating.average;
-        olTag.appendChild(liTag);
+    liTag = document.createElement('li');
+    liTag.innerText = "Rating: " +movieDataArray.show.rating.average;
+    olTag.appendChild(liTag);
 
-        liTag = document.createElement('li');
-        liTag.innerHTML = "Summary: " +movieDataArray.show.summary;
-        olTag.appendChild(liTag);
+    liTag = document.createElement('li');
+    liTag.innerHTML = "Summary: " +movieDataArray.show.summary;
+    olTag.appendChild(liTag);
 
-        showDetail.appendChild(olTag);
+    showDetail.appendChild(olTag);
 };
 
 //function to loop and show results in the DOM.
