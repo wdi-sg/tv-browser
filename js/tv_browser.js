@@ -49,7 +49,9 @@ var errorHandler = function(){
 
 //AJAX call for initial search
 var initialSearch = function(event){
+    select.classList.toggle('hidden');
     var input = document.querySelector('#show-search');
+    document.getElementById('default-select').innerText = `Shows matching ${input.value}`
     var showSearch = " http://api.tvmaze.com/search/shows?q=" + input.value;
     // make a new request
     var request = new XMLHttpRequest();
