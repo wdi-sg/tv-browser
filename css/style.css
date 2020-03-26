@@ -19,11 +19,13 @@ a {
 
 input {
   width: 20em;
+
 }
 
 input[type="search"] {
   font-size: 200%;
   margin: 1em;
+
 }
 
 select {
@@ -36,4 +38,11 @@ select {
 
 .fail {
   color: red;
+}
+button{
+	background-color: red; /* Green */
+  border: none;
+  color: white;
+  padding: 6px ;
+  width: 50px;
 }
