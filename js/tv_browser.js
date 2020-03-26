@@ -153,7 +153,6 @@ var breakdownObject = function(obj) {
 };
 
 function getCastMembers(){
-  debugger;
   const query = `http://api.tvmaze.com/shows/${this.id}/cast`
   request.open('GET', query);
   request.send();
