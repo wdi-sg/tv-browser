@@ -4,6 +4,7 @@
 //setting the request var for use later
 var request = new XMLHttpRequest();
 var buttonGetter = document.getElementById('submit')
+var optionGetter = document.getElementById('show-select');
 
 //setting the response handler for action
 var responseHandler = function() {
@@ -13,9 +14,10 @@ var responseHandler = function() {
     var lengthOfArray = response.length;
     //looping to print all show names
     for (i=0; i<lengthOfArray; i++){
-    var createShowName = document.createElement('p');
-    createShowName.innerText = (i + 1) + ") Show name: " + response[i].show.name;
-    document.body.appendChild(createShowName);
+    var createOption = document.createElement('option');
+    createOption.value = response[i].show.name;
+    createOption.innerText = response[i].show.name;
+    optionGetter.appendChild(createOption);
     }
 };
 
@@ -24,7 +26,6 @@ var requestAPI = function(){
     var input = document.querySelector('#show-search');
     var entry = input.value;
     var optionGetter = document.getElementById("show-select");
-    if (optionGetter.value === "search-show")
     request.open("GET", "http://api.tvmaze.com/search/shows?q=" + entry);
     request.send();
 };
