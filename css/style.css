@@ -1,12 +1,12 @@
 body {
-  font: 16px/1.5 Courier, monospace;
+  font: 16px/1.5 Inconsolata, monospace;
   margin: 0;
   background: url('../images/reel.jpg') no-repeat center center fixed;
   background-size: cover;
 }
 
 main {
-  width: 80%;
+  width: 750px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -17,27 +17,63 @@ a {
   color: #c00;
 }
 
+h2 {
+  text-align: center;
+}
+
+p {
+  margin: 0;
+}
+
+#search-form {
+  margin: 10px 0px;
+  display: flex;
+  justify-content: space-between;
+}
+
 input {
-  width: 20em;
+  width: 65%;
 }
 
 button {
-  font-size: 150%;
+  font: 30px/1.5 Inconsolata, monospace;
+  width: 35%;
 }
 
 input[type="search"] {
-  font-size: 200%;
-  margin: 1em;
+  font: 30px/1.5 Inconsolata, monospace;
 }
 
 select {
-  font-size: 150%;
+  width: 100%;
+  font: 30px/1.5 Inconsolata, monospace;
+  font-style: italic;
 }
 
-.browse {
-  padding: 10px 25px;
+option {
+  font-style: normal;
 }
 
 .fail {
   color: red;
+}
+
+#show-detail {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+#show-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+#show-summary {
+  padding-left: 10px;
+}
+
+img {
+  align-self: flex-start;
 }
