@@ -5,63 +5,99 @@
 var request = new XMLHttpRequest();
 var showDetail = document.querySelector('#show-detail');
 var showSelect = document.querySelector('#show-select');
+var optionSelect = document.querySelectorAll('option');
 
-var createliTag = function(movieDataArray){
+var createOption = function(movieDataArray){
     var optionMovieName = document.createElement('option');
     optionMovieName.setAttribute('value', movieDataArray.show.name);
     optionMovieName.innerText = movieDataArray.show.name;
     showSelect.appendChild(optionMovieName);
+}
 
-    var olTag = document.createElement('ol');
-    olTag.setAttribute('id', 'movie-name');
-    olTag.innerText = movieDataArray.show.name;
+var resetOption = function(){
+    for(var i=0; i<showSelect.length; i++){
+        showSelect.removeChild(showSelect[i]);
+    }
+}
+
+var createList = function(movieDataArray){
+    var ulTag = document.createElement('ul');
+    ulTag.setAttribute('id', 'movie-name');
+    ulTag.innerText = movieDataArray.show.name;
 
     var liTag = document.createElement('li');
     liTag.innerText = "Type: " +movieDataArray.show.type;
-    olTag.appendChild(liTag);
+    ulTag.appendChild(liTag);
 
     liTag = document.createElement('li');
     liTag.innerText = "Language: " +movieDataArray.show.language;
-    olTag.appendChild(liTag);
+    ulTag.appendChild(liTag);
 
     liTag = document.createElement('li');
     liTag.innerText = "Rating: " +movieDataArray.show.rating.average;
-    olTag.appendChild(liTag);
+    ulTag.appendChild(liTag);
 
     liTag = document.createElement('li');
     liTag.innerHTML = "Summary: " +movieDataArray.show.summary;
-    olTag.appendChild(liTag);
+    ulTag.appendChild(liTag);
 
-    showDetail.appendChild(olTag);
+    showDetail.appendChild(ulTag);
 };
 
 //function to loop and show results in the DOM.
 var loadMovieInfo = function(movieDataObj) {
-    showDetail.innerHTML = "";
-
+    showDetail.innerText= "";
+    resetOption();
     for(var i=0; i<movieDataObj.length; i++) {
         var movieDataArray = movieDataObj[i];
-
-        createliTag(movieDataArray);
+        createList(movieDataArray);
+        createOption(movieDataArray);
     };
 };
-//#show-detail
+
+
+
 
 var responseHandler = function() {
   // console.log("response text", this.responseText);
-  var response = JSON.parse( this.responseText );
-  console.log( response );
-  console.log("Movie name: "+response[0].show.name+" type: "+response[0].show.type);
-  loadMovieInfo(response);
+    var response = JSON.parse( this.responseText );
+    console.log( response );
+    console.log("Movie name: "+response[0].show.name+" type: "+response[0].show.type);
 
-  console.log("status text", this.statusText);
-  console.log("status code", this.status);
+    loadMovieInfo(response);
+
+
+    var matchMovieName = false;
+
+    var selectHandler = function() {
+
+        var movieDataArrS;
+        if(matchMovieName === false) {
+            for(var i=0; i<showSelect.length; i++) {
+                for(var j=0; j<response.length; j++)
+                if(showSelect[i].value === response[j].show.name){
+                    matchMovieName = true;
+                    showDetail.innerText = "";
+
+                    createList(response[j]);
+                }
+            }
+        }
+    };
+
+    for (var i = 0; i < showSelect.length; i++){
+        userSelect = showSelect[i].addEventListener('click', selectHandler);
+    };
+
+
+    console.log("status text", this.statusText);
+    console.log("status code", this.status);
 };
 
 var requestFailed = function(){
-  console.log("response text", this.responseText);
-  console.log("status text", this.statusText);
-  console.log("status code", this.status);
+    console.log("response text", this.responseText);
+    console.log("status text", this.statusText);
+    console.log("status code", this.status);
 };
 
 var doSubmit = function(event){
@@ -74,6 +110,7 @@ var doSubmit = function(event){
 };
 
 document.querySelector('button').addEventListener('click', doSubmit);
+
 
 // listen for the request response
 request.addEventListener("load", responseHandler);
