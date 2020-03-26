@@ -4,6 +4,7 @@
 var submitButton = document.getElementById('submit');
 var searchShow = document.getElementById('show-search');
 var showDetails = document.getElementById('show-detail');
+var selectShow = document.getElementById('show-select');
 
 // run after submit button clicked
 var submitSearch = function () {
@@ -19,6 +20,9 @@ var submitSearch = function () {
             var result = document.createElement('p');
             result.innerText = response[x].show.name;
             showDetails.appendChild(result)
+            var options = document.createElement('option');
+            options.innerText = response[x].show.name;
+            selectShow.appendChild(options);
         }
     };
 
