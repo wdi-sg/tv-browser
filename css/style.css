@@ -1,3 +1,8 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
 body {
   font: 16px/1.5 Courier, monospace;
   margin: 0;
@@ -6,34 +11,139 @@ body {
 }
 
 main {
-  width: 80%;
-  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 a {
   color: #c00;
+  text-decoration: none;
+  color: #41605EFF;
 }
 
 input {
-  width: 20em;
+	display: inline-block;
+  height: 5rem;
+  background-color: transparent;
+  text-align: center;
+  border-radius: 5px;
+  outline: black;
 }
 
 input[type="search"] {
-  font-size: 200%;
-  margin: 1em;
+  font-size: 100%;
+  color: grey;
+}
+
+input:active {
+	background-color: rgba(250, 250, 250, 0.3);
+	transition: all 0.1s ease-out;
 }
 
 select {
-  font-size: 150%;
+  font-size: 1.2rem;
+  width: 30%;
+  background-color: rgba(250, 250, 250, 0.4);
+  color: grey;
+}
+
+button {
+	margin: 10px;
+	padding: 1rem;
+	border-radius: 4px;
+	width: 5rem;
+	height: 5rem;
+	background-color: rgba(250, 250, 250, 0.3);
+	border: darkgrey 1px solid;
+	color: grey;
+	font-family: sans-serif;
+	outline: none;
+}
+
+button:hover {
+	background-color: rgba(250, 250, 250, 0.5);
+	border-radius: 6px;
+	transition: all 0.2s ease-in-out;
+	cursor: pointer;
+}
+
+button:active {
+	background-color: lightgrey;
+	transition: all 0.3s ease-out;
+	color: darkgrey;
+	border-radius: 8px;
 }
 
 .browse {
   padding: 10px 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .fail {
   color: red;
+}
+
+#search-form {
+	display: flex;
+	flex-direction: row;
+	width: 100vw;
+	height: 18vw;
+	align-items: center;
+	justify-content: center;
+}
+
+#show-search {
+	width: 30vw;
+}
+
+.show-detail {
+	display: flex;
+}
+
+.show-info {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 1rem;
+	color: black;
+	font-family: sans-serif;
+	width: 80vw;
+}
+
+.show-info > p {
+	padding: 10px;
+	opacity: 0.7;
+}
+
+.brand {
+	margin-top: 20px;
+}
+
+.hide {
+	visibility: hidden;
+}
+
+@media (max-width: 740px) {
+	.brand {
+		width: 80vw;
+		margin-top: 100px;
+*/	}
+
+	#search-form {
+		height: 40vw;
+	}
+
+	select {
+	  font-size: 0.8rem;
+	  width: 30%;
+	  background-color: rgba(250, 250, 250, 0.4);
+	  color: grey;
+}
 }
