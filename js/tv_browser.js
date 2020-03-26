@@ -1,5 +1,3 @@
-var request = new XMLHttpRequest();
-
 //=====================HELPER FUNCTIONS=============================
 //Function to ascertain if something is an object.
 var isPlainObject = function(obj) {
@@ -35,11 +33,11 @@ dropdown.addEventListener('change', getOneShow);
 
 //Function to handle GET server requests
 function getData(url, callback) {
-  var xhttp = new XMLHttpRequest();
-  xhttp.open("GET", url, true);
-  xhttp.send();
-  xhttp.addEventListener("load", callback);
-  xhttp.addEventListener("error", requestFailed);
+  var request = new XMLHttpRequest();
+  request.open("GET", url, true);
+  request.send();
+  request.addEventListener("load", callback);
+  request.addEventListener("error", requestFailed);
 }
 
 //requestFailed will trigger error display.
@@ -81,7 +79,7 @@ function submitRequest() {
 function populateDropDown() {
     //Make dropdown appear.
     dropdown.classList.remove('hide');
-    
+
     //Results here should be an array of shows matching the search query.
     var results = JSON.parse(this.responseText);
 
@@ -119,7 +117,7 @@ function getCastMembers(){
 }
 
 //Function to get a single actor's data.
-function getActor(xhttp){
+function getActor(){
   //Tag the image ID (which is the person ID) onto the end of the endpoint URL.
   const query = `http://api.tvmaze.com/people/${this.id}`
   //Clear the display div to get ready for the actor information elements.
