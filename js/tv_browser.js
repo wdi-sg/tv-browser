@@ -11,6 +11,8 @@ displayShowInfo = function (showName, showImgSrc, showSumm) {
     var showTitle = document.createElement("h2");
     showTitle.innerText = showName;
     showTitle.id = "show-title";
+    var showDiv = document.createElement("div");
+    showDiv.id = "show-info";
     var showPoster = document.createElement("img");
     showPoster.src = showImgSrc;
     showPoster.id = "show-poster";
@@ -18,17 +20,23 @@ displayShowInfo = function (showName, showImgSrc, showSumm) {
     showSummary.id = "show-summary";
     showSummary.innerHTML = showSumm;
 
+    showDiv.appendChild(showPoster);
+    showDiv.appendChild(showSummary);
     showDetails.appendChild(showTitle);
-    showDetails.appendChild(showPoster);
-    showDetails.appendChild(showSummary);
+    showDetails.appendChild(showDiv);
   } else {
     console.log("here");
     var oldShowTitle = document.querySelector("#show-title");
     oldShowTitle.parentElement.removeChild(oldShowTitle);
-    var oldShowPoster = document.querySelector("#show-poster");
-    oldShowPoster.parentElement.removeChild(oldShowPoster);
-    var oldShowSummary = document.querySelector("#show-summary");
-    oldShowSummary.parentElement.removeChild(oldShowSummary);
+
+    var oldShowDiv = document.querySelector("#show-info");
+    oldShowDiv.parentElement.removeChild(oldShowDiv);
+
+    // var oldShowPoster = document.querySelector("#show-poster");
+    // oldShowPoster.parentElement.removeChild(oldShowPoster);
+
+    // var oldShowSummary = document.querySelector("#show-summary");
+    // oldShowSummary.parentElement.removeChild(oldShowSummary);
 
     displayShowInfo(showName, showImgSrc, showSumm);
   }
@@ -55,18 +63,26 @@ var fetchShowInfo = function () {
 }
 
 var displayShowList = function (shows) {
+  var options = document.querySelectorAll("option");
   var dropDown = document.querySelector("#show-select");
-  var selectTop = document.querySelector("option");
-  selectTop.innerText = `Shows matching "${pattern}"...`;
+  if (options.length === 1) {
+    var selectTop = document.querySelector("option");
+    selectTop.innerText = `Shows matching "${pattern}"...`;
 
-  for (var i = 0; i < shows.length; i++) {
-    var optionItem = document.createElement("option");
-    optionItem.value = shows[i].id;
-    optionItem.innerText = shows[i].name;
-    dropDown.appendChild(optionItem);
+    for (var i = 0; i < shows.length; i++) {
+      var optionItem = document.createElement("option");
+      optionItem.value = shows[i].id;
+      optionItem.innerText = shows[i].name;
+      dropDown.appendChild(optionItem);
+    }
+    dropDown.style.visibility = "visible";
+    dropDown.addEventListener("change", fetchShowInfo);
+  } else {
+    for (var i = 1; i < options.length; i++) {
+      options[i].parentElement.removeChild(options[i]);
+    }
+    displayShowList(shows);
   }
-  dropDown.style.visibility = "visible";
-  dropDown.addEventListener("change", fetchShowInfo);
 }
 
 var buildShowList = function (searchResp) {
