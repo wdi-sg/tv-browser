@@ -28,8 +28,14 @@ input[type="search"] {
 
 select {
   font-size: 150%;
-}
 
+}
+.hide{
+display:none;
+}
+.show{
+display:block;
+}
 .browse {
   padding: 10px 25px;
 }
