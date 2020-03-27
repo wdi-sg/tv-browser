@@ -58,7 +58,16 @@ CastRequest.addEventListener("error", requestFailed);
 CastRequest.addEventListener("load", castResponseHandler);
 }
 
-
+var actorClick=function(event){
+    console.log(this);
+    var actorRequest=new XMLHttpRequest();
+    var actorUrl="http://api.tvmaze.com/people/"+this.id;
+    console.log(actorUrl);
+    actorRequest.open("GET", actorUrl);
+    actorRequest.send();
+    actorRequest.addEventListener("error", requestFailed);
+    actorRequest.addEventListener("load", actorResponseHandler);
+}
 
 document.querySelector('#submit').addEventListener('click', doSubmit);
 
@@ -87,7 +96,26 @@ console.log(sel[1]);
 console.log(sel);
 
 }
+var addToActor=function(option){
+    var display=document.getElementById("show-detail");
+        display.innerHTML="";
+        var actorPara=document.createElement("h1");
+        var actorName=option.name;
+        actorPara.innerText=`Actor: ${actorName}`;
+        display.appendChild(actorPara);
 
+        var countryPara=document.createElement("p");
+        var countryName=option.country.name;
+        countryPara.innerText=`Country: ${countryName}`;
+        display.appendChild(countryPara);
+
+        var birthPara=document.createElement("p");
+        var birth=option.birthday;
+        birthPara.innerText=`Birthdate: ${birth}`;
+        display.appendChild(birthPara);
+
+
+}
 var addToCast=function(option){
         var display=document.getElementById("show-detail");
         display.innerHTML="";
@@ -98,12 +126,21 @@ var addToCast=function(option){
         for(var castCount=0; castCount<option.length;castCount++)
         {
             var castList=document.createElement("li");
-            var castListText=`${option[castCount].person.name} : ${option[castCount].character.name}`;
-            castList.innerText=castListText;
-            castList.classList.add("casting");
-            castList.setAttribute("href","#");
             list.appendChild(castList);
+            var castListTag=document.createElement("a");
+            var castListText=`${option[castCount].person.name} : ${option[castCount].character.name}`;
+            castListTag.innerText=castListText;
+            castListTag.classList.add("casting");
+            console.log(option[castCount].person.id);
+            castListTag.setAttribute("id",option[castCount].person.id);
+            castListTag.setAttribute("href","#");
+            castList.appendChild(castListTag);
         }
+
+    var actorList=document.querySelectorAll(".casting");
+    for(actorCount=0;actorCount<actorList.length;actorCount++){
+        actorList[actorCount].addEventListener("click",actorClick);
+    }
 }
 
 addToImage=function(userOption){
@@ -152,6 +189,13 @@ var castResponseHandler=function(){
     console.log(response);
     addToCast(response);
 }
+var actorResponseHandler=function(){
+    console.log("test");
+    var response=JSON.parse(this.responseText);
+    //console.log(response);
+    addToActor(response);
+}
+
 
 var requestFailed = function(){
     console.log("no such movies");
