@@ -2,6 +2,7 @@
 // http://api.tvmaze.com/search/shows?q=babylon+5
 //var request;
 // make a new request
+var castUrl;
 var UserSearch;
 var buttonSelect=document.querySelector("#show-select");
 buttonSelect.classList.add('hide');
@@ -46,9 +47,23 @@ SpecificRequest.addEventListener("error", requestFailed);
 SpecificRequest.addEventListener("load", specificResponseHandler);
 }
 
+var castClick=function(event){
+    //console.log("changed");
+    var CastRequest = new XMLHttpRequest();
+    //var url="http://api.tvmaze.com/search/shows?q="+showSearch;
+    CastRequest.open("GET", castUrl);
+    CastRequest.send();
+
+CastRequest.addEventListener("error", requestFailed);
+CastRequest.addEventListener("load", castResponseHandler);
+}
+
+
+
 document.querySelector('#submit').addEventListener('click', doSubmit);
 
 document.querySelector('#show-select').addEventListener('change',optionClick);
+
 // ready the system by calling open, and specifying the url
 
 // add to list
@@ -73,6 +88,24 @@ console.log(sel);
 
 }
 
+var addToCast=function(option){
+        var display=document.getElementById("show-detail");
+        display.innerHTML="";
+        var list=document.createElement("ul");
+        list.innerText="Cast";
+        display.appendChild(list);
+        console.log(option.length);
+        for(var castCount=0; castCount<option.length;castCount++)
+        {
+            var castList=document.createElement("li");
+            var castListText=`${option[castCount].person.name} : ${option[castCount].character.name}`;
+            castList.innerText=castListText;
+            castList.classList.add("casting");
+            castList.setAttribute("href","#");
+            list.appendChild(castList);
+        }
+}
+
 addToImage=function(userOption){
 console.log(userOption);
     var display=document.getElementById("show-detail");
@@ -83,6 +116,18 @@ console.log(userOption);
     var imageToAdd=document.createElement("img");
     imageToAdd.setAttribute("src",userOption[0].show.image.medium);
     display.appendChild(imageToAdd);
+    var information=document.createElement("div");
+    information.innerText=userOption[0].show.summary;
+    display.appendChild(information);
+    var showId=userOption[0].show.id;
+    castUrl="http://api.tvmaze.com/shows/"+showId+"/cast"
+    console.log(castUrl);
+    var cast=document.createElement("a");
+    cast.innerText="Cast";
+    cast.setAttribute("id","castSearch");
+    cast.setAttribute("href","#");
+    display.appendChild(cast);
+document.querySelector('#castSearch').addEventListener('click',castClick);
 
 }
 
@@ -101,6 +146,12 @@ var responseHandler = function() {
   console.log(response.length);
   addToList(response);
 };
+
+var castResponseHandler=function(){
+    var response=JSON.parse(this.responseText);
+    console.log(response);
+    addToCast(response);
+}
 
 var requestFailed = function(){
     console.log("no such movies");
