@@ -37,3 +37,13 @@ select {
 .fail {
   color: red;
 }
+
+#movie-name {
+	font-weight: bold;
+}
+
+li {
+	list-style: none;
+	padding-left: 20px;
+	font-weight: normal;
+}
