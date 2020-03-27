@@ -12,22 +12,12 @@ main {
   flex-direction: column;
   justify-content: center;
 }
-
+#tvmaze {
+	height: 70px;
+	width: 370px;
+}
 a {
   color: #c00;
-}
-
-input {
-  width: 20em;
-}
-
-input[type="search"] {
-  font-size: 200%;
-  margin: 1em;
-}
-
-select {
-  font-size: 150%;
 }
 
 .browse {
@@ -37,3 +27,13 @@ select {
 .fail {
   color: red;
 }
+.hide{
+	display:none;
+}
+/*.container {
+	background-color: grey;
+	opacity: 70%;
+	border: 2px solid black;
+  padding: 10px;
+  border-radius: 25px;
+}*/
