@@ -75,31 +75,6 @@ function submitRequest() {
     }
 }
 
-//populateDropDown will populate the dropdown list with the data received from submitRequest
-function populateDropDown() {
-    //Make dropdown appear.
-    dropdown.classList.remove('hide');
-
-    //Results here should be an array of shows matching the search query.
-    var results = JSON.parse(this.responseText);
-
-    //If results array is empty, return error message.
-    if (results.length === 0) {
-        return display.innerText = `Sorry, no results were found matching your search!`
-    } else {
-        //For each object in the array, create a new option element with the object's name as its value and innerText.
-        for (var index = 0; index < results.length; index++) {
-            var itemDropDown = document.createElement("option")
-            itemDropDown.innerText = results[index].show.name;
-
-             //Assign the show id as the 'value' to the <option> element.
-            itemDropDown.value = (results[index].show.id);
-            dropdown.appendChild(itemDropDown);
-        }
-    }
-};
-
-
 //getOneShow() retrieves the ID value of the selected option & sends a request to the API.
 function getOneShow() {
     var selectedShowID = this.value;
@@ -127,6 +102,31 @@ function getActor(){
 
 
 //===================INFORMATION RENDERING FUNCTIONS====================
+
+
+//populateDropDown will populate the dropdown list with the data received from submitRequest
+function populateDropDown() {
+    //Make dropdown appear.
+    dropdown.classList.remove('hide');
+
+    //Results here should be an array of shows matching the search query.
+    var results = JSON.parse(this.responseText);
+
+    //If results array is empty, return error message.
+    if (results.length === 0) {
+        return display.innerText = `Sorry, no results were found matching your search!`
+    } else {
+        //For each object in the array, create a new option element with the object's name as its value and innerText.
+        for (var index = 0; index < results.length; index++) {
+            var itemDropDown = document.createElement("option")
+            itemDropDown.innerText = results[index].show.name;
+
+             //Assign the show id as the 'value' to the <option> element.
+            itemDropDown.value = (results[index].show.id);
+            dropdown.appendChild(itemDropDown);
+        }
+    }
+};
 
 //displayShow() displays all the show info in the show-details div.
 function displayShow() {
