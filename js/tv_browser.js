@@ -149,7 +149,7 @@ function showSelector(){
     var selector = document.getElementById("show-select");
     selector.style.visibility = 'visible';
 }
-
+// Show show details after second AJAX call
 function showDetails(showObject){
     var name = showObject.name;
     var image = showObject.image.medium;
@@ -165,6 +165,7 @@ function showDetails(showObject){
     details.append(showName,showImg,showDescr);
 
 }
+// Clears show details when new search is done
 function clearDetails(){
     var details = document.getElementById("show-detail");
     details.innerHTML = "";
