@@ -1,32 +1,34 @@
 //Global Variables
 var objectStore;
 var showStore;
-var tvdbStore;
+var tvIdStore;
+
+hideSelector();
 
 //For the first AJAX
 var responseHandler = function() {
     var responseObjectArray = [];
     var showArray = [];
-    var tvdbArray = [];
+    var tvIdArray = [];
 
 //Parse response output
     responseObjectArray = JSON.parse(this.responseText);
     objectStore = responseObjectArray;
     //console.log(responseObjectArray);
 
-    //For each object in response, get show name and tvdb id
+    //For each object in response, get show name and tvmaze id
     responseObjectArray.forEach(function(element) {
-        var tvdb = element.show.externals.thetvdb;
+        var tvId = element.show.id;
         var showName = element.show.name;
-        console.log(`${showName}, ${tvdb}`)
+        console.log(`${showName}, ${tvId}`)
 
         showArray.push(showName);
-        tvdbArray.push(tvdb);
+        tvIdArray.push(tvId);
     })
-    //console.log(showArray);
-    //console.log(tvdbArray);
+    // console.log(showArray);
+    // console.log(tvIdArray);
     showArray = showArray;
-    tvdbStore  = tvdbArray;
+    tvIdStore  = tvIdArray;
     addShowOptions(showArray);
 
 
@@ -42,8 +44,9 @@ request.addEventListener("load", responseHandler);
 // Add click function to submit button
 var inputBox = document.getElementById("show-search")
 var submitBtn = document.getElementsByTagName("button")[0];
-var value = inputBox.value;
+var value;
 var submitAction = function() {
+    console.clear();
     value = inputBox.value;
     inputBox.value = "";
     value = value.toLowerCase();
@@ -79,6 +82,8 @@ submitBtn.addEventListener('click', submitAction);
 // Updates option selector with list of shows
 function addShowOptions(showArray) {
     clearPrevOptions();
+    showSelector();
+    selector.firstElementChild.innerText = `Shows matching \"${value}...\"`
     showArray.forEach(function(element,index) {
         var selector = document.getElementById("show-select");
         var option = document.createElement("option");
@@ -99,10 +104,10 @@ function clearPrevOptions() {
 var selector = document.getElementById("show-select");
 selector.addEventListener("change", function(){
     var id = this.options[this.selectedIndex].id;
-    console.log(id)
-    var tvdb = getTVDB(id);
-    console.log(tvdb)
-    var url2 =  "http://api.tvmaze.com/lookup/shows?thetvdb="+tvdb;
+    // console.log(id)
+    var tvId = getTvId(id);
+    // console.log(tvId)
+    var url2 =  "http://api.tvmaze.com/shows/"+tvId;
     var request2 = new XMLHttpRequest();
     console.log(url2)
     request2.open("GET", url2);
@@ -112,10 +117,11 @@ selector.addEventListener("change", function(){
 
 // For AJAX call 2
 var responseHandler2 = function() {
-    var responseObjectArray = [];
+    var responseObjectArray;
 
     responseObjectArray = JSON.parse(this.responseText);
     console.log(responseObjectArray);
+    showDetails(responseObjectArray);
 
 }
 
@@ -124,10 +130,37 @@ request2.addEventListener("load", responseHandler2);
 
 })
 
-// Gets tvdb id from the id array
-function getTVDB (id){
-    console.log(id)
+// Gets tvmaze id from the id array
+function getTvId (id){
+    // console.log(id)
     var show = objectStore[id];
-    var tvdb = tvdbStore[id];
+    var tvId = tvIdStore[id];
     console.log(show);
-    return tvdb;}
+    return tvId;}
+
+//Hide show-selector
+function hideSelector(){
+    var selector = document.getElementById("show-select");
+    selector.style.visibility = 'hidden';
+}
+//Show show-selector
+function showSelector(){
+    var selector = document.getElementById("show-select");
+    selector.style.visibility = 'visible';
+}
+
+function showDetails(showObject){
+    var name = showObject.name;
+    var image = showObject.image.medium;
+    var descr = showObject.summary;
+    var details = document.getElementById("show-detail");
+    details.innerHTML = "";
+    var showName = document.createElement("h2");
+    var showImg = document.createElement("img");
+    var showDescr = document.createElement("p");
+    showName.innerText = name;
+    showImg.src = image;
+    showDescr.innerHTML = descr;
+    details.append(showName,showImg,showDescr);
+
+}
