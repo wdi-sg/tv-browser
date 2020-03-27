@@ -69,24 +69,22 @@ var responseHandler = function() {
   var matchMovieName = false;
   var selectHandler = function() {
     this.setAttribute('selected', 'selected');
-    for(var i=0; i<showSelect.length; i++) {
-        for(var j=0; j<response.length; j++)
-            if(matchMovieName === false) {
-                if(showSelect[i].value === response[j].show.name){
-                    matchMovieName = true;
-                    showDetail.innerText = "";
-                    createList(response[j]);
-                } else {
-                    matchMovieName = false;
-                };
+    for(var j=0; j<response.length; j++)
+        if(matchMovieName === false) {
+            if(this.value === response[j].show.name){
+                matchMovieName = true;
+                showDetail.innerText = "";
+                createList(response[j]);
+            } else {
+                matchMovieName = false;
             };
         };
-
     };
 
-    for (var i = 0; i < showSelect.length; i++){
-        userSelect = showSelect[i].addEventListener('click', selectHandler);
-    };
+
+    // for (var i = 0; i < showSelect.length; i++){
+        showSelect.addEventListener('change', selectHandler);
+    // };
 
 
     console.log("status text", this.statusText);
