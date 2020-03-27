@@ -1,39 +1,47 @@
 // API Docs at:
 // http://www.tvmaze.com/api
 
-var results = [];
+var results;
   console.log(results);
 
 
+var showName = [];
 
-  for ( let i = 0; i < results.length; i ++){
+/*
+function getItems(objectData) {
+  return objectData["items"];
+}
+
+var findItem = function(){
+    for ( let i = 0; i < results.length; i ++){
     var userEntry = document.querySelector('#show-search');
     var searchWord = userEntry.value;
-    if ( (string.charAt(i) === searchWord ){
-      console.log(i)
+    var show = getItems(movies);
+    console.log(show);
+
     }
 
   }
-
-
-
-
 
   /*var pTag = document.createElement('p');
   pTag.innerText = response.name;
   document.querySelector('#show-detail').appendChild(pTag);*/
 
-//Response Handler
+//Response Handler*/
 var responseHandler = function() {
+  console.log(this)
   console.log(this.responseText)
 
   var response = JSON.parse(this.responseText);
+  console.log(Array.isArray(response))
   console.log(response);
 
-  results.push(response);
+  results = response;
 
-  var name = response.name
-  console.log(name);
+  console.log(findItem());
+
+  //var name = response.name
+  //console.log(name);
   // console.log
   console.log("response text", this.responseText);
   console.log("status text", this.statusText);
