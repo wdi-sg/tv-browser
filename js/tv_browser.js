@@ -30,6 +30,7 @@ var responseHandler = function() {
     showArray = showArray;
     tvIdStore  = tvIdArray;
     addShowOptions(showArray);
+    clearDetails();
 
 
 
@@ -163,4 +164,8 @@ function showDetails(showObject){
     showDescr.innerHTML = descr;
     details.append(showName,showImg,showDescr);
 
+}
+function clearDetails(){
+    var details = document.getElementById("show-detail");
+    details.innerHTML = "";
 }
