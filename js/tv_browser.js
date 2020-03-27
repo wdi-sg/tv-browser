@@ -6,17 +6,12 @@ var request = new XMLHttpRequest();
 var showDetail = document.querySelector('#show-detail');
 var showSelect = document.querySelector('#show-select');
 var optionSelect = document.querySelectorAll('option');
-
-var createOption = function(movieDataArray){
-    var optionMovieName = document.createElement('option');
-    optionMovieName.setAttribute('value', movieDataArray.show.name);
-    optionMovieName.innerText = movieDataArray.show.name;
-    showSelect.appendChild(optionMovieName);
-}
+var option = document.querySelector('option');
+var optionList = document.querySelector('li');
 
 var resetOption = function(){
-    for(var i=0; i<showSelect.length; i++){
-        showSelect.removeChild(showSelect[i]);
+    while (showSelect.childNodes.length > 1) {
+        showSelect.removeChild(showSelect.lastChild);
     }
 }
 
@@ -44,10 +39,17 @@ var createList = function(movieDataArray){
     showDetail.appendChild(ulTag);
 };
 
+var createOption = function(movieDataArray){
+    var optionMovieName = document.createElement('option');
+    optionMovieName.setAttribute('value', movieDataArray.show.name);
+    optionMovieName.innerText = movieDataArray.show.name;
+    showSelect.appendChild(optionMovieName);
+}
+
 //function to loop and show results in the DOM.
 var loadMovieInfo = function(movieDataObj) {
     showDetail.innerText= "";
-    resetOption();
+    // resetOption();
     for(var i=0; i<movieDataObj.length; i++) {
         var movieDataArray = movieDataObj[i];
         createList(movieDataArray);
@@ -55,34 +57,31 @@ var loadMovieInfo = function(movieDataObj) {
     };
 };
 
-
-
-
 var responseHandler = function() {
   // console.log("response text", this.responseText);
-    var response = JSON.parse( this.responseText );
-    console.log( response );
-    console.log("Movie name: "+response[0].show.name+" type: "+response[0].show.type);
+  var response = JSON.parse( this.responseText );
+  console.log( response );
+  console.log("Movie name: "+response[0].show.name+" type: "+response[0].show.type);
+  //reset option list when new name searched.
+  resetOption();
+  loadMovieInfo(response);
 
-    loadMovieInfo(response);
-
-
-    var matchMovieName = false;
-
-    var selectHandler = function() {
-
-        var movieDataArrS;
-        if(matchMovieName === false) {
-            for(var i=0; i<showSelect.length; i++) {
-                for(var j=0; j<response.length; j++)
+  var matchMovieName = false;
+  var selectHandler = function() {
+    this.setAttribute('selected', 'selected');
+    for(var i=0; i<showSelect.length; i++) {
+        for(var j=0; j<response.length; j++)
+            if(matchMovieName === false) {
                 if(showSelect[i].value === response[j].show.name){
                     matchMovieName = true;
                     showDetail.innerText = "";
-
                     createList(response[j]);
-                }
-            }
-        }
+                } else {
+                    matchMovieName = false;
+                };
+            };
+        };
+
     };
 
     for (var i = 0; i < showSelect.length; i++){
