@@ -27,16 +27,9 @@ displayShowInfo = function (showName, showImgSrc, showSumm) {
   } else {
     console.log("here");
     var oldShowTitle = document.querySelector("#show-title");
-    oldShowTitle.parentElement.removeChild(oldShowTitle);
-
+    oldShowTitle.remove();
     var oldShowDiv = document.querySelector("#show-info");
-    oldShowDiv.parentElement.removeChild(oldShowDiv);
-
-    // var oldShowPoster = document.querySelector("#show-poster");
-    // oldShowPoster.parentElement.removeChild(oldShowPoster);
-
-    // var oldShowSummary = document.querySelector("#show-summary");
-    // oldShowSummary.parentElement.removeChild(oldShowSummary);
+    oldShowDiv.remove();
 
     displayShowInfo(showName, showImgSrc, showSumm);
   }
@@ -63,10 +56,10 @@ var fetchShowInfo = function () {
 }
 
 var displayShowList = function (shows) {
-  var options = document.querySelectorAll("option");
+  var options = document.querySelectorAll("#show-select > option");
   var dropDown = document.querySelector("#show-select");
   if (options.length === 1) {
-    var selectTop = document.querySelector("option");
+    var selectTop = options[0];
     selectTop.innerText = `Shows matching "${pattern}"...`;
 
     for (var i = 0; i < shows.length; i++) {
@@ -79,7 +72,7 @@ var displayShowList = function (shows) {
     dropDown.addEventListener("change", fetchShowInfo);
   } else {
     for (var i = 1; i < options.length; i++) {
-      options[i].parentElement.removeChild(options[i]);
+      options[i].remove();
     }
     displayShowList(shows);
   }
