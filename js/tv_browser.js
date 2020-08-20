@@ -9,6 +9,11 @@ var resultDiv = document.querySelector("#show-detail")
 
 dropdownList.classList.add("hide")
 submitButton.addEventListener("click", onSubmitEvent)
+showSearchInput.addEventListener("keyup", function(event){
+    if(event.keyCode==13){
+        submitButton.click()
+    }
+})
 
 
 function onSubmitEvent(){
@@ -17,7 +22,6 @@ function onSubmitEvent(){
     fetch("http://api.tvmaze.com/search/shows?q=" + showSearchInput.value)
         .then(response => response.json())
         .then(function(response){
-            console.log(response)
             response.forEach(function(item){
                 var newOption = document.createElement("option")
                 newOption.innerText = item.show.name
@@ -58,7 +62,26 @@ function onSubmitEvent(){
                     .then(function(castResponse){
                         castResponse.forEach(function(item){
                             var castMember = document.createElement("li")
-                            castMember.innerHTML = `<a href='${item.person.url}'>${item.person.name}</a>`
+                            castMember.innerHTML = item.person.name
+                            castMember.addEventListener("click", function(){
+                                fetch("http://api.tvmaze.com/people/"+item.person.id)
+                                    .then(actorResponse => actorResponse.json())
+                                    .then(function(actorResponse){
+                                        var moreInfo = document.createElement("p")
+                                        moreInfo.innerHTML = ""
+                                        if(actorResponse.birthday){
+                                            moreInfo.innerHTML += `Actor's birthday: ${actorResponse.birthday}. `
+                                        }
+                                        if(actorResponse.country&&actorResponse.country.name){
+                                            moreInfo.innerHTML += `Actor's country: ${actorResponse.country.name}. `
+                                        }
+                                        if(actorResponse.url){
+                                            moreInfo.innerHTML += `<a href="${actorResponse.url}">Actor Page</a>.`
+                                        }
+                                        castMember.innerHTML = actorResponse.name
+                                        castMember.appendChild(moreInfo)
+                                    })
+                            })
                             showCast.appendChild(castMember)
                         })
                         resultDiv.appendChild(showCast)
