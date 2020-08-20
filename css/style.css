@@ -30,10 +30,19 @@ select {
   font-size: 150%;
 }
 
+button {
+	padding: 10px 30px;
+	font-size: 18px;
+}
+
 .browse {
   padding: 10px 25px;
 }
 
 .fail {
   color: red;
+}
+
+.hide {
+	display: none;
 }
