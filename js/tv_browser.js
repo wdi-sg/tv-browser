@@ -38,8 +38,8 @@ let clickHandler = () => {
         .then(response => response.json())
         .then(jsonData => {
             console.log(jsonData);
+            showSelect.innerHTML = null;
             jsonData.forEach(entry => {
-
                 showOption = document.createElement('option');
                 showOption.value = entry.show.name;
                 showOption.innerText = entry.show.name;
