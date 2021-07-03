@@ -8,7 +8,7 @@ When testing out the API's endpoint URLs, you will want to install [JSON Formatt
 
 To search the TV Maze API use this URL: http://api.tvmaze.com/search/shows?q=girls
 
-The search query of the URL is the serarch term that the user entered.
+The search query of the URL is the search term that the user entered.
 
 The response to the request will be an array of objects. When you recieve the response you should render data from each object in a loop.
 
