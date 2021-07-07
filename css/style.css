@@ -26,8 +26,28 @@ input[type="search"] {
   margin: 1em;
 }
 
+#search-form {
+	position: relative;
+	right: 32px;
+
+}
+
 select {
   font-size: 150%;
+  -webkit-appearance: none;
+   -moz-appearance: none;
+   /*appearance: none;        remove default arrow */
+   /*background-image: url(...);   /* add custom arrow */*/
+}
+
+img {
+	float: right;
+	margin-left: 20px;
+}
+
+h3:hover {
+	text-decoration: underline;
+	color: blue;
 }
 
 .browse {
@@ -36,4 +56,15 @@ select {
 
 .fail {
   color: red;
+}
+
+#show-select {
+	visibility: hidden;
+
+}
+
+input[type=search] {
+   -moz-appearance: none;/* older firefox */
+   -webkit-appearance: none; /* safari, chrome, edge and ie mobile */
+   appearance: none; /* rest */
 }
