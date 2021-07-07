@@ -28,6 +28,7 @@ input[type="search"] {
 
 select {
   font-size: 150%;
+  display: none;
 }
 
 .browse {
@@ -36,4 +37,14 @@ select {
 
 .fail {
   color: red;
+}
+
+.items-holder{
+	margin:10px auto;
+	text-align: center;
+}
+
+.show-detail{
+	display:inline-block;
+	margin:100px auto;
 }
