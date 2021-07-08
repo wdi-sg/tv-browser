@@ -13,6 +13,12 @@ main {
   justify-content: center;
 }
 
+.browse {
+	width: 960px;
+	display: flex;
+	flex-direction: column;
+}
+
 a {
   color: #c00;
 }
@@ -36,4 +42,8 @@ select {
 
 .fail {
   color: red;
+}
+
+.hidden {
+	display: none;
 }
